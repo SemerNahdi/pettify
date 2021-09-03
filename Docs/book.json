@@ -1,0 +1,20 @@
+{
+    "plugins": [
+        "ga",
+        "scripts"
+    ],
+    "title": "NativeBase Market UI Themes",
+    "variables":{
+      "options": "react-native-flat-app-theme"
+       },
+    "pluginsConfig": {
+      "scripts": {
+          "files": [
+              "./engine.js"
+          ]
+      },
+        "ga": {
+            "token": "UA-91837749-1"
+        }
+    }
+}

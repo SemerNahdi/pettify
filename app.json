@@ -1,13 +1,16 @@
 {
   "expo": {
-    "name": "pet-care",
-    "slug": "pet-care",
+    "name": "pet-care-app",
+    "slug": "pet-care-app",
+    "description": "A React Native application that serves to be an all-around tool for pet owners",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "privacy": "public",
+    "icon": "./assets/PetCareLogo.png",
+    "primaryColor": "#00AAFF",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/PetCare.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -17,16 +20,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wcandillon.fiber",
+      "buildNumber": "2"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#ffffff",
+      "barStyle": "dark-content"
     },
     "android": {
+      "package": "com.wcandillon.fiber",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favi.png"
     }
   }
 }
