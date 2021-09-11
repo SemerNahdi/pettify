@@ -1,11 +1,50 @@
-## React Native Fiber Firebase v2.0.0
+## PETCARE v3.0.0
 
-Thanks for purchasing the React Native Fiber Firebase.
+This project is an iOS based app using React Native that is meant to help facilitate resources for new pet owners. From fiding instructional videos pertinent to your pet's breed to finding nearest veterinarians and much more.
 
-Follow the documentation to install and get started with the development:
+### Built With
+* [Firebase](https://firebase.google.com/)
+* [React Native](https://reactnative.dev/)
+* [Expo](https://laravel.com)
 
--   [Documentation](https://docs-market.nativebase.io/react-native-fiber-firebase/)
--   [Product Page](https://market.nativebase.io/view/react-native-fiber-firebase)
--   [License Page](https://market.nativebase.io/licenses)
 
-Happy coding!
+<!-- GETTING STARTED -->
+## Getting Started
+-The main entry point for the App is the App.js file
+-We use Expo for development and yarn
+
+### Prerequisites
+
+Make sure you have Homebrew installed
+* Homebrew
+  ```sh
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+  ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/OAKevin/pet-carev3.git
+   ```
+2. Install packages using yarn
+   ```sh
+   yarn install --global expo-cli
+   ```
+3. Initialize your project with Expo
+   ```sh
+   expo init pet-carev3
+   ```
+
+<!-- ROADMAP -->
+## Roadmap
+
+<Whatever we have planned to do on this iteration of the app and what we want the next team to complete>
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
