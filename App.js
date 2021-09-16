@@ -11,7 +11,7 @@ import { Provider, inject } from "mobx-react";
 import { Feather } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
-import { Images, Firebase, FeedStore } from "./src/components";
+import { Images, Firebase } from "./src/components";
 import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
@@ -73,25 +73,18 @@ if (!console.ignoredYellowBox) {
 // $FlowFixMe
 console.ignoredYellowBox.push("Setting a timer");
 
-@inject("profileStore", "feedStore", "userFeedStore")
+@inject("profileStore")
 class Loading extends React.Component<ScreenProps<>> {
     async componentDidMount(): Promise<void> {
         LogBox.ignoreAllLogs();
-        const { navigation, profileStore, feedStore, userFeedStore } = this.props;
+        const { navigation, profileStore } = this.props;
         await Loading.loadStaticResources();
         Firebase.init();
         Firebase.auth.onAuthStateChanged((user) => {
             const isUserAuthenticated = !!user;
             if (isUserAuthenticated) {
                 const { uid } = Firebase.auth.currentUser;
-                const feedQuery = Firebase.firestore.collection("feed").orderBy("timestamp", "desc");
-                const userFeedQuery = Firebase.firestore
-                    .collection("feed")
-                    .where("uid", "==", uid)
-                    .orderBy("timestamp", "desc");
                 profileStore.init();
-                feedStore.init(feedQuery);
-                userFeedStore.init(userFeedQuery);
                 navigation.navigate("Home");
             } else {
                 navigation.navigate("Welcome");
@@ -125,8 +118,6 @@ class Loading extends React.Component<ScreenProps<>> {
 // eslint-disable-next-line react/no-multi-comp
 export default class App extends React.Component {
     profileStore = new ProfileStore();
-    feedStore = new FeedStore();
-    userFeedStore = new FeedStore();
 
     componentDidMount() {
         StatusBar.setBarStyle("dark-content");
@@ -136,10 +127,10 @@ export default class App extends React.Component {
     }
 
     render(): React.Node {
-        const { feedStore, profileStore, userFeedStore } = this;
+        const { profileStore } = this;
         return (
             <StyleProvider style={getTheme(variables)}>
-                <Provider {...{ feedStore, profileStore, userFeedStore }}>
+                <Provider {...{ profileStore }}>
                     <AppNavigator onNavigationStateChange={() => undefined} />
                 </Provider>
             </StyleProvider>
