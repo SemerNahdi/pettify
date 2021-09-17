@@ -11,7 +11,7 @@ import { Provider, inject } from "mobx-react";
 import { Feather } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
-import { Images, Firebase } from "./src/components";
+import { Firebase } from "./src/components";
 import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
@@ -94,7 +94,6 @@ class Loading extends React.Component<ScreenProps<>> {
 
     static async loadStaticResources(): Promise<void> {
         try {
-            const images = Images.downloadAsync();
             const fonts = Font.loadAsync({
                 "SFProText-Medium": SFProTextMedium,
                 "SFProText-Heavy": SFProTextHeavy,
@@ -104,7 +103,7 @@ class Loading extends React.Component<ScreenProps<>> {
                 "SFProText-Light": SFProTextLight,
             });
             const icons = Font.loadAsync(Feather.font);
-            await Promise.all([...images, fonts, icons]);
+            await Promise.all([fonts, icons]);
         } catch (error) {
             console.error(error);
         }

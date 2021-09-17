@@ -3,7 +3,6 @@ export {Theme} from "./Theme";
 export {AnimatedView} from "./Animations";
 export {TextField} from "./Fields";
 
-export {default as Images} from "./images";
 export {default as Text} from "./Text";
 export {default as Button} from "./Button";
 export {default as Container} from "./Container";
