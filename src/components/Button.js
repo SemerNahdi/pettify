@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {StyleSheet} from "react-native";
+import { StyleSheet} from "react-native";
 import {Button as NBButton, Text, Spinner} from "native-base";
 
 import {Theme} from "./Theme";
@@ -27,6 +27,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
         computedStyle.push(style);
         return (
             <NBButton
+                title={label}
                 {...{
                     full,
                     primary,
@@ -66,14 +67,27 @@ export default class Button extends React.PureComponent<ButtonProps> {
 
 const styles = StyleSheet.create({
     base: {
+        color: Theme.palette.black,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
     },
     primary: {
+        color: Theme.palette.black,
+        backgroundColor: Theme.palette.primary,
         shadowColor: "rgba(85, 85, 85, 0.29)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
         shadowRadius: 7,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: Theme.palette.white
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
     }
 });

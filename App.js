@@ -36,9 +36,6 @@ import {
     PetDiet,
 } from "./src/home";
 
-import getTheme from "./native-base-theme/components";
-import variables from "./native-base-theme/variables/commonColor";
-
 // $FlowFixMe
 const SFProTextMedium = require("./assets/fonts/SF-Pro-Text-Medium.otf");
 // $FlowFixMe
@@ -128,11 +125,9 @@ export default class App extends React.Component {
     render(): React.Node {
         const { profileStore } = this;
         return (
-            <StyleProvider style={getTheme(variables)}>
-                <Provider {...{ profileStore }}>
-                    <AppNavigator onNavigationStateChange={() => undefined} />
-                </Provider>
-            </StyleProvider>
+            <Provider {...{ profileStore }}>
+                <AppNavigator onNavigationStateChange={() => undefined} />
+            </Provider>
         );
     }
 }
