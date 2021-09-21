@@ -4,17 +4,16 @@ import "firebase/firestore";
 import "firebase/storage";
 
 const config = {
-    apiKey: "AIzaSyCE3r7Q2qAWXb1sS483sG-lWew6-EEx6pI",
-    authDomain: "pet-care-b43dd.firebaseapp.com",
-    projectId: "pet-care-b43dd",
-    storageBucket: "pet-care-b43dd.appspot.com",
-    messagingSenderId: "729760486188",
-    appId: "1:729760486188:web:d0a0705a3d6aa63cccd289",
-    measurementId: "G-9P2VHBCKJX"
+    apiKey: "AIzaSyDgjlwvunby9HGz2Ta9U54QrofJygdHITk",
+    authDomain: "pet-care-71816.firebaseapp.com",
+    projectId: "pet-care-71816",
+    storageBucket: "pet-care-71816.appspot.com",
+    messagingSenderId: "42465066973",
+    appId: "1:42465066973:web:9966a68e49db0856950034",
+    measurementId: "G-EZ517186ML",
 };
 
 export default class Firebase {
-
     static firestore: firebase.firestore.Firestore;
     static auth: firebase.auth.Auth;
     static storage: firebase.storage.Storage;
