@@ -204,7 +204,15 @@ const ChatNavigator = createStackNavigator(
 
 const PatientsNavigator = createStackNavigator(
     {
-        Patients: {screen: Patients}
+        Patients: {screen: Patients},
+        Pets: {screen: Pets},
+        PetDetailView: {screen : PetDetailView},
+        AddPets: { screen: AddPets },
+        TrainingScreen: { screen: TrainingScreen },
+        EditScreen: { screen: EditScreen },
+        ViewDocuments: { screen: ViewDocuments },
+        PetPrescription: { screen: PetPrescription },
+        PetDiet: { screen: PetDiet }
     },
     StackNavigatorOptions
 );
@@ -236,21 +244,6 @@ const VetNavigator = createBottomTabNavigator(
         swipeEnabled: false,
     }
 );
-
-/*
-const HomeNavigator = createSwitchNavigator(
-    {
-        Home: { screen: HomeTabs },
-    },
-    StackNavigatorOptions
-);
-
-const VetNavigator = createBottomTabNavigator(
-    {
-        VetHome: {screen: VetTabs},
-    },
-    StackNavigatorOptions
-);*/
 
 const SignUpNavigator = createStackNavigator(
     {

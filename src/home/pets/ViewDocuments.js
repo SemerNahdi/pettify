@@ -5,25 +5,9 @@ import { Text, NavHeaderWithButton, Theme, Button } from "../../components";
 import { LinearGradient } from "expo-linear-gradient";
 import * as DocumentPicker from 'expo-document-picker';
 import PDFReader from 'rn-pdf-reader-js';
-import type { ScreenParams } from "../../components/Types";
 import _, { constant } from 'lodash';
  
-export default class ViewDocuments extends React.Component<ScreenParams<{ pet_uid: String }>> {
-    //On load and reload, populate screen with files
-    async componentDidMount(): Promise<void> {
-        const { navigation } = this.props;
-        const { uid } = Firebase.auth.currentUser;
-        let params = navigation.state.params;
- 
- 
-        this.fillArrayWithFiles();
-        Firebase.firestore
-            .collection("users")
-            .doc(uid)
-            .collection("pets")
-            .doc(params.pet_uid)
-            .onSnapshot(docs => { this.fillArrayWithFiles() });
-    }
+export default class ViewDocuments extends Component<> {
  
     constructor(props) {
         super(props);
@@ -32,6 +16,12 @@ export default class ViewDocuments extends React.Component<ScreenParams<{ pet_ui
             imagePath: require("../../../assets/PetCare.png"),
             pdfs: []
         }
+
+        navigation = this.props.navigation;
+        uid = navigation.state.params.cuid;
+        pet_uid = navigation.state.params.pet_uid;
+
+        this.fillArrayWithFiles();
     }
  
     //Opens DocumentPicker and waits for user to select one
@@ -63,12 +53,9 @@ export default class ViewDocuments extends React.Component<ScreenParams<{ pet_ui
         const response = await fetch(path);
         const blob = await response.blob();
  
-        const { navigation } = this.props;
-        const { uid } = Firebase.auth.currentUser;
-        const params = navigation.state.params;
         var ref = Firebase.storage.ref().child("labResults/" + uid + "/" + documentName);
         let task = ref.put(blob);
-        let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(params.pet_uid);
+        let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
  
         let labResultFiles = [];
  
@@ -90,7 +77,7 @@ export default class ViewDocuments extends React.Component<ScreenParams<{ pet_ui
                         .collection("users")
                         .doc(uid)
                         .collection("pets")
-                        .doc(params.pet_uid)
+                        .doc(pet_uid)
                         .update({ labResults: labResultFiles })
                 }
                     , function (error) {
@@ -105,10 +92,7 @@ export default class ViewDocuments extends React.Component<ScreenParams<{ pet_ui
  
     //Retrieves user labResults files and sets state
     fillArrayWithFiles() {
-        const { navigation } = this.props;
-        const { uid } = Firebase.auth.currentUser;
-        const params = navigation.state.params;
-        let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(params.pet_uid);
+        let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
         let array = [];
  
         docRef.get().then(doc => {

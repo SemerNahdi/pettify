@@ -1,7 +1,6 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
 import React, { Component, useState } from 'react'
-import type { ScreenParams } from "../../components/Types";
 import { Card, Icon, Overlay, Badge } from 'react-native-elements'
 import {
   ActivityIndicator,
@@ -27,7 +26,7 @@ import darkColors from "react-native-elements/dist/config/colorsDark";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default class PetDetailView extends React.Component<ScreenParams<{ pet_uid: String}>, SettingsState> {
+export default class PetDetailView extends Component<> {
   constructor(props)
   {
     super(props);
@@ -56,31 +55,18 @@ export default class PetDetailView extends React.Component<ScreenParams<{ pet_ui
       petBiology: {"species": "Miami", "breed": "Florida"},
       setOverlay: false,
     };
-
-    const { uid } = Firebase.auth.currentUser;
-
-    Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .onSnapshot(docs => {
-        this.retrieveFireStorePetDetails();
-      });
-  }
-
-  async componentDidMount(): Promise<void> {
+      
     this.retrieveFireStorePetDetails();
   }
 
   @autobind
   retrieveFireStorePetDetails() {
-    const { uid } = Firebase.auth.currentUser;
     const { navigation } = this.props;
     const params  = navigation.state.params;
 
     Firebase.firestore
     .collection("users")
-    .doc(uid)
+    .doc(params.cuid)
     .collection("pets")
     .doc(params.pet_uid)
     .get()
@@ -169,7 +155,8 @@ export default class PetDetailView extends React.Component<ScreenParams<{ pet_ui
     const { navigation } = this.props;
     const params  = navigation.state.params;
     const pet_uid = params.pet_uid;
-    navigation.navigate("EditScreen", { pet_uid });
+    const cuid = params.cuid;
+    navigation.navigate("EditScreen", { pet_uid, cuid });
   }
 
   @autobind
@@ -184,7 +171,8 @@ export default class PetDetailView extends React.Component<ScreenParams<{ pet_ui
     const { navigation } = this.props;
     const params  = navigation.state.params;
     const pet_uid = params.pet_uid;
-    navigation.navigate("ViewDocuments", { pet_uid });
+    const cuid = params.cuid;
+    navigation.navigate("ViewDocuments", { pet_uid, cuid });
   }
 
   @autobind
@@ -192,7 +180,8 @@ export default class PetDetailView extends React.Component<ScreenParams<{ pet_ui
     const { navigation } = this.props;
     const params  = navigation.state.params;
     const pet_uid = params.pet_uid;
-    navigation.navigate("PetPrescription", { pet_uid});
+    const cuid = params.cuid;
+    navigation.navigate("PetPrescription", { pet_uid, cuid });
   }
 
   @autobind
@@ -200,7 +189,8 @@ export default class PetDetailView extends React.Component<ScreenParams<{ pet_ui
     const { navigation } = this.props;
     const params  = navigation.state.params;
     const pet_uid = params.pet_uid;
-    navigation.navigate("PetDiet", { pet_uid });
+    const cuid = params.cuid;
+    navigation.navigate("PetDiet", { pet_uid, cuid });
   }
   
   onPressPlace = () => {

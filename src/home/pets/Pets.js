@@ -11,7 +11,8 @@ import autobind from 'autobind-decorator';
 export default class Pets extends Component {
   @autobind
   buttonFn() {
-    this.props.navigation.navigate("AddPets", { onSelect: this.onSelect, getData: () => this.retrieveFireStorePets() });
+    const cuid = uid;
+    this.props.navigation.navigate("AddPets", { cuid , getData: () => this.retrieveFireStorePets() });
   }
 
   constructor(props){
@@ -21,23 +22,10 @@ export default class Pets extends Component {
         loading: true,
       };
 
-      uid  = Firebase.auth.currentUser;
-
-      Firebase.firestore
-        .collection("users")
-        .doc(uid)
-        .collection("pets")
-        .onSnapshot(docs => {
-          this.retrieveFireStorePets()
-        });
-    }
-
-    componentWillUnmount() {
-      if(this.willFocusSubscription != null)
-      {
-        this.willFocusSubscription.remove();
-      }
-    }
+      uid = this.props.navigation.state.params ? this.props.navigation.state.params.userUId : Firebase.auth.currentUser.uid;
+      vet = this.props.navigation.state.params ? true : false;
+      this.retrieveFireStorePets()
+  }
 
   retrieveFireStorePets() {
     let currentUsersPets = []
@@ -50,8 +38,8 @@ export default class Pets extends Component {
     .then(docs => {
         var i = 0;
         docs.forEach(doc => {
-          console.log(doc.data());
             currentUsersPets.push(doc.data());
+            currentUsersPets[i].id = i;
             currentUsersPets[i++].pet_uid = doc.id;
         })
 
@@ -66,10 +54,6 @@ export default class Pets extends Component {
                 currentUsersPets[l+1] = temp;
             }
 
-        var j = 0;
-        currentUsersPets.forEach(pet => {
-            pet.id = j++;
-        })
         this.setState({items:currentUsersPets, loading:false})
     })
   }
@@ -78,8 +62,10 @@ export default class Pets extends Component {
   _renderItem = ({item}) => {
     const { navigation } = this.props;
     const { retrieveFireStorePets } = this;
-    return (<PetItem index={item.id}
+    return (<PetItem 
+        index={item.id}
         pet_uid={item.pet_uid}
+        cuid={uid}
         name={item.name}
         pic={item.pic}
         breed={item.breed}
@@ -125,7 +111,7 @@ export default class Pets extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeaderWithButton title="My Pets" buttonFn={this.buttonFn} buttonIcon="plus" />
+      <NavHeaderWithButton title="My Pets" buttonFn={this.buttonFn} buttonIcon="plus" back = {vet} {...{ navigation }}/>
         <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
           <FlatList
             data={this.state.items}
@@ -140,8 +126,11 @@ export default class Pets extends Component {
             listRef={this.refs}//to allow React Native Pagination to scroll to item when clicked  (so add "ref={r=>this.refs=r}" to your list)
             paginationVisibleItems={this.state.viewableItems}//needs to track what the user sees
             paginationItems={this.state.items}//pass the same list as data
-            paginationItemPadSize={3} //num of items to pad above and below your visable items
+            paginationItemPadSize={0} //num of items to pad above and below your visable items
+            startDotIconHide
+            endDotIconHide
             dotTextHide
+            dotIconHide
           />
         </View>
       )

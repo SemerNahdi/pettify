@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { Theme, NavHeaderWithButton, Text } from "../../../components";
-import type { ScreenParams } from "../../components/Types";
 import { LinearGradient } from "expo-linear-gradient";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
  
-export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>, SettingsState> {
+export default class PetDiet extends Component<> {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,14 +20,13 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
       date: ""
     };
  
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    const params = navigation.state.params;
-    var pet_uid = params.pet_uid;
+    navigation = this.props.navigation;
+    uid = navigation.state.params.cuid;
+    pet_uid = navigation.state.params.pet_uid;
  
     Firebase.firestore
     .collection("users")
-    .doc(uid)
+    .doc(Firebase.auth.currentUser.uid)
     .get()
     .then(docs => {
       this.setState({
@@ -36,26 +34,8 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
       });
     });
  
-    Firebase.firestore
-    .collection("users")
-    .doc(uid)
-    .collection("pets")
-    .doc(pet_uid)
-    .collection("diet")
-    .onSnapshot(docs => {
-      this.retrieveFireStoreDiet();
-    });
-
-    Firebase.firestore
-    .collection("users")
-    .doc(uid)
-    .collection("pets")
-    .doc(pet_uid)
-    .collection("dietU")
-    .onSnapshot(docs => {
-      this.retrieveFireStoreDietU();
-    });
- 
+    this.retrieveFireStoreDiet();
+    this.retrieveFireStoreDietU();
   }
  
  
@@ -75,14 +55,10 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
  
   saveDietToFireStore = () => {
  
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
     var checkForInputs = [
       this.state.selectedItem,
       this.state.dietDetails,
     ];
-    const { uid } = Firebase.auth.currentUser;
  
     this.arrayToString();
  
@@ -126,14 +102,10 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
 
   saveDietToFireStoreU = () => {
  
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
     var checkForInputs = [
       this.state.selectedItem,
       this.state.dietDetails,
     ];
-    const { uid } = Firebase.auth.currentUser;
  
     this.arrayToString();
  
@@ -176,10 +148,7 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
   }
  
   retrieveFireStoreDiet() {
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
+    
     this.state.existentDiet = [];
  
     Firebase.firestore
@@ -210,10 +179,6 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
   }
 
   retrieveFireStoreDietU() {
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
     this.state.existentDietU = [];
  
     Firebase.firestore
@@ -370,7 +335,6 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
  
  
   render() {
-    const { navigation } = this.props;
     const { items, selectedItem } = this.state;
  
     return (
@@ -689,24 +653,17 @@ export default class PetDiet extends Component<ScreenParams<{ pet_uid: String }>
           </View>
         </ScrollView>
 
-
+        <View style= {styles.dietHeading}>
+          <Text style={{fontSize: 1 }}> {""} </Text>
+        </View>
 
         <View style= {styles.dietHeading}>
           <Text style={{fontSize: 1 }}> {""} </Text>
         </View>
-      
-
-
-        <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 1 }}> {""} </Text>
-        </View>
-      
-
+  
       </ScrollView>
     )
   }
- 
- 
 }
  
 const { height } = Dimensions.get("window");

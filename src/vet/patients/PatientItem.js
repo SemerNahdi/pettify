@@ -11,7 +11,6 @@ export default class ListItem extends Component {
 
   @autobind
   goToPets() {
-    console.log("from pait", this.props.uid)
     const userUId = this.props.uid
     this.props.navigation.navigate("Pets", { userUId });
   }

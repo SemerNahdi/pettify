@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
-import PetItem from '../../home/pets/PetItem';
 import PatientItem from './PatientItem'
 import _ from 'lodash';
 import Pagination from 'react-native-pagination';//{Icon,Dot} also available
@@ -8,7 +7,7 @@ import Firebase from "../../components/Firebase";
 import { NavHeader, Theme } from "../../components";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default class Pets extends Component {
+export default class Patients extends Component {
 
   constructor(props){
      super(props);
@@ -16,17 +15,8 @@ export default class Pets extends Component {
         items: [],
         loading: true,
       };
-    }
 
-    componentWillMount(){
-        this.retrieveFireStorePets();
-    }
-
-    componentWillUnmount() {
-      if(this.willFocusSubscription != null)
-      {
-        this.willFocusSubscription.remove();
-      }
+      this.retrieveFireStorePets();
     }
 
   retrieveFireStorePets() {
@@ -43,8 +33,6 @@ export default class Pets extends Component {
             allUsers[i].id = i;
             allUsers[i++].uid = doc.id;
         })
-
-        console.log(allUsers);
 
         ///this is sort alphabetically
         var n = allUsers.length;
@@ -114,6 +102,8 @@ export default class Pets extends Component {
             paginationVisibleItems={this.state.viewableItems}//needs to track what the user sees
             paginationItems={this.state.items}//pass the same list as data
             paginationItemPadSize={0} //num of items to pad above and below your visable items
+            startDotIconHide
+            endDotIconHide
             dotTextHide
             dotIconHide
           />

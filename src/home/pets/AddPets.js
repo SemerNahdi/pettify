@@ -8,7 +8,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const { State: TextInputState } = TextInput;
 
-export default class AddPets extends React.Component<SettingsState> {
+export default class AddPets extends React.Component<> {
    
     async componentDidMount(): Promise<void> {
         const { navigation } = this.props;
@@ -63,9 +63,8 @@ export default class AddPets extends React.Component<SettingsState> {
     }
 
     addPetToFireStore = (event) =>{
-        var pet_uid = this.guidGenerator();
-        const { uid } = Firebase.auth.currentUser;
-        var owner_uid = uid;
+        pet_uid = this.guidGenerator();
+        uid = this.props.navigation.state.params.cuid;
         var pic = "null";
         const {species, breed, name, age, yearsOwned, sex, activity, weight, 
                 classification, spayNeuter_Status, pregnancy, lactating, size} = this.state; 
@@ -91,7 +90,7 @@ export default class AddPets extends React.Component<SettingsState> {
             } else {
                 Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
                     species, breed, name, age, yearsOwned, sex, activity, weight, classification, spayNeuter_Status,
-                    pregnancy, lactating, size, pic, owner_uid 
+                    pregnancy, lactating, size, pic, uid 
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
