@@ -21,7 +21,7 @@ export default class Pets extends Component {
         loading: true,
       };
 
-      const { uid } = Firebase.auth.currentUser;
+      uid  = Firebase.auth.currentUser;
 
       Firebase.firestore
         .collection("users")
@@ -32,10 +32,6 @@ export default class Pets extends Component {
         });
     }
 
-    componentWillMount(){
-        this.retrieveFireStorePets();
-    }
-
     componentWillUnmount() {
       if(this.willFocusSubscription != null)
       {
@@ -44,7 +40,6 @@ export default class Pets extends Component {
     }
 
   retrieveFireStorePets() {
-    const { uid } = Firebase.auth.currentUser;
     let currentUsersPets = []
 
     Firebase.firestore
@@ -55,6 +50,7 @@ export default class Pets extends Component {
     .then(docs => {
         var i = 0;
         docs.forEach(doc => {
+          console.log(doc.data());
             currentUsersPets.push(doc.data());
             currentUsersPets[i++].pet_uid = doc.id;
         })

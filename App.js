@@ -35,6 +35,10 @@ import {
     PetPrescription,
     PetDiet,
 } from "./src/home";
+import {
+    VetTab,
+    Patients
+} from "./src/vet"
 
 import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
@@ -73,26 +77,32 @@ if (!console.ignoredYellowBox) {
 // $FlowFixMe
 console.ignoredYellowBox.push("Setting a timer");
 
-@inject("profileStore", "feedStore", "userFeedStore")
+@inject("profileStore")
 class Loading extends React.Component<ScreenProps<>> {
     async componentDidMount(): Promise<void> {
         LogBox.ignoreAllLogs();
-        const { navigation, profileStore, feedStore, userFeedStore } = this.props;
+        const { navigation, profileStore } = this.props;
         await Loading.loadStaticResources();
         Firebase.init();
         Firebase.auth.onAuthStateChanged((user) => {
             const isUserAuthenticated = !!user;
             if (isUserAuthenticated) {
                 const { uid } = Firebase.auth.currentUser;
-                const feedQuery = Firebase.firestore.collection("feed").orderBy("timestamp", "desc");
-                const userFeedQuery = Firebase.firestore
-                    .collection("feed")
-                    .where("uid", "==", uid)
-                    .orderBy("timestamp", "desc");
                 profileStore.init();
-                feedStore.init(feedQuery);
-                userFeedStore.init(userFeedQuery);
-                navigation.navigate("Home");
+                var data;
+                Firebase.firestore.collection("users").doc(uid).get().then(
+                    (doc) =>
+                    { 
+                        data = doc.data(); 
+                        if(data.role == "v")
+                        {
+                            navigation.navigate("Vet")
+                        }
+                        else
+                        {
+                            navigation.navigate("Home")
+                        }
+                    });
             } else {
                 navigation.navigate("Welcome");
             }
@@ -192,7 +202,14 @@ const ChatNavigator = createStackNavigator(
     StackNavigatorOptions
 );
 
-const HomeTabs = createBottomTabNavigator(
+const PatientsNavigator = createStackNavigator(
+    {
+        Patients: {screen: Patients}
+    },
+    StackNavigatorOptions
+);
+
+const HomeNavigator = createBottomTabNavigator(
     {
         Pets: { screen: PetsNavigator },
         DiagnosticTool: { screen: ToolNavigator },
@@ -207,12 +224,33 @@ const HomeTabs = createBottomTabNavigator(
     }
 );
 
+const VetNavigator = createBottomTabNavigator(
+    {
+        Patients: { screen: PatientsNavigator },
+        Profile: { screen: ProfileNavigator },
+    },
+    {
+        animationEnabled: true,
+        tabBarComponent: VetTab,
+        tabBarPosition: "top",
+        swipeEnabled: false,
+    }
+);
+
+/*
 const HomeNavigator = createSwitchNavigator(
     {
         Home: { screen: HomeTabs },
     },
     StackNavigatorOptions
 );
+
+const VetNavigator = createBottomTabNavigator(
+    {
+        VetHome: {screen: VetTabs},
+    },
+    StackNavigatorOptions
+);*/
 
 const SignUpNavigator = createStackNavigator(
     {
@@ -233,6 +271,7 @@ const AppNavigator = createAppContainer(
             Login: { screen: Login },
             SignUp: { screen: SignUpNavigator },
             Home: { screen: HomeNavigator },
+            Vet: { screen: VetNavigator },
         },
         StackNavigatorOptions
     )
