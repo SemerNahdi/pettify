@@ -25,7 +25,7 @@ export default class PetPrescription extends Component<> {
     };
 
     navigation = this.props.navigation;
-    uid = navigation.state.params.cuid;
+    uid = navigation.state.params.uid;
     pet_uid = navigation.state.params.pet_uid;
 
     Firebase.firestore

@@ -76,7 +76,7 @@ export default class EditScreen extends React.Component<> {
     };
 
     navigation = this.props.navigation;
-    uid = navigation.state.params.cuid;
+    uid = navigation.state.params.uid;
     pet_uid  = navigation.state.params.pet_uid;
 
     this.retrieveFireStorePetDetails();
@@ -236,7 +236,6 @@ export default class EditScreen extends React.Component<> {
 
   @autobind
   goBackToPets() {
-    const { navigation } = this.props;
     navigation.goBack();
   }
 
@@ -543,7 +542,7 @@ export default class EditScreen extends React.Component<> {
   submitChanges()
   {
     this.updateFireStorePetDetails();
-    this.props.navigation.goBack();
+    navigation.goBack();
   }
 
   renderHeader = () => {

@@ -56,19 +56,20 @@ export default class PetDetailView extends Component<> {
       setOverlay: false,
     };
       
+    navigation = this.props.navigation;
+    uid = navigation.state.params.uid;
+    pet_uid  = navigation.state.params.pet_uid;
+
     this.retrieveFireStorePetDetails();
   }
 
   @autobind
   retrieveFireStorePetDetails() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-
     Firebase.firestore
     .collection("users")
-    .doc(params.cuid)
+    .doc(uid)
     .collection("pets")
-    .doc(params.pet_uid)
+    .doc(pet_uid)
     .get()
     .then(doc => {
         this.setState({
@@ -146,51 +147,33 @@ export default class PetDetailView extends Component<> {
 
   @autobind
   goBackToPets() {
-    const { navigation } = this.props;
     navigation.goBack();
   }
 
   @autobind
   goToEditScreen() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("EditScreen", { pet_uid, cuid });
+    navigation.navigate("EditScreen", { pet_uid, uid });
   }
 
   @autobind
   goToTrainingScreen() {
-    const { navigation } = this.props;
     const { breed, species } = this.state.petBiology;
     navigation.navigate("TrainingScreen", {breed, species});
   }
 
   @autobind
   goToLabResults() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("ViewDocuments", { pet_uid, cuid });
+    navigation.navigate("ViewDocuments", { pet_uid, uid });
   }
 
   @autobind
   goToPrescription() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("PetPrescription", { pet_uid, cuid });
+    navigation.navigate("PetPrescription", { pet_uid, uid });
   }
 
   @autobind
   goToDiet() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("PetDiet", { pet_uid, cuid });
+    navigation.navigate("PetDiet", { pet_uid, uid });
   }
   
   onPressPlace = () => {
