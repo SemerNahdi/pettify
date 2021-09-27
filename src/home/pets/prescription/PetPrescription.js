@@ -123,7 +123,7 @@ export default class PetPrescription extends Component<> {
       .then((snapshot) => {
         //console.log("********************** snapshot => ",snapshot._delegate._snapshot.docChanges);
         snapshot.forEach((doc) => {
-          console.log('*********** item => ', doc.data());
+          //console.log('*********** item => ', doc.data());
           this.state.existentPrescriptions.push({
             prescription: doc.data().prescription,
             dose: doc.data().dose,
@@ -136,7 +136,7 @@ export default class PetPrescription extends Component<> {
       })
       .then((res) => {
         this.setState({ loading: false})
-        console.log("************** 150 existentPrescriptions", this.state.existentPrescriptions);
+        //console.log("************** 150 existentPrescriptions", this.state.existentPrescriptions);
       });      
       
     //console.log("************** this.existentPrescriptions", this.state.existentPrescriptions);
@@ -195,7 +195,8 @@ export default class PetPrescription extends Component<> {
           
           <TextInput
             style={styles.input}
-            returnKeyType = 'done'
+            returnKeyType = 'next'
+            key="dose"
             placeholder="Dose"
             onChangeText={text => this.setDose(text)}
             multiline={false}
@@ -205,7 +206,8 @@ export default class PetPrescription extends Component<> {
           <TextInput
             style={styles.input}
             keyboardType="number-pad"
-            returnKeyType = 'done'
+            returnKeyType = 'next'
+            key="quantity"
             placeholder="Quantity"
             onChangeText={text => this.setQuantity(text)}
             multiline={false}
@@ -214,7 +216,8 @@ export default class PetPrescription extends Component<> {
 
           <TextInput
             style={styles.bigInput}
-            returnKeyType = 'return'
+            returnKeyType = 'done'
+            key="instructions"
             placeholder="Instructions"
             autoCapitalize = 'sentences'
             autoCorrect = {true}
@@ -237,13 +240,12 @@ export default class PetPrescription extends Component<> {
           <View style={{paddingTop:10},{paddingBottom:10}}>
             <Text type="header3"> Prescriptions History </Text>
           </View>
-          <ScrollView  persistentScrollbar={false} >
             <View style={{paddingBottom: 10}}>
               {
                 //console.log("**** element ===> ", this.state.existentPrescriptions);
                 this.state.existentPrescriptions.map((element, k) => {
-                  console.log("**** element ===> ", element, k);
-                  return <View style={styles.item}>
+                  //console.log("**** element ===> ", element, k);
+                  return <View style={styles.item} key={k}>
                     <Text> Prescription: {element.prescription}</Text>
                     <Text> Dose: {element.dose}</Text>
                     <Text> Quantity: {element.qty}</Text>
@@ -253,7 +255,6 @@ export default class PetPrescription extends Component<> {
                 })
               }
             </View>
-          </ScrollView>
         </View>
       </ScrollView>
     )

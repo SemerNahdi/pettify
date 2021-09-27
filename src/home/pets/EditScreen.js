@@ -236,7 +236,7 @@ export default class EditScreen extends React.Component<> {
 
   @autobind
   goBackToPets() {
-    navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   @autobind

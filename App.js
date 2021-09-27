@@ -151,8 +151,10 @@ export default class App extends React.Component {
 
 const StackNavigatorOptions = {
     headerMode: "none",
-    cardStyle: {
-        backgroundColor: "white",
+    defaultNavigationOptions: {
+        cardStyle: {
+            backgroundColor: "white",
+        },
     },
 };
 

@@ -147,7 +147,7 @@ export default class PetDetailView extends Component<> {
 
   @autobind
   goBackToPets() {
-    navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   @autobind
@@ -241,13 +241,6 @@ export default class PetDetailView extends Component<> {
                   onPress={this.toggleOverlay}
                 />
               </View>
-              <Overlay isVisible={this.state.setOverlay} onBackdropPress={this.toggleOverlay}>
-              <Card containerStyle={styles.overlayContainer}>
-                  {this.renderTel()}
-                  {Separator()}
-                  {this.renderEmail()}
-                </Card>
-             </Overlay>
               <View style={styles.userCityRow}>
                 <Text style={styles.userCityText}>
                   {species}, {breed}
@@ -260,46 +253,40 @@ export default class PetDetailView extends Component<> {
     )
   }
 
-  renderTel = () => (
-    <FlatList
-      contentContainerStyle={styles.telContainer}
-      data={this.tels}
-      renderItem={(list) => {
-        const { id, name, number } = list.item
-
-        return (
+  renderTel() {
+    index = 0
+    return(
+      <View style={styles.telContainer}>
+        {this.tels.map(tel => (
           <Tel
-            key={`tel-${id}`}
-            index={list.index}
-            name={name}
-            number={number}
-            onPressSms={this.onPressSms}
-            onPressTel={this.onPressTel}
+          key={tel.id}
+          index={index++}
+          name={tel.name}
+          number={tel.number}
+          onPressSms={this.onPressSms}
+          onPressTel={this.onPressTel}
           />
-        )
-      }}
-    />
-  )
+        ))}
+      </View>
+    )
+  }
 
-  renderEmail = () => (
-    <FlatList
-      contentContainerStyle={styles.emailContainer}
-      data={this.emails}
-      renderItem={(list) => {
-        const { email, id, name } = list.item
-
-        return (
+  renderEmail() {
+    index = 0
+    return (
+      <View style={styles.emailContainer}>
+        {this.emails.map(email => (
           <Email
-            key={`email-${id}`}
-            index={list.index}
-            name={name}
-            email={email}
-            onPressEmail={this.onPressEmail}
-          />
-        )
-      }}
-    />
-  )
+          key={email.id}
+          index={index++}
+          name={email.name}
+          email={email.email}
+          onPressEmail={this.onPressEmail}
+        />
+        ))}
+      </View>
+    )
+  }
 
   render():React.Node {
     if(this.state.loading)
