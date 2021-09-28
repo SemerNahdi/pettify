@@ -148,7 +148,7 @@ export default class PetPrescription extends Component<> {
     return (
       <ScrollView style={styles.container}>
         <NavHeaderWithButton title="Prescriptions" back {...{ navigation }} />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#white", "#white"]} style={styles.gradient} />
 
         {this.state.role == 'v' && <View style = {styles.prescriptionInputContainer}>
 
