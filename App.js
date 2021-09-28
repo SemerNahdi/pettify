@@ -31,7 +31,6 @@ import {
     DiagnosisDetailView,
     EditScreen,
     ViewDocuments,
-    ChatTest,
     PetPrescription,
     PetDiet,
 } from "./src/home";
@@ -152,7 +151,7 @@ export default class App extends React.Component {
 const StackNavigatorOptions = {
     headerMode: "none",
     cardStyle: {
-        backgroundColor: "white",
+        backgroundColor: "black",
     },
 };
 
@@ -187,13 +186,6 @@ const PetsNavigator = createStackNavigator(
     StackNavigatorOptions
 );
 
-const ChatNavigator = createStackNavigator(
-    {
-        ChatTest: { screen: ChatTest },
-    },
-    StackNavigatorOptions
-);
-
 const PatientsNavigator = createStackNavigator(
     {
         Patients: {screen: Patients},
@@ -214,7 +206,6 @@ const HomeNavigator = createBottomTabNavigator(
         Pets: { screen: PetsNavigator },
         DiagnosticTool: { screen: ToolNavigator },
         Profile: { screen: ProfileNavigator },
-        Chat: { screen: ChatNavigator },
     },
     {
         animationEnabled: true,

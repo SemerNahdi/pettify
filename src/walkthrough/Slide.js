@@ -17,7 +17,7 @@ export default class Slide extends React.PureComponent<SlideProps> {
         const {title, description, icon} = this.props;
         return (
             <View>
-                <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient}>
+                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient}>
                     <View style={styles.slide}>
                         <Text type="header2" style={styles.title}>{title}</Text>
                         <View style={styles.iconContainer}>{icon}</View>

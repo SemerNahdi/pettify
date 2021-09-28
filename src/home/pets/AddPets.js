@@ -153,7 +153,7 @@ export default class AddPets extends React.Component<> {
 
         return (
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
-                <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
                 <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
 
                 <DropDownPicker

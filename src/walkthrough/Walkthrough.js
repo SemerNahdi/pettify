@@ -5,7 +5,6 @@ import {View, StyleSheet, SafeAreaView, StatusBar, Platform} from "react-native"
 import Swiper from "react-native-swiper";
 import Slide from "./Slide";
 import Connect from "./Connect";
-import Chat from "./Chat";
 import Share from "./Share";
 import Select from "./Select";
 import {Button, Theme} from "../components";
@@ -18,7 +17,6 @@ type WalkthroughState = {
 var someNavigation;
 
 let connect: Connect;
-let chat: Chat;
 let share: Share;
 let select: Select;
 
@@ -36,13 +34,6 @@ export default class Walkthrough extends React.Component<ScreenProps<>, Walkthro
             icon: <Connect ref={ref => (ref ? connect = ref : undefined)} />,
             show: () => connect.show(),
             hide: () => connect.hide()
-        },
-        {
-            title: "Chat",
-            description: "Connect with a veterinarian to ask urgent questions about your pet on-demand.",
-            icon: <Chat ref={ref => (ref ? chat = ref : undefined)} />,
-            show: () => chat.show(),
-            hide: () => chat.hide()
         },
         {
             title: "Share",

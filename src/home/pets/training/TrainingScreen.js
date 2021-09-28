@@ -67,7 +67,7 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
         else {
             return(
                 <View>
-                    <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+                    <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
                     <NavHeader title="Training Videos" back {...{navigation}}/>
                     <SafeAreaView>
                         {/* <PlayYouTube videoId={this.state.videos[2].videoId}/> */}
