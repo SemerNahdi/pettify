@@ -37,7 +37,7 @@ export default class SignUpContainer extends React.Component<SignUpContainerProp
         const { title, subtitle, next, children, nextLabel, loading } = this.props;
         return (
             <Container gutter={1} style={{ backgroundColor: "white", flex: 1 }}>
-                <Content style={styles.content} scrollEnabled="false">
+                <Content style={styles.content} scrollEnabled={false}>
                     <View style={styles.innerContainer}>
                         <View>
                             <Text type="large">{subtitle}</Text>
