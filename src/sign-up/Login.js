@@ -1,12 +1,12 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import { StyleSheet, TextInput} from "react-native";
+import { StyleSheet, TextInput, Text, TouchableOpacity, View, Dimensions} from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 
 import SignUpContainer from "./SignUpContainer";
 
-import {TextField, Firebase} from "../components";
+import {TextField, Firebase, Theme} from "../components";
 import type {NavigationProps} from "../components/Types";
 
 type LoginState = {
@@ -78,6 +78,11 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
         }
     }
 
+    @autobind
+    back() {
+        this.props.navigation.navigate("Welcome");
+    }
+
     onPressEye = () => {
         this.setState(prevState => ({
             icon: prevState.icon === 'eye' ? 'eye-slash' : 'eye',
@@ -120,8 +125,34 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                     onSubmitEditing={this.login}
                     onChangeText={this.setPassword}
                 />
-                    <Icon name= {icon} color= '#00aced' size= {20} onPress= {() => this.onPressEye()} />
+                <View style={styles.container}>
+                    <View style={styles.icon}>
+                        <Icon name= {icon} color= '#00aced' size= {20} onPress= {() => this.onPressEye()} />
+                    </View>
+                    <TouchableOpacity onPress={this.back}>
+                        <Text style={styles.text}>Forgot Password?</Text>
+                    </TouchableOpacity>
+                </View>
             </SignUpContainer>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        height: Theme.spacing.base * 1.2,
+        justifyContent: 'space-between',
+    },
+    icon: {
+        flex: 1,
+        paddingStart: 12,
+    },
+    text: {
+        color: 'gray',
+        flex: 1,
+        fontSize: 15,
+        paddingEnd: 8,
+    },
+});
