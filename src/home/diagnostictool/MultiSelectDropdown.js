@@ -254,11 +254,10 @@ export default class MultiSelectDropdown extends React.Component {
         </View>
         {this.state.selectedItems.length > 3 && 
           <Button
-            style={styles.diagnoseButtonContainer}
+            style="diagnosis"
             label="Diagnose My Pet!"
             onPress={(e) => this.searchForSymptomsInFirestore(e, this.state.selectedItems)}
             full
-            primary
           />
         }
       </>
@@ -271,13 +270,6 @@ const {height} = Dimensions.get("window");
 const styles = StyleSheet.create({
   multiSelectOptionsContainer: {
     zIndex: 2
-  },
-  diagnoseButtonContainer: {
-    position: 'absolute',
-    bottom: -200,
-    zIndex: 0,
-    padding: 5,
-    alignSelf: "center",
   }
 });
 

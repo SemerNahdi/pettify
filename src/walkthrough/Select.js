@@ -178,19 +178,19 @@ export default class Select extends React.Component<VisibleState, PetNameTextInp
                     label="Dog"
                     onPress={this.selectDog}
                     full
-                    primary
+                    style="primary"
                       />
                     <Button
                     label="Cat"
                     onPress={this.selectCat}
                     full
-                    primary
+                    style="primary"
                       />
                     <Button
                     label="Bird"
                     onPress={this.selectBird}
                     full
-                    primary
+                    style="primary"
                     />
                 </View>
                 <View style={styles.container}>
@@ -198,19 +198,19 @@ export default class Select extends React.Component<VisibleState, PetNameTextInp
                         label="Horse"
                         onPress={this.selectHorse}
                         full
-                        primary
+                        style="primary"
                     />
                     <Button
                         label="Fish"
                         onPress={this.selectFish}
                         full
-                        primary
+                        style="primary"
                     />
                     <Button
                         label="Exotic"
                         onPress={this.selectExotic}
                         full
-                        primary
+                        style="primary"
                     />
                 </View>
                 {/* <View style={{marginTop: Theme.spacing.large}}> */}

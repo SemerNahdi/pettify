@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { Theme, NavHeaderWithButton, Text } from "../../../components";
-import type { ScreenParams } from "../../components/Types";
 import { LinearGradient } from "expo-linear-gradient";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
 
-export default class PetPrescription extends Component<ScreenParams<{ pet_uid: String}>, SettingsState> {
+export default class PetPrescription extends Component<> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,14 +24,13 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
       date: ""
     };
 
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    const params = navigation.state.params;
-    var pet_uid = params.pet_uid;
+    navigation = this.props.navigation;
+    uid = navigation.state.params.uid;
+    pet_uid = navigation.state.params.pet_uid;
 
     Firebase.firestore
       .collection("users")
-      .doc(uid)
+      .doc(Firebase.auth.currentUser.uid)
       .get()
       .then(docs => {
         this.setState({
@@ -40,15 +38,7 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
         });
       });
 
-    Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .doc(pet_uid)
-      .collection("prescriptions")
-      .onSnapshot(docs => {
-        this.retrieveFireStorePrescriptions();
-      });
+      this.retrieveFireStorePrescriptions();
   }
 
   onSelectedItemsChange = (selectedItems) => {
@@ -72,16 +62,12 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
 
   savePrescriptionToFireStore = () => {
 
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
     var checkForInputs = [
       this.state.selectedItem,
       this.state.dose,
       this.state.qty,
       this.state.instructions,
     ];
-    const { uid } = Firebase.auth.currentUser;
 
     //Checks to see if any inputs are not filled out
     for (let i = 0; i < checkForInputs.length; i++) {
@@ -123,11 +109,8 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
       console.log("Error getting document:", error);
     });
   }
+
   retrieveFireStorePrescriptions() {
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    let params = navigation.state.params;
-    var pet_uid = params.pet_uid;
     this.state.existentPrescriptions = [];
 
     Firebase.firestore
@@ -140,7 +123,7 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
       .then((snapshot) => {
         //console.log("********************** snapshot => ",snapshot._delegate._snapshot.docChanges);
         snapshot.forEach((doc) => {
-          console.log('*********** item => ', doc.data());
+          //console.log('*********** item => ', doc.data());
           this.state.existentPrescriptions.push({
             prescription: doc.data().prescription,
             dose: doc.data().dose,
@@ -153,7 +136,7 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
       })
       .then((res) => {
         this.setState({ loading: false})
-        console.log("************** 150 existentPrescriptions", this.state.existentPrescriptions);
+        //console.log("************** 150 existentPrescriptions", this.state.existentPrescriptions);
       });      
       
     //console.log("************** this.existentPrescriptions", this.state.existentPrescriptions);
@@ -161,7 +144,6 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
 
 
   render() {
-    const { navigation } = this.props;
     const { items, selectedItem } = this.state;
     return (
       <ScrollView style={styles.container}>
@@ -213,7 +195,8 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
           
           <TextInput
             style={styles.input}
-            returnKeyType = 'done'
+            returnKeyType = 'next'
+            key="dose"
             placeholder="Dose"
             onChangeText={text => this.setDose(text)}
             multiline={false}
@@ -223,7 +206,8 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
           <TextInput
             style={styles.input}
             keyboardType="number-pad"
-            returnKeyType = 'done'
+            returnKeyType = 'next'
+            key="quantity"
             placeholder="Quantity"
             onChangeText={text => this.setQuantity(text)}
             multiline={false}
@@ -232,7 +216,8 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
 
           <TextInput
             style={styles.bigInput}
-            returnKeyType = 'return'
+            returnKeyType = 'done'
+            key="instructions"
             placeholder="Instructions"
             autoCapitalize = 'sentences'
             autoCorrect = {true}
@@ -255,13 +240,12 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
           <View style={{paddingTop:10},{paddingBottom:10}}>
             <Text type="header3"> Prescriptions History </Text>
           </View>
-          <ScrollView  persistentScrollbar={false} >
             <View style={{paddingBottom: 10}}>
               {
                 //console.log("**** element ===> ", this.state.existentPrescriptions);
                 this.state.existentPrescriptions.map((element, k) => {
-                  console.log("**** element ===> ", element, k);
-                  return <View style={styles.item}>
+                  //console.log("**** element ===> ", element, k);
+                  return <View style={styles.item} key={k}>
                     <Text> Prescription: {element.prescription}</Text>
                     <Text> Dose: {element.dose}</Text>
                     <Text> Quantity: {element.qty}</Text>
@@ -271,7 +255,6 @@ export default class PetPrescription extends Component<ScreenParams<{ pet_uid: S
                 })
               }
             </View>
-          </ScrollView>
         </View>
       </ScrollView>
     )

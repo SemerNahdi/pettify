@@ -47,8 +47,8 @@ export default class SignUpContainer extends React.Component<SignUpContainerProp
                         </View>
                         <View>{children}</View>
                         <View>
-                            <Button label={nextLabel} full primary onPress={next} {...{ loading }} />
-                            <Button label="Back" full onPress={this.back} />
+                            <Button label={nextLabel} full onPress={next} {...{ loading } } style="primary" />
+                            <Button label="Back" full onPress={this.back} style="base" />
                         </View>
                     </View>
                 </Content>

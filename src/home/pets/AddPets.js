@@ -8,24 +8,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const { State: TextInputState } = TextInput;
 
-export default class AddPets extends React.Component<SettingsState> {
-   
-    async componentDidMount(): Promise<void> {
-        const { navigation } = this.props;
-    }
-
-    //Handles moving screen up and down with keyboard
-    componentWillMount() {
-        this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
-        this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
-    }
-    
-      componentWillUnmount() {
-        this.keyboardDidShowSub.remove();
-        this.keyboardDidHideSub.remove();
-        this.props.navigation.state.params.getData(); //Reloads pets list when going back
-    }
-
+export default class AddPets extends React.Component<> {
     constructor(props) {
         super(props);
         this.state = {
@@ -44,6 +27,9 @@ export default class AddPets extends React.Component<SettingsState> {
             weight: null,
             shift: new Animated.Value(0),
         };
+
+        navigation = this.props.navigation;
+        uid = navigation.state.params.uid;
     }
     
     handleYearsOwned = (text) => {
@@ -63,9 +49,7 @@ export default class AddPets extends React.Component<SettingsState> {
     }
 
     addPetToFireStore = (event) =>{
-        var pet_uid = this.guidGenerator();
-        const { uid } = Firebase.auth.currentUser;
-        var owner_uid = uid;
+        pet_uid = this.guidGenerator();
         var pic = "null";
         const {species, breed, name, age, yearsOwned, sex, activity, weight, 
                 classification, spayNeuter_Status, pregnancy, lactating, size} = this.state; 
@@ -91,7 +75,7 @@ export default class AddPets extends React.Component<SettingsState> {
             } else {
                 Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
                     species, breed, name, age, yearsOwned, sex, activity, weight, classification, spayNeuter_Status,
-                    pregnancy, lactating, size, pic, owner_uid 
+                    pregnancy, lactating, size, pic, uid 
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
@@ -101,7 +85,7 @@ export default class AddPets extends React.Component<SettingsState> {
             console.log("Error getting document:", error);
         });
 
-        this.props.navigation.goBack();
+        navigation.goBack();
     }
 
     //Generate pet ids
@@ -148,8 +132,6 @@ export default class AddPets extends React.Component<SettingsState> {
     
 
     render() {
-         
-        const { navigation } = this.props;
         const { shift } = this.state;
 
         return (

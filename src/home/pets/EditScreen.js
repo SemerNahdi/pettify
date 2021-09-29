@@ -1,7 +1,6 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
 import React from 'react'
-import type { ScreenParams } from "../../components/Types";
 import { Card, Icon } from 'react-native-elements'
 import { FontAwesome5 } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -23,7 +22,7 @@ import {Text, Theme} from "../../components";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: String }>, SettingsState> {
+export default class EditScreen extends React.Component<> {
   constructor(props)
   {
     super(props);
@@ -76,32 +75,21 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
       setOverlay: false,
     };
 
-    const { uid } = Firebase.auth.currentUser;
+    navigation = this.props.navigation;
+    uid = navigation.state.params.uid;
+    pet_uid  = navigation.state.params.pet_uid;
 
-    Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .onSnapshot(docs => {
-        this.retrieveFireStorePetDetails();
-      });
-  }
-
-  async componentDidMount(): Promise<void> {
     this.retrieveFireStorePetDetails();
   }
 
   @autobind
   retrieveFireStorePetDetails() {
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    const pet_uid  = navigation.state.params;
-
+  
     Firebase.firestore
     .collection("users")
     .doc(uid)
     .collection("pets")
-    .doc(pet_uid.pet_uid)
+    .doc(pet_uid)
     .get()
     .then(doc => {
         this.setState({
@@ -175,9 +163,6 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
 
   @autobind
   updateFireStorePetDetails() {
-    const { uid } = Firebase.auth.currentUser;
-    const { navigation } = this.props;
-    const pet_uid  = navigation.state.params;
     const { name, age, yearsOwned, sex, classification, spayNeuter_Status, weight, activity, 
             pregnancy, lactating, size} = this.state; 
     const { species, breed } = this.state.petBiology;
@@ -186,7 +171,7 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
     .collection("users")
     .doc(uid)
     .collection("pets")
-    .doc(pet_uid.pet_uid)
+    .doc(pet_uid)
     .update({
       name, age, yearsOwned, sex, classification, spayNeuter_Status, weight, activity, 
       pregnancy, lactating, size, species, breed 
@@ -215,9 +200,6 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
     const response = await fetch(path);
     const blob = await response.blob();
 
-    const { uid } = Firebase.auth.currentUser;
-    const pet_uid  = this.props.navigation.state.params;
-
     var ref = Firebase.storage.ref().child("petPictures/" + imageName);
     let task = ref.put(blob);
 
@@ -228,7 +210,7 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
               .collection("users")
               .doc(uid)
               .collection("pets")
-              .doc(pet_uid.pet_uid)
+              .doc(pet_uid)
               .update({pic})
         }
         , function(error){
@@ -254,8 +236,7 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
 
   @autobind
   goBackToPets() {
-    const { navigation } = this.props;
-    navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   @autobind
@@ -276,15 +257,11 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
   @autobind
   deletingPet()
   {
-    const { navigation } = this.props;
-    const { uid } = Firebase.auth.currentUser;
-    const pet_uid  = navigation.state.params;
-
     Firebase.firestore
       .collection("users")
       .doc(uid)
       .collection("pets")
-      .doc(pet_uid.pet_uid)
+      .doc(pet_uid)
       .delete()
       .then(() => {
         console.log("Document successfully deleted!");
@@ -565,7 +542,7 @@ export default class EditScreen extends React.Component<ScreenParams<{ pet_uid: 
   submitChanges()
   {
     this.updateFireStorePetDetails();
-    this.props.navigation.goBack();
+    navigation.goBack();
   }
 
   renderHeader = () => {

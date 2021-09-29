@@ -35,6 +35,10 @@ import {
     PetPrescription,
     PetDiet,
 } from "./src/home";
+import {
+    VetTab,
+    Patients
+} from "./src/vet"
 
 // $FlowFixMe
 const SFProTextMedium = require("./assets/fonts/SF-Pro-Text-Medium.otf");
@@ -82,7 +86,20 @@ class Loading extends React.Component<ScreenProps<>> {
             if (isUserAuthenticated) {
                 const { uid } = Firebase.auth.currentUser;
                 profileStore.init();
-                navigation.navigate("Home");
+                var data;
+                Firebase.firestore.collection("users").doc(uid).get().then(
+                    (doc) =>
+                    { 
+                        data = doc.data(); 
+                        if(data.role == "v")
+                        {
+                            navigation.navigate("Vet")
+                        }
+                        else
+                        {
+                            navigation.navigate("Home")
+                        }
+                    });
             } else {
                 navigation.navigate("Welcome");
             }
@@ -134,8 +151,10 @@ export default class App extends React.Component {
 
 const StackNavigatorOptions = {
     headerMode: "none",
-    cardStyle: {
-        backgroundColor: "white",
+    defaultNavigationOptions: {
+        cardStyle: {
+            backgroundColor: "white",
+        },
     },
 };
 
@@ -177,7 +196,22 @@ const ChatNavigator = createStackNavigator(
     StackNavigatorOptions
 );
 
-const HomeTabs = createBottomTabNavigator(
+const PatientsNavigator = createStackNavigator(
+    {
+        Patients: {screen: Patients},
+        Pets: {screen: Pets},
+        PetDetailView: {screen : PetDetailView},
+        AddPets: { screen: AddPets },
+        TrainingScreen: { screen: TrainingScreen },
+        EditScreen: { screen: EditScreen },
+        ViewDocuments: { screen: ViewDocuments },
+        PetPrescription: { screen: PetPrescription },
+        PetDiet: { screen: PetDiet }
+    },
+    StackNavigatorOptions
+);
+
+const HomeNavigator = createBottomTabNavigator(
     {
         Pets: { screen: PetsNavigator },
         DiagnosticTool: { screen: ToolNavigator },
@@ -192,11 +226,17 @@ const HomeTabs = createBottomTabNavigator(
     }
 );
 
-const HomeNavigator = createSwitchNavigator(
+const VetNavigator = createBottomTabNavigator(
     {
-        Home: { screen: HomeTabs },
+        Patients: { screen: PatientsNavigator },
+        Profile: { screen: ProfileNavigator },
     },
-    StackNavigatorOptions
+    {
+        animationEnabled: true,
+        tabBarComponent: VetTab,
+        tabBarPosition: "top",
+        swipeEnabled: false,
+    }
 );
 
 const SignUpNavigator = createStackNavigator(
@@ -218,6 +258,7 @@ const AppNavigator = createAppContainer(
             Login: { screen: Login },
             SignUp: { screen: SignUpNavigator },
             Home: { screen: HomeNavigator },
+            Vet: { screen: VetNavigator },
         },
         StackNavigatorOptions
     )
