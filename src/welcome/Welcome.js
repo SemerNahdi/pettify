@@ -26,8 +26,8 @@ export default class Welcome extends React.Component<ScreenProps<>> {
                     <Text type="header1" style={styles.header}>Pet Care</Text>
                 </AnimatedView>
                 <AnimatedView style={styles.container} delay={600} duration={300}>
-                    <Button label="Login" onPress={this.login} full primary style={{o: Theme.palette.warning}} />
-                    <Button label="Sign Up" onPress={this.signUp} full />
+                    <Button label="Login" onPress={this.login} full style="primary" />
+                    <Button label="Sign Up" onPress={this.signUp} full style="base"/>
                 </AnimatedView>
             </Container>
         );

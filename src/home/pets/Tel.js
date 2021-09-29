@@ -3,8 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types'
 
-import mainColor from './constants'
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -24,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   telIcon: {
-    color: mainColor,
+    color: 'gray',
     fontSize: 30,
   },
   telNameColumn: {
