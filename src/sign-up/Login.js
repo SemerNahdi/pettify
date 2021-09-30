@@ -129,6 +129,12 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                     <Icon name= {icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={{paddingTop:13, marginLeft:10}}/>
                 </View>
                 <View style={styles.container}>
+<<<<<<< HEAD
+=======
+                    <View style={styles.icon}>
+                        <Icon name= {icon} color= '#00aced' size= {20} onPress= {() => this.onPressEye()} />
+                    </View>
+>>>>>>> b08f2f4 (Added the Reset Password screem and connected it to the Forgot Password button)
                     <TouchableOpacity onPress={this.passwordReset}>
                         <Text style={styles.text}>Forgot Password?</Text>
                     </TouchableOpacity>
@@ -166,7 +172,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'gray',
         flex: 1,
-        fontSize: 15,
+        fontSize: 14,
         paddingEnd: 8,
     },
 });

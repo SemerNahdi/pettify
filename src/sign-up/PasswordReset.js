@@ -90,4 +90,8 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         textAlign: 'center',
     },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> b08f2f4 (Added the Reset Password screem and connected it to the Forgot Password button)
