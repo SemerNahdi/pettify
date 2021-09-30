@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AppRegistry, StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
 import PetItem from './PetItem';
 import _ from 'lodash';
 import Pagination,{Icon,Dot} from 'react-native-pagination';//{Icon,Dot} also available
@@ -11,8 +11,7 @@ import autobind from 'autobind-decorator';
 export default class Pets extends Component {
   @autobind
   buttonFn() {
-    const cuid = uid;
-    this.props.navigation.navigate("AddPets", { cuid , getData: () => this.retrieveFireStorePets() });
+    navigation.navigate("AddPets", { uid });
   }
 
   constructor(props){
@@ -22,8 +21,9 @@ export default class Pets extends Component {
         loading: true,
       };
 
-      uid = this.props.navigation.state.params ? this.props.navigation.state.params.userUId : Firebase.auth.currentUser.uid;
-      vet = this.props.navigation.state.params ? true : false;
+      navigation = this.props.navigation;
+      uid = navigation.state.params ? navigation.state.params.uid : Firebase.auth.currentUser.uid;
+      vet = navigation.state.params ? true : false;
       this.retrieveFireStorePets()
   }
 
@@ -60,12 +60,10 @@ export default class Pets extends Component {
 
     //create each list item
   _renderItem = ({item}) => {
-    const { navigation } = this.props;
-    const { retrieveFireStorePets } = this;
     return (<PetItem 
         index={item.id}
         pet_uid={item.pet_uid}
-        cuid={uid}
+        uid={uid}
         name={item.name}
         pic={item.pic}
         breed={item.breed}
@@ -93,9 +91,6 @@ export default class Pets extends Component {
   onViewableItemsChanged = ({ viewableItems, changed }) =>this.setState({viewableItems})
 
   render() {
-    const { buttonFn } = this;
-    const { navigation } = this.props;
-
     if(this.state.loading)
     {
         return(
@@ -150,5 +145,3 @@ const styles = StyleSheet.create({
     bottom: 0
   },
 });
-
-AppRegistry.registerComponent('ReactNativePaginationExample', () => App);

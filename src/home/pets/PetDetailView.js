@@ -56,19 +56,20 @@ export default class PetDetailView extends Component<> {
       setOverlay: false,
     };
       
+    navigation = this.props.navigation;
+    uid = navigation.state.params.uid;
+    pet_uid  = navigation.state.params.pet_uid;
+
     this.retrieveFireStorePetDetails();
   }
 
   @autobind
   retrieveFireStorePetDetails() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-
     Firebase.firestore
     .collection("users")
-    .doc(params.cuid)
+    .doc(uid)
     .collection("pets")
-    .doc(params.pet_uid)
+    .doc(pet_uid)
     .get()
     .then(doc => {
         this.setState({
@@ -146,51 +147,33 @@ export default class PetDetailView extends Component<> {
 
   @autobind
   goBackToPets() {
-    const { navigation } = this.props;
-    navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   @autobind
   goToEditScreen() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("EditScreen", { pet_uid, cuid });
+    navigation.navigate("EditScreen", { pet_uid, uid });
   }
 
   @autobind
   goToTrainingScreen() {
-    const { navigation } = this.props;
     const { breed, species } = this.state.petBiology;
     navigation.navigate("TrainingScreen", {breed, species});
   }
 
   @autobind
   goToLabResults() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("ViewDocuments", { pet_uid, cuid });
+    navigation.navigate("ViewDocuments", { pet_uid, uid });
   }
 
   @autobind
   goToPrescription() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("PetPrescription", { pet_uid, cuid });
+    navigation.navigate("PetPrescription", { pet_uid, uid });
   }
 
   @autobind
   goToDiet() {
-    const { navigation } = this.props;
-    const params  = navigation.state.params;
-    const pet_uid = params.pet_uid;
-    const cuid = params.cuid;
-    navigation.navigate("PetDiet", { pet_uid, cuid });
+    navigation.navigate("PetDiet", { pet_uid, uid });
   }
   
   onPressPlace = () => {
@@ -258,13 +241,6 @@ export default class PetDetailView extends Component<> {
                   onPress={this.toggleOverlay}
                 />
               </View>
-              <Overlay isVisible={this.state.setOverlay} onBackdropPress={this.toggleOverlay}>
-              <Card containerStyle={styles.overlayContainer}>
-                  {this.renderTel()}
-                  {Separator()}
-                  {this.renderEmail()}
-                </Card>
-             </Overlay>
               <View style={styles.userCityRow}>
                 <Text style={styles.userCityText}>
                   {species}, {breed}
@@ -277,46 +253,40 @@ export default class PetDetailView extends Component<> {
     )
   }
 
-  renderTel = () => (
-    <FlatList
-      contentContainerStyle={styles.telContainer}
-      data={this.tels}
-      renderItem={(list) => {
-        const { id, name, number } = list.item
-
-        return (
+  renderTel() {
+    index = 0
+    return(
+      <View style={styles.telContainer}>
+        {this.tels.map(tel => (
           <Tel
-            key={`tel-${id}`}
-            index={list.index}
-            name={name}
-            number={number}
-            onPressSms={this.onPressSms}
-            onPressTel={this.onPressTel}
+          key={tel.id}
+          index={index++}
+          name={tel.name}
+          number={tel.number}
+          onPressSms={this.onPressSms}
+          onPressTel={this.onPressTel}
           />
-        )
-      }}
-    />
-  )
+        ))}
+      </View>
+    )
+  }
 
-  renderEmail = () => (
-    <FlatList
-      contentContainerStyle={styles.emailContainer}
-      data={this.emails}
-      renderItem={(list) => {
-        const { email, id, name } = list.item
-
-        return (
+  renderEmail() {
+    index = 0
+    return (
+      <View style={styles.emailContainer}>
+        {this.emails.map(email => (
           <Email
-            key={`email-${id}`}
-            index={list.index}
-            name={name}
-            email={email}
-            onPressEmail={this.onPressEmail}
-          />
-        )
-      }}
-    />
-  )
+          key={email.id}
+          index={index++}
+          name={email.name}
+          email={email.email}
+          onPressEmail={this.onPressEmail}
+        />
+        ))}
+      </View>
+    )
+  }
 
   render():React.Node {
     if(this.state.loading)

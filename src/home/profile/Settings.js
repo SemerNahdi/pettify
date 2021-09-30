@@ -136,8 +136,8 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
                     />
-                    <Button label="Save" full primary onPress={this.save} {...{ loading }} />
-                    <Button label="Sign Out" full onPress={logout} />
+                    <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
+                    <Button label="Sign Out" full onPress={logout} style="base"/>
                 </Content>
             </View>
         );

@@ -85,10 +85,8 @@ export default class Walkthrough extends React.Component<ScreenProps<>, Walkthro
         
         return (
             <SafeAreaView style={styles.footer}>
-                <Button label="Back" onPress={back} primary white disabled={isFirst} />
-                {/* {!isLast && <Button label={"Next"} onPress={next} primary white />} */}
-                {/* Uncomment next line to add button to navigate to Home screen then comment out above line: */}
-                <Button label={isLast ? "Start" : "Next"} onPress={next} primary white />
+                <Button label="Back" onPress={back} white disabled={isFirst} style="primary" />
+                <Button label={isLast ? "Start" : "Next"} onPress={next} white style="primary" />
             </SafeAreaView>
         );
     }

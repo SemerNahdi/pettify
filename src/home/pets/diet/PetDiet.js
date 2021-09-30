@@ -21,7 +21,7 @@ export default class PetDiet extends Component<> {
     };
  
     navigation = this.props.navigation;
-    uid = navigation.state.params.cuid;
+    uid = navigation.state.params.uid;
     pet_uid = navigation.state.params.pet_uid;
  
     Firebase.firestore
@@ -161,7 +161,7 @@ export default class PetDiet extends Component<> {
       .then((snapshot) => {
         //console.log("********************** snapshot => ",snapshot._delegate._snapshot.docChanges);
         snapshot.forEach((doc) => {
-          console.log('*********** item => ', doc.data());
+          //console.log('*********** item => ', doc.data());
           this.state.existentDiet.push({
             diet: doc.data().diet,
             dietDetails: doc.data().dietDetails,
@@ -172,7 +172,7 @@ export default class PetDiet extends Component<> {
       })
       .then((res) => {
         this.setState({ loading: false})
-        console.log("************** 150 existentDiet", this.state.existentDiet);
+        //console.log("************** 150 existentDiet", this.state.existentDiet);
       });      
  
     //console.log("************** this.existentPrescriptions", this.state.existentPrescriptions);
@@ -191,7 +191,7 @@ export default class PetDiet extends Component<> {
       .then((snapshot) => {
         //console.log("********************** snapshot => ",snapshot._delegate._snapshot.docChanges);
         snapshot.forEach((doc) => {
-          console.log('*********** item => ', doc.data());
+          //console.log('*********** item => ', doc.data());
           this.state.existentDietU.push({
             diet: doc.data().diet,
             dietDetails: doc.data().dietDetails,
@@ -202,7 +202,7 @@ export default class PetDiet extends Component<> {
       })
       .then((res) => {
         this.setState({ loading: false})
-        console.log("************** 150 existentDiet", this.state.existentDietU);
+        //console.log("************** 150 existentDiet", this.state.existentDietU);
       });      
  
     //console.log("************** this.existentPrescriptions", this.state.existentPrescriptions);
@@ -622,8 +622,8 @@ export default class PetDiet extends Component<> {
             {
               //console.log("**** element ===> ", this.state.existentPrescriptions);
               this.state.existentDiet.map((element, k) => {
-                console.log("**** element ===> ", element, k);
-                return <View>
+                //console.log("**** element ===> ", element, k);
+                return <View key={k}>
                   <Text> Diet: {element.diet}</Text>
                   <Text> Diet Details: {element.dietDetails}</Text>
                   <Text> Date: {element.date}</Text>
@@ -641,8 +641,8 @@ export default class PetDiet extends Component<> {
             {
               //console.log("**** element ===> ", this.state.existentPrescriptions);
               this.state.existentDietU.map((element, k) => {
-                console.log("**** element ===> ", element, k);
-                return <View>
+                //console.log("**** element ===> ", element, k);
+                return <View key={k}>
                   <Text> Diet: {element.diet}</Text>
                   <Text> Diet Details: {element.dietDetails}</Text>
                   <Text> Date: {element.date}</Text>

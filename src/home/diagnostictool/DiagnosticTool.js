@@ -24,7 +24,7 @@ export class SelectPetButton extends React.Component {
         label={this.props.label}
         onPress={(event) => this.props.onPress(event, this.props.label, this.selectPet)}
         full
-        primary
+        style="primary"
       />
     );
   }

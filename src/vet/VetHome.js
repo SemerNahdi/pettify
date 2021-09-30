@@ -12,8 +12,8 @@ type Tab = { label: string, icon: string };
 export class VetTab extends React.Component<NavigationProps<*>> {
 
     static tabs: Tab[] = [
-        { label: "Patients", icon: "paw"},
-        { label: "Profile", icon: "user" }
+        { label: "Patients", icon: "users"},
+        { label: "Profile", icon: "user-alt" }
     ];
 
     render(): React.Node {

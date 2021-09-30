@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 
 const Separator = () => (
   <View style={styles.container}>
-    <View style={styles.separatorOffset} />
     <View style={styles.separator} />
   </View>
 )

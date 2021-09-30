@@ -9,23 +9,6 @@ import { LinearGradient } from "expo-linear-gradient";
 const { State: TextInputState } = TextInput;
 
 export default class AddPets extends React.Component<> {
-   
-    async componentDidMount(): Promise<void> {
-        const { navigation } = this.props;
-    }
-
-    //Handles moving screen up and down with keyboard
-    componentWillMount() {
-        this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
-        this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
-    }
-    
-      componentWillUnmount() {
-        this.keyboardDidShowSub.remove();
-        this.keyboardDidHideSub.remove();
-        this.props.navigation.state.params.getData(); //Reloads pets list when going back
-    }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -44,6 +27,9 @@ export default class AddPets extends React.Component<> {
             weight: null,
             shift: new Animated.Value(0),
         };
+
+        navigation = this.props.navigation;
+        uid = navigation.state.params.uid;
     }
     
     handleYearsOwned = (text) => {
@@ -64,7 +50,6 @@ export default class AddPets extends React.Component<> {
 
     addPetToFireStore = (event) =>{
         pet_uid = this.guidGenerator();
-        uid = this.props.navigation.state.params.cuid;
         var pic = "null";
         const {species, breed, name, age, yearsOwned, sex, activity, weight, 
                 classification, spayNeuter_Status, pregnancy, lactating, size} = this.state; 
@@ -100,7 +85,7 @@ export default class AddPets extends React.Component<> {
             console.log("Error getting document:", error);
         });
 
-        this.props.navigation.goBack();
+        navigation.goBack();
     }
 
     //Generate pet ids
@@ -147,8 +132,6 @@ export default class AddPets extends React.Component<> {
     
 
     render() {
-         
-        const { navigation } = this.props;
         const { shift } = this.state;
 
         return (

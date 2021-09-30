@@ -16,6 +16,8 @@ export default class Patients extends Component {
         loading: true,
       };
 
+      navigation = this.props.navigation;
+
       this.retrieveFireStorePets();
     }
 
@@ -51,7 +53,6 @@ export default class Patients extends Component {
 
     //create each list item
   _renderItem = ({item}) => {
-    const { navigation } = this.props;
     return (<PatientItem 
         index={item.id}
         uid={item.uid}
@@ -69,8 +70,6 @@ export default class Patients extends Component {
   onViewableItemsChanged = ({ viewableItems, changed }) =>this.setState({viewableItems})
 
   render() {
-    const { navigation } = this.props;
-
     if(this.state.loading)
     {
         return(
