@@ -59,7 +59,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     return (
       <View style={styles.container}>
         <NavHeader title="Diagnostic Tool" {...{ navigation }} />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
         <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>

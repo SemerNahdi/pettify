@@ -39,7 +39,7 @@ ScreenProps<> & InjectedProps
         <View style={styles.container}>
           <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
           <LinearGradient
-            colors={["#81f1f7", "#9dffb0"]}
+            colors={["#ffffff", "#ffffff"]}
             style={styles.gradient}
           />
           <View style={styles.header}>

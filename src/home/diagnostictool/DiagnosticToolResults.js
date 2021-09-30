@@ -72,7 +72,7 @@ export default class DiagnosticToolResults extends Component {
     return (
       <View style={[styles.container]}>
       <NavHeader title="Diagnosed Diseases" back {...{ navigation }} />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling

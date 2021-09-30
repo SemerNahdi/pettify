@@ -88,7 +88,7 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
     return (
       <>
       <NavHeader title={navigation.state.params[Object.keys(navigation.state.params)[0]]} back {...{ navigation }} />
-      <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+      <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
       <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>

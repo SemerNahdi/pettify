@@ -140,7 +140,7 @@ export default class ViewDocuments extends Component<> {
         return (
             <View style={styles.container}>
                 <NavHeaderWithButton title="Lab Results" back {...{ navigation }} buttonFn={this.chooseFile} buttonIcon="plus" />
-                <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
                 <ScrollView>
                     {this.renderPdfViewer()}
                 </ScrollView>

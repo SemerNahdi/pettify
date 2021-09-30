@@ -107,7 +107,7 @@ export default class Pets extends Component {
     return (
       <View style={[styles.container]}>
       <NavHeaderWithButton title="My Pets" buttonFn={this.buttonFn} buttonIcon="plus" back = {vet} {...{ navigation }}/>
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling

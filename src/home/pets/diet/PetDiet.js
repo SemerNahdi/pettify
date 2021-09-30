@@ -340,7 +340,7 @@ export default class PetDiet extends Component<> {
     return (
       <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
         <NavHeaderWithButton title="Diet" back {...{ navigation }} />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
  
         <View style= {styles.dietHeading}>
             <Text style={{fontSize: 20 }}> {"Proteins:"} </Text>

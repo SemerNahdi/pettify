@@ -86,7 +86,7 @@ export default class Patients extends Component {
     return (
       <View style={[styles.container]}>
       <NavHeader title="Patients" />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
+        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling
