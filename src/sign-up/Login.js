@@ -79,8 +79,8 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
     }
 
     @autobind
-    back() {
-        this.props.navigation.navigate("Welcome");
+    passwordReset() {
+        this.props.navigation.navigate("PasswordReset");
     }
 
     onPressEye = () => {
@@ -129,7 +129,7 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                     <View style={styles.icon}>
                         <Icon name= {icon} color= '#00aced' size= {20} onPress= {() => this.onPressEye()} />
                     </View>
-                    <TouchableOpacity onPress={this.back}>
+                    <TouchableOpacity onPress={this.passwordReset}>
                         <Text style={styles.text}>Forgot Password?</Text>
                     </TouchableOpacity>
                 </View>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'gray',
         flex: 1,
-        fontSize: 15,
+        fontSize: 14,
         paddingEnd: 8,
     },
 });
