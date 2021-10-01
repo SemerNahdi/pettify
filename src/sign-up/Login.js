@@ -4,6 +4,7 @@ import * as React from "react";
 import { StyleSheet, TextInput, Text, TouchableOpacity, View, Dimensions} from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 import SignUpContainer from "./SignUpContainer";
+
 import {TextField, Firebase, Theme} from "../components";
 import type {NavigationProps} from "../components/Types";
 
@@ -129,12 +130,6 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                     <Icon name= {icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={{paddingTop:13, marginLeft:10}}/>
                 </View>
                 <View style={styles.container}>
-<<<<<<< HEAD
-=======
-                    <View style={styles.icon}>
-                        <Icon name= {icon} color= '#00aced' size= {20} onPress= {() => this.onPressEye()} />
-                    </View>
->>>>>>> b08f2f4 (Added the Reset Password screem and connected it to the Forgot Password button)
                     <TouchableOpacity onPress={this.passwordReset}>
                         <Text style={styles.text}>Forgot Password?</Text>
                     </TouchableOpacity>
