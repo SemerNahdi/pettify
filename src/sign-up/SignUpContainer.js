@@ -37,7 +37,7 @@ export default class SignUpContainer extends React.Component<SignUpContainerProp
         const { title, subtitle, next, children, nextLabel, loading } = this.props;
         return (
             <Container gutter={1} style={{ backgroundColor: "white", flex: 1 }}>
-                <Content style={styles.content}>
+                <Content style={styles.content} scrollEnabled="false">
                     <View style={styles.innerContainer}>
                         <View>
                             <Text type="large">{subtitle}</Text>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         padding: Theme.spacing.base,
     },
     innerContainer: {
-        height: height - Theme.spacing.base * 2,
+        height: height - (Theme.spacing.base * 3),
         justifyContent: "center",
     }
 });
