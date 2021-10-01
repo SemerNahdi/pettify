@@ -46,7 +46,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     @autobind
     async next(): Promise<void> {
         const {password} = this.state;
-        const {email, displayName, role} = SignUpStore;
+        const {email, displayName} = SignUpStore;
         console.log("value", role)
         try {
             if (password === "") {
