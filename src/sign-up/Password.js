@@ -56,7 +56,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
             const user = await Firebase.auth.createUserWithEmailAndPassword(email, password);
             const profile: Profile = {
                 name: displayName,
-                role: role.value,
+                role: "p",
                 outline: "React Native",
                 picture: {
                     // eslint-disable-next-line max-len
