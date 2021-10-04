@@ -4,7 +4,6 @@ import { Text, Theme, NavHeaderWithButton } from "../../components";
 import { FontAwesome5 } from '@expo/vector-icons';
 import Firebase from "../../components/Firebase";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { LinearGradient } from "expo-linear-gradient";
 
 const { State: TextInputState } = TextInput;
 
@@ -136,7 +135,6 @@ export default class AddPets extends React.Component<> {
 
         return (
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
-                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
                 <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
 
                 <DropDownPicker
@@ -426,12 +424,5 @@ const styles = StyleSheet.create({
     },  
     scroll: {
         backgroundColor: '#FFF',
-    },
-    gradient: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: -500
     },
 });

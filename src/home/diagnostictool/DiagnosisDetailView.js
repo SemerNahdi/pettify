@@ -10,7 +10,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { LinearGradient } from "expo-linear-gradient";
 import {Text, Theme} from "../../components";
 
 export default class PetDetailView extends React.Component<ScreenParams<{ diagnosisNameObject: String }>, SettingsState> {
@@ -88,7 +87,6 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
     return (
       <>
       <NavHeader title={navigation.state.params[Object.keys(navigation.state.params)[0]]} back {...{ navigation }} />
-      <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
       <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>
@@ -110,13 +108,6 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   },
   cardContainer: {
     backgroundColor: "transparent",
