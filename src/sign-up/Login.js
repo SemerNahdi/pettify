@@ -156,17 +156,11 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
         height: Theme.spacing.base * 1.2,
-        justifyContent: 'space-between',
-    },
-    icon: {
-        flex: 1,
-        paddingStart: 12,
+        justifyContent: 'center',
     },
     text: {
         color: 'gray',
-        flex: 1,
         fontSize: 14,
         paddingEnd: 8,
     },

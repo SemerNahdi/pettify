@@ -58,6 +58,9 @@ export default class PasswordReset extends React.Component<NavigationProps<*>, P
                 next={this.next} 
                 {...{ navigation }}
             >
+                <View style={styles.container}>
+                    <Text style={styles.text}>Please enter the email address associated with your account</Text>
+                </View>
                 <TextField 
                     placeholder="Email"
                     keyboardType="email-address"
@@ -68,9 +71,6 @@ export default class PasswordReset extends React.Component<NavigationProps<*>, P
                     onSubmitEditing={this.next}
                     onChangeText={this.setEmail}
                 />
-                <View style={styles.container}>
-                    <Text style={styles.text}>Please enter the email address associated with your account</Text>
-                </View>
             </SignUpContainer>
         );
     }
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
         paddingStart: 8,
         paddingEnd: 8,
         paddingBottom: 16,
-        textAlign: 'center',
+        textAlign: 'left',
     },
 });
