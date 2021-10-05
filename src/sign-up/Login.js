@@ -162,6 +162,5 @@ const styles = StyleSheet.create({
     text: {
         color: 'gray',
         fontSize: 14,
-        paddingEnd: 8,
     },
 });
