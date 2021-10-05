@@ -5,6 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Firebase from "../../components/Firebase";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { LinearGradient } from "expo-linear-gradient";
+import { Dropdown } from 'react-native-material-dropdown-v2'
 
 const { State: TextInputState } = TextInput;
 
@@ -138,246 +139,6 @@ export default class AddPets extends React.Component<> {
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
                 <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
                 <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Dog', value: 'Dog', icon: () => <FontAwesome5 name="dog" size={18} color="#900" />},
-                        {label: '  Cat', value: 'Cat', icon: () => <FontAwesome5 name="cat" size={18} color="#900" />},
-                        {label: '  Bird', value: 'Bird', icon: () => <FontAwesome5 name="dove" size={18} color="#900" />},
-                        {label: ' Horse', value: 'Horse', icon: () => <FontAwesome5 name="horse" size={18} color="#900" />},
-                        {label: ' Fish', value: 'Fish', icon: () => <FontAwesome5 name="fish" size={18} color="#900" />},
-                        {label: ' Exotic', value: 'Exotic', icon: () => <FontAwesome5 name="spider" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.species}
-                    containerStyle={{height: 40, marginBottom: 150}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        species: item.value
-                    })}
-                    placeholder="Select a species"
-                    isVisible={this.state.isVisible_Species}
-                    onOpen={() => this.setState({
-                        isVisible_Species: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Species: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Male', value: 'male', icon: () => <FontAwesome5 name="mars" size={18} color="#900" />},
-                        {label: '  Female', value: 'female', icon: () => <FontAwesome5 name="venus" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.sex}
-                    containerStyle={{height: 40, marginBottom: 80}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        sex: item.value
-                    })}
-                    placeholder="Select sex"
-                    isVisible={this.state.isVisible_Sex}
-                    onOpen={() => this.setState({
-                        isVisible_Sex: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Sex: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: '   0 - 1 Months', value: '0 - 1 Months', icon: () => <FontAwesome5 name="birthday-cake" size={12} color="#900" />},
-                        {label: '   1 - 4 Months', value: '1 - 4 Months', icon: () => <FontAwesome5 name="birthday-cake" size={14} color="#900" />},
-                        {label: '  4 - 8 Months', value: '4 - 8 Months', icon: () => <FontAwesome5 name="birthday-cake" size={16} color="#900" />},
-                        {label: '  Adult', value: 'Adult', icon: () => <FontAwesome5 name="birthday-cake" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.age}
-                    containerStyle={{height: 40, marginBottom: 142}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        age: item.value
-                    })}
-                    placeholder="Select age group"
-                    isVisible={this.state.isVisible_Age}
-                    onOpen={() => this.setState({
-                        isVisible_Age: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Age: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: '    Small', value: 'Small', icon: () => <FontAwesome5 name="dog" size={12} color="#900" />},
-                        {label: '   Medium', value: 'Medium', icon: () => <FontAwesome5 name="dog" size={14} color="#900" />},
-                        {label: '   Large', value: 'Large', icon: () => <FontAwesome5 name="dog" size={16} color="#900" />},
-                        {label: '  X-Large', value: 'X-Large', icon: () => <FontAwesome5 name="dog" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.size}
-                    containerStyle={{height: 40, marginBottom: 142}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        size: item.value
-                    })}
-                    placeholder="Select size"
-                    isVisible={this.state.isVisible_Size}
-                    onOpen={() => this.setState({
-                        isVisible_Size: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Size: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Inactive', value: 'Inactive', icon: () => <FontAwesome5 name="bed" size={18} color="#900" />},
-                        {label: '     Mild', value: 'Mild', icon: () => <FontAwesome5 name="male" size={18} color="#900" />},
-                        {label: '    Moderate', value: 'Moderate', icon: () => <FontAwesome5 name="walking" size={18} color="#900" />},
-                        {label: '   High', value: 'High', icon: () => <FontAwesome5 name="running" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.activity}
-                    containerStyle={{height: 40, marginBottom: 148}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        activity: item.value
-                    })}
-                    placeholder="Select activty level"
-                    isVisible={this.state.isVisible_Activity}
-                    onOpen={() => this.setState({
-                        isVisible_Activity: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Activity: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Indoors', value: 'Indoors', icon: () => <FontAwesome5 name="home" size={18} color="#900" />},
-                        {label: '   Outdoors', value: 'Outdoors', icon: () => <FontAwesome5 name="tree" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.classification}
-                    containerStyle={{height: 40, marginBottom: 80}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        classification: item.value
-                    })}
-                    placeholder="Select living space"
-                    isVisible={this.state.isVisible_Classification}
-                    onOpen={() => this.setState({
-                        isVisible_Classification: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Classification: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Intact', value: 'Intact', icon: () => <FontAwesome5 name="ban" size={18} color="#900" />},
-                        {label: ' Spayed/Neutered', value: 'Spayed/Neutered', icon: () => <FontAwesome5 name="check" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.spayNeuter_Status}
-                    containerStyle={{height: 40, marginBottom: 80}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        spayNeuter_Status: item.value
-                    })}
-                    placeholder="Select Spayed/Neutered status"
-                    isVisible={this.state.isVisible_SpayNeuter_Status}
-                    onOpen={() => this.setState({
-                        isVisible_SpayNeuter_Status: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_SpayNeuter_Status: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Not Pregnant', value: 'Not Pregnant', icon: () => <FontAwesome5 name="ban" size={18} color="#900" />},
-                        {label: '  0 - 5 Weeks', value: '0 - 5 Weeks', icon: () => <FontAwesome5 name="heart" size={14} color="#900" />},
-                        {label: '  5 - 10 Weeks', value: '5 - 10 Weeks', icon: () => <FontAwesome5 name="heart" size={16} color="#900" />},
-                        {label: ' 10+ Weeks', value: '10+ Weeks', icon: () => <FontAwesome5 name="heart" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.pregnancy}
-                    containerStyle={{height: 40, marginBottom: 144}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        pregnancy: item.value
-                    })}
-                    placeholder="Select duration of pregnancy"
-                    isVisible={this.state.isVisible_Pregnancy}
-                    onOpen={() => this.setState({
-                        isVisible_Pregnancy: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Pregnancy: false
-                    })}
-                />
-
-                <DropDownPicker
-                    items={[
-                        {label: ' Non Lactating', value: 'Non Lactating', icon: () => <FontAwesome5 name="ban" size={18} color="#900" />},
-                        {label: '  0 - 1 Weeks', value: '0 - 1 Weeks', icon: () => <FontAwesome5 name="wine-bottle" size={14} color="#900" />},
-                        {label: '  1 - 3 Weeks', value: '1 - 3 Weeks', icon: () => <FontAwesome5 name="wine-bottle" size={16} color="#900" />},
-                        {label: ' 3 - 5+ Weeks', value: '3 - 5+ Weeks', icon: () => <FontAwesome5 name="wine-bottle" size={18} color="#900" />},
-                    ]}
-                    defaultValue={this.state.lactating}
-                    containerStyle={{height: 40, marginBottom: 145}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        lactating: item.value
-                    })}
-                    placeholder="Select duration of lactation"
-                    isVisible={this.state.isVisible_Lactating}
-                    onOpen={() => this.setState({
-                        isVisible_Lactating: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Lactating: false
-                    })}
-                />
-
                 <Text>Name:</Text>
 
                 <TextInput
@@ -411,6 +172,288 @@ export default class AddPets extends React.Component<> {
                     keyboardType="numeric"
                     returnKeyType = 'done'
                 />
+
+                   
+                   {/* Select a species drop picker   */}
+                {/* <DropDownPicker
+                    items={[
+                        {label: ' Dog', value: 'Dog', icon: () => <FontAwesome5 name="dog" size={18} color="#900" />},
+                        {label: '  Cat', value: 'Cat', icon: () => <FontAwesome5 name="cat" size={18} color="#900" />},
+                        {label: '  Bird', value: 'Bird', icon: () => <FontAwesome5 name="dove" size={18} color="#900" />},
+                        {label: ' Horse', value: 'Horse', icon: () => <FontAwesome5 name="horse" size={18} color="#900" />},
+                        {label: ' Fish', value: 'Fish', icon: () => <FontAwesome5 name="fish" size={18} color="#900" />},
+                        {label: ' Exotic', value: 'Exotic', icon: () => <FontAwesome5 name="spider" size={18} color="#900" />},
+                    ]}
+                    defaultValue={this.state.species}
+                    containerStyle={{height: 40, marginBottom: 150}}
+                    style={{backgroundColor: '#fafafa'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => this.setState({
+                        species: item.value
+                    })}
+                    placeholder="Select a species"
+                    isVisible={this.state.isVisible_Species}
+                    onOpen={() => this.setState({
+                        isVisible_Species: true
+                    })}
+                    onClose={() => this.setState({
+                        isVisible_Species: false
+                    })}
+                /> */}
+               
+               <Dropdown
+                            label='Select a species'
+                            data={[{
+                                value: 'Dog',
+                              }, {
+                                value: 'Cat',
+                              }, {
+                                value: 'Bird',
+                              }]}
+                            value={this.state.species}
+                    onChangeItem={data => this.setState({
+                                species: data.value
+                            })}
+                    isVisible={this.state.isVisible_Species}
+                    onOpen={() => this.setState({
+                        isVisible_Species: true
+                    })}
+                    onClose={() => this.setState({
+                        isVisible_Species: false
+                    })}
+                        />
+                    {/* Select sex drop picker */}
+                {/* <DropDownPicker
+                    items={[
+                        {label: ' Male', value: 'male', icon: () => <FontAwesome5 name="mars" size={18} color="#900" />},
+                        {label: '  Female', value: 'female', icon: () => <FontAwesome5 name="venus" size={18} color="#900" />},
+                    ]}
+                    defaultValue={this.state.sex}
+                    containerStyle={{height: 40, marginBottom: 80}}
+                    style={{backgroundColor: '#fafafa'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => this.setState({
+                        sex: item.value
+                    })}
+                    placeholder="Select sex"
+                    isVisible={this.state.isVisible_Sex}
+                    onOpen={() => this.setState({
+                        isVisible_Sex: true
+                    })}
+                    onClose={() => this.setState({
+                        isVisible_Sex: false
+                    })}
+                /> */}
+             <Dropdown
+                            label='Select sex'
+                            data={[{
+                                value: 'Female',
+                              }, {
+                                value: 'Male',
+                              }]}
+
+                            value={this.state.sex }
+                            onChangeItem={data => this.setState({
+                                sex: data.value
+                            })}
+
+                    isVisible={this.state.isVisible_Sex}
+                    onOpen={() => this.setState({
+                        isVisible_Sex: true
+                    })}
+                    onClose={() => this.setState({
+                        isVisible_Sex: false
+                    })}
+                />
+                <Dropdown
+                                label='Select age group'
+                                data={[{
+                                    value: '0 - 1 Months',
+                                }, {
+                                    value: '1 - 4 Months',
+                                },
+                                {
+                                    value: '4 - 8 Months',
+                                },{
+                                    value: 'Adult',
+                                }
+                                ]}
+                                value={this.state.age}
+                                
+                                value={this.state.age }
+                                onChangeItem={data => this.setState({
+                                    age: data.value
+                                })}  
+                        isVisible={this.state.isVisible_Age}
+                        onOpen={() => this.setState({
+                            isVisible_Age: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Age: false
+                        })}
+                    />
+
+                        <Dropdown
+                                label='Select size'
+                                data={[{
+                                    value: 'Small',
+                                }, {
+                                    value: 'Medium',
+                                },
+                                {
+                                    value: 'Large',
+                                },{
+                                    value: 'X-Large',
+                                }
+                                ]}
+                                value={this.state.size }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    size: data.value
+                                })}  
+                        isVisible={this.state.isVisible_Age}
+                        onOpen={() => this.setState({
+                            isVisible_Age: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Age: false
+                        })}
+                    />
+                  <Dropdown
+                                label='Select activity level'
+                                data={[{
+                                    value: 'Inactive',
+                                }, {
+                                    value: 'Mild',
+                                },
+                                {
+                                    value: 'Moderate',
+                                },{
+                                    value: 'High',
+                                }
+                                ]}
+                                value={this.state.activity }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    activity: data.value
+                                })}  
+                        isVisible={this.state.isVisible_Activity}
+                        onOpen={() => this.setState({
+                            isVisible_Activity: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Activity: false
+                        })}
+                    />   
+                     <Dropdown
+                                label='Select living space'
+                                data={[{
+                                    value: 'Indoor',
+                                }, {
+                                    value: 'Outdoor',
+                                }]}
+                                value={this.state.classification }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    classification: data.value
+                                })}  
+                        isVisible={this.state.isVisible_Classification}
+                        onOpen={() => this.setState({
+                            isVisible_Classification: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Classification: false
+                        })}
+                    />   
+                         <Dropdown
+                                label='Select Spayed/Neutered status'
+                                data={[{
+                                    value: 'Intact',
+                                }, {
+                                    value: 'Spayed/Neutered',
+                                }]}
+                                value={this.state.spayNeuter_Status }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    spayNeuter_Status: data.value
+                                })}  
+                        isVisible={this.state.isVisible_spayNeuter_Status}
+                        onOpen={() => this.setState({
+                            isVisible_spayNeuter_Status: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_spayNeuter_Status: false
+                        })}
+                    /> 
+
+                <Dropdown
+                                label='Select duration of pregnancy'
+                                data={[{
+                                    value: 'Not Pregnant',
+                                }, {
+                                    value: '0 - 5 Weeks',
+                                },
+                                {
+                                    value: '5 - 10 Weeks',
+                                }, {
+                                    value: '10+ Weeks',
+                                }
+                            
+                                ]}
+                                value={this.state.pregnancy }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    pregnancy: data.value
+                                })}  
+                        isVisible={this.state.isVisible_Pregnancy}
+                        onOpen={() => this.setState({
+                            isVisible_Pregnancy: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Pregnancy: false
+                        })}
+                    />
+                                      <Dropdown
+                                label='Select duration of lactation'
+                                data={[{
+                                    value: 'Non Lactating',
+                                }, {
+                                    value: '0 - 1 Weeks',
+                                },
+                                {
+                                    value: '1 - 3 Weeks',
+                                }, {
+                                    value: '3 - 5+ Weeks',
+                                }
+                            
+                                ]}
+                                value={this.state.lactating }
+                                
+                                value={this.state.size }
+                                onChangeItem={data => this.setState({
+                                    lactating: data.value
+                                })}  
+                        isVisible={this.state.lactating}
+                        onOpen={() => this.setState({
+                            isVisible_Lactating: true
+                        })}
+                        onClose={() => this.setState({
+                            isVisible_Lactating: false
+                        })}
+                    /> 
+
+
             </ScrollView>
         );
     }
