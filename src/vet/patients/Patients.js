@@ -4,10 +4,14 @@ import PatientItem from './PatientItem'
 import _ from 'lodash';
 import Pagination from 'react-native-pagination';//{Icon,Dot} also available
 import Firebase from "../../components/Firebase";
-import { NavHeader, Theme } from "../../components";
+import { NavHeaderWithButton, Theme } from "../../components";
+import autobind from 'autobind-decorator';
 
 export default class Patients extends Component {
-
+    @autobind
+    buttonFn() {
+      navigation.navigate("SignUp");
+    }
   constructor(props){
      super(props);
       this.state = {
@@ -84,7 +88,8 @@ export default class Patients extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeader title="Patients" />
+      <NavHeaderWithButton title="Users" buttonFn={this.buttonFn} buttonIcon="plus" />
+
         
           <FlatList
             data={this.state.items}
