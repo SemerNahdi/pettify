@@ -15,8 +15,7 @@ export default class MultiSelectDropdown extends React.Component {
       this.state = {
         items: [],
         selectedItems: [],
-        diagnoseButtonIsVisible: true,
-        uniqueFilteredDiagnoses: []
+        diagnoseButtonIsVisible: true
       };
       this.selectPet = this.selectPet.bind(this);
   }
@@ -119,19 +118,6 @@ export default class MultiSelectDropdown extends React.Component {
     { name: "Blindness" }
   ];
 
-  /*static diseaseForPrescriptions: DiseaseP[] = {
-    { name: "Canine Distemper" },
-    { name: "Dog Hepatitis" },
-    { name: "Existence of external agent" },
-    { name: "FHV-1" },
-    { name: "Feline Calicivirus Infection" },
-    { name: "Feline Urinary Tract (FLUTD)" },
-    { name: "Feline panleukopenia" },
-    { name: "Leptospirosis" },
-    { name: "Para-flu dog" },
-    { name: "Rabies" },
-  }*/
-
   selectPet = (species) => {
     switch(species) {
       case "Dog":
@@ -158,51 +144,22 @@ export default class MultiSelectDropdown extends React.Component {
 
   // Check if all of the elements in selected symptoms exist in the list of symptoms of a disease in Firestore then return those diseases
   searchForSymptomsInFirestore = (event, symptoms) => {
-    let generalDiagnosis = {};
-    let diagnoses = []; // Can most likely refactor these arrays to directly push to unique array in state
-    let filteredDiagnoses = [];
+    let diagnoses = [];
     const { uid } = Firebase.auth.currentUser;
 
-    this.state.selectedItems.forEach( (symptom) => {
-      Firebase.firestore
-      .collection("diseases")
-      .where("symptoms" , "array-contains" , symptom)
-      .get()
-      .then((querySnapshot) => {
-        diagnoses.length = 0;
-        this.setState({uniqueFilteredDiagnoses: []});
-
-        querySnapshot.forEach((doc) => {
-          generalDiagnosis[doc.id] = doc.data();
-        });
-        diagnoses.push(generalDiagnosis);
-      })
-        
-    });
-    
     Firebase.firestore
-      .collection("users")
-      .get()
-      .then(() => {
-        // Add unique filtered diagnoses for user to Firestore to display in Results screen List View
-        for (const [key, value] of Object.entries(diagnoses[0])) {
-          //console.log(diagnoses)
-          //console.log(Object.values(value["symptoms"]))
-          if (this.state.selectedItems.every(symptom => (Object.values(value["symptoms"]).includes(symptom)))) {
-            filteredDiagnoses.push(key);
-            this.setState({uniqueFilteredDiagnoses: [ ...new Set(filteredDiagnoses)]});
-          }
-        }
+    .collection("diseases")
+    .get()
+    .then((querySnapshot) => {
 
-        Firebase.firestore.collection("users").doc(uid).update({
-            diagnosedDiseases: this.state.uniqueFilteredDiagnoses
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
-        
-        this.props.navigation.navigate("DiagnosticToolResults");
+      querySnapshot.forEach((doc) => {
+        if(this.state.selectedItems.every(symptom => doc.data().symptoms.includes(symptom))){
+          diagnoses.push(doc.id);
+        }
       });
+      
+      this.props.navigation.navigate("DiagnosticToolResults", { diagnoses });
+    });
   }
 
   render() {

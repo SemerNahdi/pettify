@@ -13,7 +13,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import {Text, Theme} from "../../components";
 
-export default class PetDetailView extends React.Component<ScreenParams<{ diagnosisNameObject: String }>, SettingsState> {
+export default class DiagnosisDetailView extends Component {
   constructor(props)
   {
     super(props);
@@ -25,13 +25,8 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
         treatments: [],
         prevention: []
     };
-  }
 
-
-  async componentDidMount(): Promise<void> {
-    const { navigation } = this.props;
-    const diagnosisNameObject  = navigation.state.params;
-    let diagnosisName = diagnosisNameObject[Object.keys(diagnosisNameObject)[0]];
+    diagnosisName = this.props.navigation.state.params.diagnosisName;
 
     Firebase.firestore
     .collection("diseaseDetails")
@@ -50,20 +45,23 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
   }
 
   renderDetail = (stateParameter, heading) => {
+    index = 0;
     return(
       <>
-        {stateParameter.length > 0 && <View style={styles.separator} />}
-        {stateParameter.length > 0 && <Text style={Theme.typography.header3}>{heading}</Text>}
-        {stateParameter.length > 0 && <View style={styles.separator} />}
-        {stateParameter.length > 0 && <Text />}
-        <FlatList
-        style={styles.diagnosisResultsContainer}
-        data={stateParameter}
-        renderItem={({ item }) => (
-          <Text style={styles.diagnosisResultsText}>• { item }</Text>
-        )}
-        />
-        {stateParameter.length > 0 && <Text />}
+        {stateParameter.length > 0 && 
+        <View>
+          <View style={styles.separator} />
+          <Text style={Theme.typography.header3}>{heading}</Text>
+          <View style={styles.separator} />
+          <Text />
+          <View>
+          {stateParameter.map(data => (
+            <Text key={index++} style={styles.diagnosisResultsText}>• { data }</Text>
+          ))}
+          </View>
+          <Text />
+        </View>
+        }
       </>
     )
 }
@@ -87,9 +85,9 @@ export default class PetDetailView extends React.Component<ScreenParams<{ diagno
     else {
     return (
       <>
-      <NavHeader title={navigation.state.params[Object.keys(navigation.state.params)[0]]} back {...{ navigation }} />
+      <NavHeader title={diagnosisName} back {...{ navigation }} />
       <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
-      <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
+      <ScrollView persistentScrollbar={false} >
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>
             {this.renderDetail(this.state.description, "Description")}
