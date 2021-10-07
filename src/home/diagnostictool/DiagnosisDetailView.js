@@ -10,7 +10,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { LinearGradient } from "expo-linear-gradient";
 import {Text, Theme} from "../../components";
 
 export default class DiagnosisDetailView extends Component {
@@ -86,7 +85,6 @@ export default class DiagnosisDetailView extends Component {
     return (
       <>
       <NavHeader title={diagnosisName} back {...{ navigation }} />
-      <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
       <ScrollView persistentScrollbar={false} >
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>
@@ -108,13 +106,6 @@ export default class DiagnosisDetailView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   },
   cardContainer: {
     backgroundColor: "transparent",

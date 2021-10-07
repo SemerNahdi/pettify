@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { Theme, NavHeaderWithButton, Text } from "../../../components";
-import { LinearGradient } from "expo-linear-gradient";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
 
@@ -148,7 +147,6 @@ export default class PetPrescription extends Component<> {
     return (
       <ScrollView style={styles.container}>
         <NavHeaderWithButton title="Prescriptions" back {...{ navigation }} />
-        <LinearGradient colors={["#white", "#white"]} style={styles.gradient} />
 
         {this.state.role == 'v' && <View style = {styles.prescriptionInputContainer}>
 
@@ -266,14 +264,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     overflow: 'scroll',
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#f0f0f0'
   },
   submitButton:{
     borderColor: '#808080',

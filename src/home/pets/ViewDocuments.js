@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, SafeAreaView, Dimensions, ScrollView } from 'react-native';
 import Firebase from "../../components/Firebase";
 import { Text, NavHeaderWithButton, Theme, Button } from "../../components";
-import { LinearGradient } from "expo-linear-gradient";
 import * as DocumentPicker from 'expo-document-picker';
 import PDFReader from 'rn-pdf-reader-js';
 import _, { constant } from 'lodash';
@@ -140,7 +139,7 @@ export default class ViewDocuments extends Component<> {
         return (
             <View style={styles.container}>
                 <NavHeaderWithButton title="Lab Results" back {...{ navigation }} buttonFn={this.chooseFile} buttonIcon="plus" />
-                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+                
                 <ScrollView>
                     {this.renderPdfViewer()}
                 </ScrollView>
@@ -152,13 +151,6 @@ export default class ViewDocuments extends Component<> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    gradient: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
     },
     pdfReader: {
         height: 500,

@@ -2,7 +2,6 @@ import React, { Component , createRef} from 'react';
 import { StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import type { ScreenParams } from "../../components/Types";
 import { NavHeader } from "../../../components";
-import { LinearGradient } from "expo-linear-gradient";
 import PlayYouTube from "./PlayYouTube";
 
 const API_KEY = "AIzaSyDRwHH_1BDlU_1_t_UJe2S2757JPTnLvfQ";
@@ -65,7 +64,7 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
         }
         return(
             <View>
-                <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+                
                 <NavHeader title="Training Videos" back {...{navigation}}/>
                 <SafeAreaView>
                     {/* <PlayYouTube videoId={this.state.videos[2].videoId}/> */}
@@ -101,12 +100,4 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
     }
 }
 
-const styles = StyleSheet.create({
-    gradient: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-      },
-})
+const styles = StyleSheet.create({})

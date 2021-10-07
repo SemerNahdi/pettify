@@ -16,7 +16,7 @@ import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
 import { Walkthrough } from "./src/walkthrough";
-import { SignUpName, SignUpEmail, SignUpPassword, Login } from "./src/sign-up";
+import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login } from "./src/sign-up";
 import {
     Profile,
     HomeTab,
@@ -152,7 +152,7 @@ const StackNavigatorOptions = {
     headerMode: "none",
     defaultNavigationOptions: {
         cardStyle: {
-            backgroundColor: "black",
+            backgroundColor: "white",
         },
     },
 };
@@ -240,12 +240,20 @@ const SignUpNavigator = createStackNavigator(
     StackNavigatorOptions
 );
 
+const LoginNavigator = createStackNavigator(
+    {
+        Login: { screen: Login },
+        PasswordReset: { screen: PasswordReset },
+    },
+    StackNavigatorOptions
+);
+
 const AppNavigator = createAppContainer(
     createSwitchNavigator(
         {
             Loading: { screen: Loading },
             Welcome: { screen: Welcome },
-            Login: { screen: Login },
+            Login: { screen: LoginNavigator },
             SignUp: { screen: SignUpNavigator },
             Home: { screen: HomeNavigator },
             Vet: { screen: VetNavigator },
