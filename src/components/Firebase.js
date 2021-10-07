@@ -149,6 +149,101 @@ export default class Firebase {
         //End of diseases data injection
 
         //Start of diseaseDetails data injection 
+        Firebase.firestore.collection("diseaseDetails").doc("Canine Distemper").set({
+            description: [
+                "Canine distemper should sound familiar to you if your dog is up-to-date on his vaccinations. Veterinarians consider the distemper vaccine to be a core vaccination, along with the parvovirus, canine adenovirus, and rabies vaccines. ",
+                "The disease is highly contagious and potentially lethal. A paramyxovirus causes distemper in dogs, and it is closely related to the measles and rinderpest viruses. It causes severe illness in the host by attacking multiple body systems, resulting in a widespread infection that is difficult to treat.",
+            ],
+            prevention: [
+                "Make sure your puppy gets the full series of distemper vaccinations",
+                "Keep distemper vaccinations up-to-date throughout your dog’s life and avoid any gaps in vaccinations",
+                "Keep your dog away from infected animals and wildlife",
+                "Vaccinate pet ferrets for distemper",
+                "Be careful socializing your puppy or unvaccinated dog, especially in areas where dogs congregate, like dog parks, classes, and doggy day care",
+                "By following these steps, you can keep your dog safe from distemper. If you have more questions about distemper in dogs, talk to your veterinarian, and call your vet immediately if you suspect your dog might be showing symptoms of distemper.",
+            ],
+            stageOne: [
+                "The first symptom of distemper in dogs is usually watery to pus-like discharge from his eyes, followed by fever, loss of appetite, and clear nasal discharge. Most dogs develop a fever approximately 3-to-6 days after being infected, but the initial symptoms depend on the severity of the case and how the patient reacts to it. In general, the symptoms associated with distemper in dogs during the first stages of infection are:",
+                "Fever",
+                "Clear nasal discharge",
+                "Purulent eye discharge",
+                "Lethargy",
+                "Anorexia",
+                "Coughing",
+                "Vomiting",
+                "Diarrhea",
+                "Pustular dermatitis (rarely)",
+                "Inflammation of the brain and spinal cord",
+                "If a dog infected with distemper survives the acute stage of the illness, he may also develop hyperkeratosis of the paw pads and nose, which gives distemper the nickname “hard pad disease.” This distemper symptom causes the pads of a dog’s feet to harden and enlarge and is uncomfortable.",
+                "One of the other risks associated with distemper in dogs is a secondary bacterial infection that attacks when a dog’s immune system is compromised by the distemper virus. Secondary bacterial infections can cause respiratory and GI symptoms, including:",
+                "Vomiting",
+                "Diarrhea",
+                "Difficulty breathing",
+                "Change in respiratory rate",
+                "Pneumonia",
+            ],
+            stageTwo: [
+                "Some dogs develop neurological signs as the disease progresses and attacks the central nervous system. These signs are particularly disturbing for owners.",
+                "Head tilt",
+                "Circling",
+                "Partial or full paralysis",
+                "Seizures",
+                "Nystagmus (repetitive eye movements)",
+                "Muscle twitching",
+                "Convulsions with increased salivation and chewing motions",
+                "Death",
+                "Distemper in dogs presents with some or all of these symptoms, depending on the severity of the case. According to the American Veterinary Medical Association (AVMA), “distemper is often fatal, and dogs that survive usually have permanent, irreparable nervous system damage.”",
+            ],
+            symptoms: [
+                "Distemper dogs experience a wide range of symptoms depending on how advanced the disease is in their bodies. Once a dog becomes infected, the virus initially replicates in the lymphatic tissue of the respiratory tract before moving on to infect the rest of the dog’s lymphatic tissue, the respiratory tract, the GI tract, the urogenital epithelium, the central nervous system, and optic nerves. This results in two stages of symptoms.",
+            ],
+            treatments: [
+                "There is no cure for canine distemper. Veterinarians diagnose distemper through a combination of clinical signs and diagnostic tests, or through a postmortem necropsy. Once diagnosed, care is purely supportive. Veterinarians treat the diarrhea, vomiting, and neurological symptoms, prevent dehydration, and try to prevent secondary infections. Most vets recommend that dogs be hospitalized and separated from other dogs to prevent the spread of infection.",
+                "The survival rate and length of infection depend on the strain of the virus and on the strength of the dog’s immune system. Some cases resolve as quickly as 10 days. Other cases may exhibit neurological symptoms for weeks and even months afterward.",
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Dog Hepatitis").set({
+            description: [
+                "Infectious canine hepatitis is a highly contagious viral infection that affects the liver, kidneys, spleen, lungs, and the eyes of the affected dog. This disease of the liver is caused by a virus that is unrelated to the human form of hepatitis. Symptoms range from a slight fever and congestion of the mucous membranes to vomiting, jaundice, stomach enlargement, and pain around the liver.",
+                "Many dogs can overcome the mild form of the disease, but the severe form can kill. There is no cure, but doctors can treat the symptoms.",
+            ],
+            prevention: [
+                "The most widely used and important preventive measure for infectious canine hepatitis is a mandatory vaccine. Your dog will usually receive this in addition to his canine distemper vaccinations (most puppies should start their vaccinations between the ages of 6 and 8 weeks).",
+                "Ask your veterinarian how frequently your dog should receive hepatitis vaccinations - it’s imperative that they get the right vaccines at the right age. They will likely need this specific vaccine at about 7 to 9 weeks of age, with the first booster between 11 and 13 weeks, after which they’ll be protected.",
+                "To remain protected, they’ll need to keep up with booster injections throughout their life - with another at 15 months, then each year to prevent infection.",        
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "Very young dogs have the highest mortality rate for canine hepatitis. Fever higher than 104°F (40°C) is the first sign to appear and lasts between 1 and 6 days, usually occurring in two stages. Your vet may notice a low white blood cell count along with short fever - one clue that your pup has become infected with the condition.",     
+                "If the fever progresses past 1 day, your vet may take note of other symptoms as well, such as enlarged tonsils or inflamed eyes. There may also be serious, spontaneous bleeding due to insufficient clotting and faster heart rate.",
+                "Though symptoms involving the central nervous system and respiratory system are not typical, brain damage can lead to seizures for severely infected dogs. Bleeding in the brain may also cause slight paralysis.",
+                "Slight fever",
+                "Deficiency of blood clotting",
+                "Low white blood cell count",
+                "Congestion of mucous membranes",
+                "Severe reduction in white blood cells",
+                "Apathy",
+                "Thirst",
+                "Loss of appetite",
+                "Blindness",
+                "Enlarged tonsils",
+                "Eye inflammation",
+                "Vomiting (occasional)",
+                "Abdominal pain (occasional)",
+                "Severe depression",
+                "Watery discharge from eyes and nose",
+                "Yellow, jaundiced look to skin, gums and ears",
+                "Though the disease has become uncommon in areas where routine vaccinations are administered, owners must remain vigilant as the disease can develop and progress quickly in both puppies and dogs.",
+            ],
+            treatments: [
+                "If you notice any symptoms listed above, contact your vet right away. Typically, sudden onset of the condition and bleeding point to canine hepatitis as the culprit. However, laboratory tests (including antibody tests, blood tests and immunofluorescence scanning) are needed to diagnose the disease. If severely ill, your dog may also need blood transfusions.",
+                "Occasionally, chronic hepatitis in dogs is discovered via a routine blood health panel and the disease can be diagnosed before symptoms develop. Once your dog begins to display signs of liver disease, the condition has often progressed to a very late stage.",
+                "Your vet can make a definitive diagnosis by taking a liver biopsy, which will determine the severity and type of liver disease. Depending on which results the biopsy reveals, your vet may recommend treating the disease with a broad-spectrum antibiotic, anti-inflammatory or immunosuppressive medication. ",
+                "Sometimes, cornea clouding in the eye can be associated with painful spasms, and your vet may prescribe an eye ointment to alleviate pain. If your dog is experiencing clouding in the cornea, his eye should be protected from bright light.",
+                "Treatment options can range from intravenous fluid therapy to hospitalization. Blood work will need to be taken on a regular basis and your pooch will need to be monitored.",
+            ]
+        })
         Firebase.firestore.collection("diseaseDetails").doc("Existence of external agent").set({
             description: [
                 "One of the most common medical conditions affecting cats is allergy. An allergy occurs when the cat's immune system overreacts or is hypersensitive to foreign substances called allergens. Allergens are simply foreign proteins that the body's immune system tries to remove. Examples of allergens common in humans are pollens, dust, molds, and pet hair.",
@@ -285,101 +380,6 @@ export default class Firebase {
             treatments: [
                 "As for most viral diseases, there is no specific treatment for FPL. Antibiotics do not kill viruses, but are helpful in controlling the secondary bacterial infections that commonly develop due to the lack of white blood cells and the resulting reduced immunity.",
                 "Dehydration and shock are life-threatening components of FPL and intravenous fluid therapy and intensive nursing care is critical. If the cat receives aggressive supportive care through the initial stages of illness, prognosis for a full recovery is good.",
-            ]
-        })
-        Firebase.firestore.collection("diseaseDetails").doc("Canine Distemper").set({
-            description: [
-                "Canine distemper should sound familiar to you if your dog is up-to-date on his vaccinations. Veterinarians consider the distemper vaccine to be a core vaccination, along with the parvovirus, canine adenovirus, and rabies vaccines. ",
-                "The disease is highly contagious and potentially lethal. A paramyxovirus causes distemper in dogs, and it is closely related to the measles and rinderpest viruses. It causes severe illness in the host by attacking multiple body systems, resulting in a widespread infection that is difficult to treat.",
-            ],
-            prevention: [
-                "Make sure your puppy gets the full series of distemper vaccinations",
-                "Keep distemper vaccinations up-to-date throughout your dog’s life and avoid any gaps in vaccinations",
-                "Keep your dog away from infected animals and wildlife",
-                "Vaccinate pet ferrets for distemper",
-                "Be careful socializing your puppy or unvaccinated dog, especially in areas where dogs congregate, like dog parks, classes, and doggy day care",
-                "By following these steps, you can keep your dog safe from distemper. If you have more questions about distemper in dogs, talk to your veterinarian, and call your vet immediately if you suspect your dog might be showing symptoms of distemper.",
-            ],
-            stageOne: [
-                "The first symptom of distemper in dogs is usually watery to pus-like discharge from his eyes, followed by fever, loss of appetite, and clear nasal discharge. Most dogs develop a fever approximately 3-to-6 days after being infected, but the initial symptoms depend on the severity of the case and how the patient reacts to it. In general, the symptoms associated with distemper in dogs during the first stages of infection are:",
-                "Fever",
-                "Clear nasal discharge",
-                "Purulent eye discharge",
-                "Lethargy",
-                "Anorexia",
-                "Coughing",
-                "Vomiting",
-                "Diarrhea",
-                "Pustular dermatitis (rarely)",
-                "Inflammation of the brain and spinal cord",
-                "If a dog infected with distemper survives the acute stage of the illness, he may also develop hyperkeratosis of the paw pads and nose, which gives distemper the nickname “hard pad disease.” This distemper symptom causes the pads of a dog’s feet to harden and enlarge and is uncomfortable.",
-                "One of the other risks associated with distemper in dogs is a secondary bacterial infection that attacks when a dog’s immune system is compromised by the distemper virus. Secondary bacterial infections can cause respiratory and GI symptoms, including:",
-                "Vomiting",
-                "Diarrhea",
-                "Difficulty breathing",
-                "Change in respiratory rate",
-                "Pneumonia",
-            ],
-            stageTwo: [
-                "Some dogs develop neurological signs as the disease progresses and attacks the central nervous system. These signs are particularly disturbing for owners.",
-                "Head tilt",
-                "Circling",
-                "Partial or full paralysis",
-                "Seizures",
-                "Nystagmus (repetitive eye movements)",
-                "Muscle twitching",
-                "Convulsions with increased salivation and chewing motions",
-                "Death",
-                "Distemper in dogs presents with some or all of these symptoms, depending on the severity of the case. According to the American Veterinary Medical Association (AVMA), “distemper is often fatal, and dogs that survive usually have permanent, irreparable nervous system damage.”",
-            ],
-            symptoms: [
-                "Distemper dogs experience a wide range of symptoms depending on how advanced the disease is in their bodies. Once a dog becomes infected, the virus initially replicates in the lymphatic tissue of the respiratory tract before moving on to infect the rest of the dog’s lymphatic tissue, the respiratory tract, the GI tract, the urogenital epithelium, the central nervous system, and optic nerves. This results in two stages of symptoms.",
-            ],
-            treatments: [
-                "There is no cure for canine distemper. Veterinarians diagnose distemper through a combination of clinical signs and diagnostic tests, or through a postmortem necropsy. Once diagnosed, care is purely supportive. Veterinarians treat the diarrhea, vomiting, and neurological symptoms, prevent dehydration, and try to prevent secondary infections. Most vets recommend that dogs be hospitalized and separated from other dogs to prevent the spread of infection.",
-                "The survival rate and length of infection depend on the strain of the virus and on the strength of the dog’s immune system. Some cases resolve as quickly as 10 days. Other cases may exhibit neurological symptoms for weeks and even months afterward.",
-            ]
-        })
-        Firebase.firestore.collection("diseaseDetails").doc("Dog Hepatitis").set({
-            description: [
-                "Infectious canine hepatitis is a highly contagious viral infection that affects the liver, kidneys, spleen, lungs, and the eyes of the affected dog. This disease of the liver is caused by a virus that is unrelated to the human form of hepatitis. Symptoms range from a slight fever and congestion of the mucous membranes to vomiting, jaundice, stomach enlargement, and pain around the liver.",
-                "Many dogs can overcome the mild form of the disease, but the severe form can kill. There is no cure, but doctors can treat the symptoms.",
-            ],
-            prevention: [
-                "The most widely used and important preventive measure for infectious canine hepatitis is a mandatory vaccine. Your dog will usually receive this in addition to his canine distemper vaccinations (most puppies should start their vaccinations between the ages of 6 and 8 weeks).",
-                "Ask your veterinarian how frequently your dog should receive hepatitis vaccinations - it’s imperative that they get the right vaccines at the right age. They will likely need this specific vaccine at about 7 to 9 weeks of age, with the first booster between 11 and 13 weeks, after which they’ll be protected.",
-                "To remain protected, they’ll need to keep up with booster injections throughout their life - with another at 15 months, then each year to prevent infection.",        
-            ],
-            stageOne: [],
-            stageTwo: [],
-            symptoms: [
-                "Very young dogs have the highest mortality rate for canine hepatitis. Fever higher than 104°F (40°C) is the first sign to appear and lasts between 1 and 6 days, usually occurring in two stages. Your vet may notice a low white blood cell count along with short fever - one clue that your pup has become infected with the condition.",     
-                "If the fever progresses past 1 day, your vet may take note of other symptoms as well, such as enlarged tonsils or inflamed eyes. There may also be serious, spontaneous bleeding due to insufficient clotting and faster heart rate.",
-                "Though symptoms involving the central nervous system and respiratory system are not typical, brain damage can lead to seizures for severely infected dogs. Bleeding in the brain may also cause slight paralysis.",
-                "Slight fever",
-                "Deficiency of blood clotting",
-                "Low white blood cell count",
-                "Congestion of mucous membranes",
-                "Severe reduction in white blood cells",
-                "Apathy",
-                "Thirst",
-                "Loss of appetite",
-                "Blindness",
-                "Enlarged tonsils",
-                "Eye inflammation",
-                "Vomiting (occasional)",
-                "Abdominal pain (occasional)",
-                "Severe depression",
-                "Watery discharge from eyes and nose",
-                "Yellow, jaundiced look to skin, gums and ears",
-                "Though the disease has become uncommon in areas where routine vaccinations are administered, owners must remain vigilant as the disease can develop and progress quickly in both puppies and dogs.",
-            ],
-            treatments: [
-                "If you notice any symptoms listed above, contact your vet right away. Typically, sudden onset of the condition and bleeding point to canine hepatitis as the culprit. However, laboratory tests (including antibody tests, blood tests and immunofluorescence scanning) are needed to diagnose the disease. If severely ill, your dog may also need blood transfusions.",
-                "Occasionally, chronic hepatitis in dogs is discovered via a routine blood health panel and the disease can be diagnosed before symptoms develop. Once your dog begins to display signs of liver disease, the condition has often progressed to a very late stage.",
-                "Your vet can make a definitive diagnosis by taking a liver biopsy, which will determine the severity and type of liver disease. Depending on which results the biopsy reveals, your vet may recommend treating the disease with a broad-spectrum antibiotic, anti-inflammatory or immunosuppressive medication. ",
-                "Sometimes, cornea clouding in the eye can be associated with painful spasms, and your vet may prescribe an eye ointment to alleviate pain. If your dog is experiencing clouding in the cornea, his eye should be protected from bright light.",
-                "Treatment options can range from intravenous fluid therapy to hospitalization. Blood work will need to be taken on a regular basis and your pooch will need to be monitored.",
             ]
         })
         Firebase.firestore.collection("diseaseDetails").doc("Leptospirosis").set({
