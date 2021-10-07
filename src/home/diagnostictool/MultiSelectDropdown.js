@@ -220,7 +220,7 @@ export default class MultiSelectDropdown extends React.Component {
             displayKey="name" // Used to select the key to display the objects in the items array
             flatListProps={{nestedScrollEnabled: true}} // Necessary for nested scrolling in Android devices
 
-            selectText="Select symptoms"
+    g        selectText="Select symptoms"
             fontFamily="SFProText-Semibold"
             altFontFamily="SFProText-Semibold"
             styleListContainer={{backgroundColor: Theme.palette.white, paddingVertical: 10}}

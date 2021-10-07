@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -59,7 +59,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     return (
       <View style={styles.container}>
         <NavHeader title="Diagnostic Tool" {...{ navigation }} />
-        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
         <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
