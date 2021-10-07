@@ -8,10 +8,7 @@ import {
 } from "react-native";
 import { inject, observer } from "mobx-react";
 import Constants from "expo-constants";
-import { LinearGradient } from "expo-linear-gradient";
- 
 import ProfileStore from "../ProfileStore";
- 
 import { Text, Avatar, Theme, NavHeaderWithButton, Button } from "../../components";
 import type { ScreenProps } from "../../components/Types";
  
@@ -38,10 +35,6 @@ ScreenProps<> & InjectedProps
       <>
         <View style={styles.container}>
           <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
-          <LinearGradient
-            colors={["#ffffff", "#ffffff"]}
-            style={styles.gradient}
-          />
           <View style={styles.header}>
             <View style={styles.title}>
               <Text type="header2" style={styles.name}>{profile.name}</Text>
