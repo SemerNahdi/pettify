@@ -52,6 +52,20 @@ ScreenProps<> & InjectedProps
               {...profile.picture}
             />
           </View>
+          <View
+            style={{
+              flex: 1,
+              marginTop: 106,
+              borderBottomColor: 'lightgray',
+              borderBottomWidth: 1,
+              alignSelf: 'center',
+              width: "80%",
+            }}
+          />
+          <View style={styles.emailContainer}>
+            <Text style={styles.email}>Email:  </Text>
+            <Text style={styles.email}>{profile.email}</Text>
+          </View>
         </View>
       </>
     );
@@ -87,6 +101,22 @@ const styles = StyleSheet.create({
   },
   name: {
     color: Theme.palette.black,
+  },
+  email: {
+    alignSelf: "center",
+    color: Theme.palette.black,
+    fontSize: 16,
+    lineHeight: 16,
+    textAlign: 'left',
+  },
+  emailContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      height: Theme.spacing.base * 1.2,
+      justifyContent: 'flex-start',
+      marginLeft: 28,
+      marginTop: 8,
+      marginBottom: 106,
   },
   button: {
     paddingTop: 250,
