@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import { inject, observer } from "mobx-react";
 import Constants from "expo-constants";
+import { LinearGradient } from "expo-linear-gradient";
+import { Content } from "native-base";
 import ProfileStore from "../ProfileStore";
-import { Text, Avatar, Theme, NavHeaderWithButton, Button } from "../../components";
+ 
+import { Text, Avatar, Container, Theme, NavHeaderWithButton, Button } from "../../components";
 import type { ScreenProps } from "../../components/Types";
  
 type InjectedProps = {
@@ -33,86 +36,84 @@ ScreenProps<> & InjectedProps
     const { profile } = profileStore;
     return (
       <>
-        <View style={styles.container}>
-          <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
-          <View style={styles.header}>
-            <View style={styles.title}>
-              <Text type="header2" style={styles.name}>{profile.name}</Text>
+      <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
+      <Container gutter={1} style={styles.container}>
+        <Content scrollEnabled={false}>
+          <View style={styles.innerContainer}>
+            <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
+              <Avatar
+                size={avatarSize}
+                style={styles.avatar}
+                {...profile.picture}
+              />
             </View>
-            <Avatar
-              size={avatarSize}
-              style={styles.avatar}
-              {...profile.picture}
-            />
+            <View>
+              <View style={styles.informationContainer}>
+                <Text style={styles.header}>Name</Text>
+                <Text style={styles.information}>{profile.name}</Text>
+              </View>   
+            </View>
+            <View style={styles.separator}/>
+            <View style={styles.informationContainer}>
+              <Text style={styles.header}>Email</Text>
+              <Text style={styles.information}>{profile.email}</Text>
+            </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              marginTop: 106,
-              borderBottomColor: 'lightgray',
-              borderBottomWidth: 1,
-              alignSelf: 'center',
-              width: "80%",
-            }}
-          />
-          <View style={styles.emailContainer}>
-            <Text style={styles.email}>Email:  </Text>
-            <Text style={styles.email}>{profile.email}</Text>
-          </View>
-        </View>
+        </Content>
+      </Container>
       </>
     );
   }
 }
  
-const avatarSize = 150;
+const avatarSize = 120;
 const { width, height } = Dimensions.get("window");
 const { statusBarHeight } = Constants;
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     flex: 1,
   },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  header: {
-    marginBottom: avatarSize * 0.5 + Theme.spacing.small,
+  innerContainer: {
+    height: height - (Theme.spacing.base * 3),
+    width: width * 0.9,
+    justifyContent: "flex-start",
+    alignSelf: 'center',
   },
   avatar: {
-    position: "absolute",
     alignSelf: "center",
-    top: statusBarHeight + Theme.spacing.xLarge,
+    marginBottom: 20,
   },
-  title: {
-    position: "absolute",
-    alignSelf: "center",
-    top: 175 + statusBarHeight + Theme.spacing.xLarge,
+  separator: {
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1,
+    alignSelf: 'flex-start',
+    width: '100%',
+    marginLeft: 80,
+    marginBottom: 4,
+    marginTop: 4,
   },
-  name: {
+  header: {
     color: Theme.palette.black,
+    width: 75,
+    fontSize: 16,
+    lineHeight: 16,
+    textAlign: 'left',
   },
-  email: {
-    alignSelf: "center",
+  information: {
     color: Theme.palette.black,
     fontSize: 16,
     lineHeight: 16,
     textAlign: 'left',
   },
-  emailContainer: {
+  informationContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      height: Theme.spacing.base * 1.2,
       justifyContent: 'flex-start',
-      marginLeft: 28,
+      alignSelf: 'flex-start',
+      marginLeft: 8,
       marginTop: 8,
-      marginBottom: 106,
+      marginBottom: 8,
   },
-  button: {
-    paddingTop: 250,
-  }
 });
  
