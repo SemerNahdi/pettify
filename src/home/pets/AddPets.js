@@ -26,9 +26,8 @@ export default class AddPets extends React.Component<> {
             classification: null,
             spayNeuter_Status: null,
             weight: null,
-            shift: new Animated.Value(0),
+           // shift: new Animated.Value(0),
         };
-
         navigation = this.props.navigation;
         uid = navigation.state.params.uid;
     }
@@ -49,9 +48,13 @@ export default class AddPets extends React.Component<> {
         this.setState({weight: text})
     }
 
+    onChangeText= (value) => {
+       this.setState({species : value});
+      }
+
     addPetToFireStore = (event) =>{
-        pet_uid = this.guidGenerator();
-        var pic = "null";
+      pet_uid = this.guidGenerator();
+       var pic = "null";
         const {species, breed, name, age, yearsOwned, sex, activity, weight, 
                 classification, spayNeuter_Status, pregnancy, lactating, size} = this.state; 
         var checkForInputs = [species, breed, name, age, yearsOwned, sex, activity, weight, 
@@ -61,8 +64,8 @@ export default class AddPets extends React.Component<> {
         for (let i = 0; i < checkForInputs.length; i++)
         {
             if (checkForInputs[i] == null)
-            {
-                alert("Fill all fields");
+            {    
+                alert("Fill all fields, this is the lactating : "+ this.state.lactating);
                 return;
             }
         }
@@ -133,12 +136,12 @@ export default class AddPets extends React.Component<> {
     
 
     render() {
-        const { shift } = this.state;
+       // const { shift } = this.state;
 
         return (
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
                 <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
-                <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
+              <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
                 <Text>Name:</Text>
 
                 <TextInput
@@ -203,27 +206,21 @@ export default class AddPets extends React.Component<> {
                         isVisible_Species: false
                     })}
                 /> */}
-               
+            
+
                <Dropdown
                             label='Select a species'
-                            data={[{
-                                value: 'Dog',
+                            let data={[{
+                                value: 'Dog'
                               }, {
-                                value: 'Cat',
+                                value: 'Cat'
                               }, {
-                                value: 'Bird',
+                                value: 'Bird'
                               }]}
                             value={this.state.species}
-                    onChangeItem={data => this.setState({
-                                species: data.value
-                            })}
-                    isVisible={this.state.isVisible_Species}
-                    onOpen={() => this.setState({
-                        isVisible_Species: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Species: false
-                    })}
+                             onChangeText={ (value) => {
+                                this.setState({species : value});
+                               }}
                         />
                     {/* Select sex drop picker */}
                 {/* <DropDownPicker
@@ -253,204 +250,137 @@ export default class AddPets extends React.Component<> {
              <Dropdown
                             label='Select sex'
                             data={[{
-                                value: 'Female',
+                                value: 'Female'
                               }, {
-                                value: 'Male',
+                                value: 'Male'
                               }]}
 
                             value={this.state.sex }
-                            onChangeItem={data => this.setState({
-                                sex: data.value
-                            })}
+                            onChangeText={ (value) => {
+                                this.setState({sex : value});
+                               }}
 
-                    isVisible={this.state.isVisible_Sex}
-                    onOpen={() => this.setState({
-                        isVisible_Sex: true
-                    })}
-                    onClose={() => this.setState({
-                        isVisible_Sex: false
-                    })}
                 />
                 <Dropdown
                                 label='Select age group'
                                 data={[{
-                                    value: '0 - 1 Months',
+                                    value: '0 - 1 Months'
                                 }, {
-                                    value: '1 - 4 Months',
+                                    value: '1 - 4 Months'
                                 },
                                 {
-                                    value: '4 - 8 Months',
+                                    value: '4 - 8 Months'
                                 },{
-                                    value: 'Adult',
+                                    value: 'Adult'
                                 }
                                 ]}
                                 value={this.state.age}
-                                
-                                value={this.state.age }
-                                onChangeItem={data => this.setState({
-                                    age: data.value
-                                })}  
-                        isVisible={this.state.isVisible_Age}
-                        onOpen={() => this.setState({
-                            isVisible_Age: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Age: false
-                        })}
+                                onChangeText={ (value) => {
+                                    this.setState({age : value});
+                                   }}
                     />
 
                         <Dropdown
                                 label='Select size'
                                 data={[{
-                                    value: 'Small',
+                                    value: 'Small'
                                 }, {
-                                    value: 'Medium',
+                                    value: 'Medium'
                                 },
                                 {
-                                    value: 'Large',
+                                    value: 'Large'
                                 },{
-                                    value: 'X-Large',
+                                    value: 'X-Large'
                                 }
                                 ]}
                                 value={this.state.size }
                                 
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    size: data.value
-                                })}  
-                        isVisible={this.state.isVisible_Age}
-                        onOpen={() => this.setState({
-                            isVisible_Age: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Age: false
-                        })}
+                                onChangeText={ (value) => {
+                                    this.setState({size : value});
+                                   }}
                     />
                   <Dropdown
                                 label='Select activity level'
                                 data={[{
-                                    value: 'Inactive',
+                                    value: 'Inactive'
                                 }, {
-                                    value: 'Mild',
+                                    value: 'Mild'
                                 },
                                 {
-                                    value: 'Moderate',
+                                    value: 'Moderate'
                                 },{
-                                    value: 'High',
+                                    value: 'High'
                                 }
                                 ]}
-                                value={this.state.activity }
-                                
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    activity: data.value
-                                })}  
-                        isVisible={this.state.isVisible_Activity}
-                        onOpen={() => this.setState({
-                            isVisible_Activity: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Activity: false
-                        })}
+                                value={this.state.activity } 
+                                onChangeText={ (value) => {
+                                    this.setState({activity : value});
+                                   }} 
+                    
                     />   
                      <Dropdown
                                 label='Select living space'
                                 data={[{
-                                    value: 'Indoor',
+                                    value: 'Indoor'
                                 }, {
-                                    value: 'Outdoor',
+                                    value: 'Outdoor'
                                 }]}
                                 value={this.state.classification }
-                                
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    classification: data.value
-                                })}  
-                        isVisible={this.state.isVisible_Classification}
-                        onOpen={() => this.setState({
-                            isVisible_Classification: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Classification: false
-                        })}
+
+                                onChangeText={ (value) => {
+                                    this.setState({classification : value});
+                                   }}
                     />   
                          <Dropdown
                                 label='Select Spayed/Neutered status'
                                 data={[{
-                                    value: 'Intact',
+                                    value: 'Intact'
                                 }, {
-                                    value: 'Spayed/Neutered',
+                                    value: 'Spayed/Neutered'
                                 }]}
                                 value={this.state.spayNeuter_Status }
-                                
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    spayNeuter_Status: data.value
-                                })}  
-                        isVisible={this.state.isVisible_spayNeuter_Status}
-                        onOpen={() => this.setState({
-                            isVisible_spayNeuter_Status: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_spayNeuter_Status: false
-                        })}
+                                onChangeText={ (value) => {
+                                    this.setState({spayNeuter_Status : value});
+                                   }}
                     /> 
 
                 <Dropdown
                                 label='Select duration of pregnancy'
                                 data={[{
-                                    value: 'Not Pregnant',
+                                    value: 'Not Pregnant'
                                 }, {
-                                    value: '0 - 5 Weeks',
+                                    value: '0 - 5 Weeks'
                                 },
                                 {
-                                    value: '5 - 10 Weeks',
+                                    value: '5 - 10 Weeks'
                                 }, {
-                                    value: '10+ Weeks',
+                                    value: '10+ Weeks'
                                 }
                             
                                 ]}
                                 value={this.state.pregnancy }
-                                
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    pregnancy: data.value
-                                })}  
-                        isVisible={this.state.isVisible_Pregnancy}
-                        onOpen={() => this.setState({
-                            isVisible_Pregnancy: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Pregnancy: false
-                        })}
+                                onChangeText={ (value) => {
+                                    this.setState({pregnancy : value});
+                                   }}
                     />
                                       <Dropdown
                                 label='Select duration of lactation'
                                 data={[{
-                                    value: 'Non Lactating',
+                                    value: 'Non Lactating'
                                 }, {
-                                    value: '0 - 1 Weeks',
+                                    value: '0 - 1 Weeks'
                                 },
                                 {
-                                    value: '1 - 3 Weeks',
+                                    value: '1 - 3 Weeks'
                                 }, {
-                                    value: '3 - 5+ Weeks',
+                                    value: '3 - 5+ Weeks'
                                 }
                             
                                 ]}
                                 value={this.state.lactating }
-                                
-                                value={this.state.size }
-                                onChangeItem={data => this.setState({
-                                    lactating: data.value
-                                })}  
-                        isVisible={this.state.lactating}
-                        onOpen={() => this.setState({
-                            isVisible_Lactating: true
-                        })}
-                        onClose={() => this.setState({
-                            isVisible_Lactating: false
-                        })}
+                                onChangeText={ (value) => {
+                                    this.setState({lactating : value});
+                                   }}
                     /> 
 
 
