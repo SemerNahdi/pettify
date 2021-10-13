@@ -8,11 +8,10 @@ import {
 } from "react-native";
 import { inject, observer } from "mobx-react";
 import Constants from "expo-constants";
-import { LinearGradient } from "expo-linear-gradient";
 import { Content } from "native-base";
 import ProfileStore from "../ProfileStore";
  
-import { Text, Avatar, Container, Theme, NavHeaderWithButton, Button } from "../../components";
+import { Text, Avatar, Container, Theme, NavHeaderWithButton } from "../../components";
 import type { ScreenProps } from "../../components/Types";
  
 type InjectedProps = {
@@ -39,25 +38,23 @@ ScreenProps<> & InjectedProps
       <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
       <Container gutter={1} style={styles.container}>
         <Content scrollEnabled={false}>
-          <View style={styles.innerContainer}>
-            <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
-              <Avatar
-                size={avatarSize}
-                style={styles.avatar}
-                {...profile.picture}
-              />
-            </View>
-            <View>
-              <View style={styles.informationContainer}>
-                <Text style={styles.header}>Name</Text>
-                <Text style={styles.information}>{profile.name}</Text>
-              </View>   
-            </View>
-            <View style={styles.separator}/>
+          <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
+            <Avatar
+              size={avatarSize}
+              style={styles.avatar}
+              {...profile.picture}
+            />
+          </View>
+          <View>
             <View style={styles.informationContainer}>
-              <Text style={styles.header}>Email</Text>
-              <Text style={styles.information}>{profile.email}</Text>
-            </View>
+              <Text style={styles.header}>Name</Text>
+              <Text style={styles.information}>{profile.name}</Text>
+            </View>   
+          </View>
+          <View style={styles.separator}/>
+          <View style={styles.informationContainer}>
+            <Text style={styles.header}>Email</Text>
+            <Text style={styles.information}>{profile.email}</Text>
           </View>
         </Content>
       </Container>
@@ -73,12 +70,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-  },
-  innerContainer: {
-    height: height - (Theme.spacing.base * 3),
-    width: width * 0.9,
-    justifyContent: "flex-start",
-    alignSelf: 'center',
   },
   avatar: {
     alignSelf: "center",
