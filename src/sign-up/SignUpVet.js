@@ -9,6 +9,7 @@ import type {NavigationProps} from "../components/Types";
 import type {Profile} from "../components/Model";
 import {View, StyleSheet} from "react-native";
 import {Theme} from "../components/Theme";
+import { TextInput } from "react-native-gesture-handler";
 
 type PasswordState = {
     email: string,
@@ -20,7 +21,7 @@ type PasswordState = {
 
 export default class Password extends React.Component<NavigationProps<*>, PasswordState> {
 
-    state: LoginState = {
+    state = {
         email: "",
         password: "",
         loading: false,
@@ -28,7 +29,6 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
         passView: true
     };
 
-    password: TextInput;
 
     @autobind
     setEmail(email: string) {
@@ -63,7 +63,8 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     @autobind
     async next(): Promise<void> {
         
-        const {email, password, displayName, role} = SignUpStore;
+        const {password, email} = this.state;
+        
 
         try { 
             if (email === "") {
@@ -77,6 +78,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
             const profile: Profile = {
                 name: "Vet",
                 email: email,
+                role: "V",
                 outline: "React Native",
                 picture: {
                     // eslint-disable-next-line max-len
