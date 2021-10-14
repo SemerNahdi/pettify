@@ -78,7 +78,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
             const profile: Profile = {
                 name: "Vet",
                 email: email,
-                role: "V",
+                role: "v",
                 outline: "React Native",
                 picture: {
                     // eslint-disable-next-line max-len
