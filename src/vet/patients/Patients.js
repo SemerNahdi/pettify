@@ -10,7 +10,7 @@ import autobind from 'autobind-decorator';
 export default class Patients extends Component {
     @autobind
     buttonFn() {
-      navigation.navigate("SignUp");
+      navigation.navigate("SignUpVet");
     }
   constructor(props){
      super(props);

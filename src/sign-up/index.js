@@ -5,6 +5,7 @@ import SignUpRole from "./Role";
 import SignUpPassword from "./Password";
 import Login from "./Login";
 import PasswordReset from "./PasswordReset";
+import SignUpVet from "./SignUpVet"
 
 export {
     SignUpName,
@@ -13,4 +14,5 @@ export {
     SignUpPassword,
     Login,
     PasswordReset,
+    SignUpVet,
 };

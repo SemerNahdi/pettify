@@ -16,7 +16,7 @@ import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
 import { Walkthrough } from "./src/walkthrough";
-import { PasswordReset, SignUpName, SignUpEmail, Role, SignUpPassword, Login, SignUpRole } from "./src/sign-up";
+import { PasswordReset, SignUpName, SignUpEmail, Role, SignUpPassword, Login, SignUpRole, SignUpVet } from "./src/sign-up";
 import {
     Profile,
     HomeTab,
@@ -229,6 +229,12 @@ const VetNavigator = createBottomTabNavigator(
         swipeEnabled: false,
     }
 );
+const VetSignUpNavigator = createBottomTabNavigator(
+    {
+        SignUpVet: { screen: SignUpVet},
+    },
+        StackNavigatorOptions
+);
 
 const SignUpNavigator = createStackNavigator(
     {
@@ -236,7 +242,7 @@ const SignUpNavigator = createStackNavigator(
         SignUpEmail: { screen: SignUpEmail },
         SignUpRole: { screen: SignUpRole },
         SignUpPassword: { screen: SignUpPassword },
-        Walkthrough: { screen: Walkthrough },
+        Walkthrough: { screen: Walkthrough }
     },
     StackNavigatorOptions
 );
@@ -258,6 +264,7 @@ const AppNavigator = createAppContainer(
             SignUp: { screen: SignUpNavigator },
             Home: { screen: HomeNavigator },
             Vet: { screen: VetNavigator },
+            SignUpVet: { screen: VetSignUpNavigator },
         },
         StackNavigatorOptions
     )
