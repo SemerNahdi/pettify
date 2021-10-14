@@ -18,13 +18,42 @@ export default class Firebase {
     static auth: firebase.auth.Auth;
     static storage: firebase.storage.Storage;
 
-    static init() {
+    static async init() {
         firebase.initializeApp(config);
         Firebase.auth = firebase.auth();
         Firebase.firestore = firebase.firestore();
         Firebase.storage = firebase.storage();
-        
+          
         /*
+        //Start of default admin creation
+        try{
+            var adminCreation = firebase.initializeApp(config, "ADMIN");
+            var adminUid;
+    
+            await adminCreation.auth().createUserWithEmailAndPassword("ad@min.com","temp123").then(
+                (admin) => { adminUid = admin.user.uid; }
+            );
+
+            await adminCreation.firestore().collection("users").doc(adminUid).set({
+                name: "admin",
+                email: "ad@min.com",
+                role: "a",
+                picture: {
+                    uri: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
+                    preview: "data:image/gif;base64,R0lGODlhAQABAPAAAKyhmP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                }
+            });
+    
+            await adminCreation.auth().signOut();
+            await adminCreation.delete();
+        
+        } catch (e) {
+            setTimeout(function(){
+                alert("This warning is coming from src/components/Firbase.js and needs to be commented out, first time data injection is already complete")
+            }, 1000);
+        }
+        //End of default admin creation
+
         //Start of diseases data injection
         Firebase.firestore.collection("diseases").doc("Canine Distemper").set({
             symptoms: [
