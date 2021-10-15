@@ -9,27 +9,6 @@ import MultiSelectDropdown from "./MultiSelectDropdown";
 
 type DropdownIsVisibleState = { dropdownIsVisible: boolean };
 
-export class SelectPetButton extends React.Component {
-  selectPet(dropdown, species) {
-    if (dropdown == undefined) {
-      dropdown.selectPet("Dog");
-    } else {
-      dropdown.selectPet(species);
-    }
-  }
-
-  render() {
-    return (
-      <Button
-        label={this.props.label}
-        onPress={(event) => this.props.onPress(event, this.props.label, this.selectPet)}
-        full
-        style="primary"
-      />
-    );
-  }
-}
-
 export default class DiagnosticTool extends React.Component<DropdownIsVisibleState> {
   constructor(props) {
     super(props);
@@ -44,12 +23,12 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     this.setState({ dropdownIsVisible: true });
   }
 
-  selectSpecies = (event, species, onPressSpeciesButtonCallback) => {
+  selectSpecies = ( species) => {
     if (this._multiselectdropdown === undefined) {
       this.hideDropdown();
-      onPressSpeciesButtonCallback(this._multiselectdropdown, "Dog");
+      this._multiselectdropdown.selectPet("Dog");
     } else {
-      onPressSpeciesButtonCallback(this._multiselectdropdown, species);
+      this._multiselectdropdown.selectPet(species);
     }
   }
 
@@ -64,23 +43,29 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
             <FontAwesome5 name="dog" size={Theme.typography.header1.fontSize} style={styles.image} />
-            <SelectPetButton
-              label="Dog"
-              onPress={this.selectSpecies}
+            <Button
+              label = "Dog"
+              onPress={() => this.selectSpecies("Dog")}
+              full
+              style="primary"
             />
           </View>
           <View style={styles.iconContainer}>
             <FontAwesome5 name="cat" size={Theme.typography.header1.fontSize} style={styles.image} />
-            <SelectPetButton
-              label="Cat"
-              onPress={this.selectSpecies}
+            <Button
+              label = "Cat"
+              onPress={() => this.selectSpecies("Cat")}
+              full
+              style="primary"
             />
             </View>
           <View style={styles.iconContainer}>
             <FontAwesome5 name="dove" size={Theme.typography.header1.fontSize} style={styles.image} />
-            <SelectPetButton
-              label="Bird"
-              onPress={this.selectSpecies}
+            <Button
+              label = "Bird"
+              onPress={() => this.selectSpecies("Bird")}
+              full
+              style="primary"
             />
           </View>
         </View>
