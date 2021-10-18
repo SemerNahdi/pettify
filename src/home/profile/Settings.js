@@ -67,6 +67,9 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
             if (name !== originalProfile.name) {
                 await Firebase.firestore.collection("users").doc(uid).update({ name });
             }
+            if (address !== originalProfile.address) {
+                await Firebase.firestore.collection("users").doc(uid).update({ address });
+            }
             if (picture.uri !== originalProfile.picture.uri) {
                 const preview = await ImageUpload.preview(picture);
                 const uri = await ImageUpload.upload(picture);
@@ -103,9 +106,14 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         this.setState({ name });
     }
 
+    @autobind
+    setAddress(address: string) {
+        this.setState({ address });
+    }
+
     render(): React.Node {
         const { navigation } = this.props;
-        const { name, picture, loading, hasCameraRollPermission } = this.state;
+        const { name, address, picture, loading, hasCameraRollPermission } = this.state;
         if (hasCameraRollPermission === null) {
             return (
                 <View style={styles.refreshContainer}>
@@ -135,6 +143,15 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         defaultValue={name}
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
+                    />
+                    <TextField
+                        placeholder="Address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        defaultValue={address}
+                        onSubmitEditing={this.save}
+                        onChangeText={this.setAddress}
                     />
                     <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
                     <Button label="Sign Out" full onPress={logout} style="base"/>
