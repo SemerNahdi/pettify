@@ -14,27 +14,14 @@ export default class DiagnosticToolResults extends Component {
         items: [],
         loading: true,
       };
-    }
 
-    componentDidMount(){
-        const { uid } = Firebase.auth.currentUser;
-        let diagnosedDiseases;
+      const { uid } = Firebase.auth.currentUser;
 
-        setTimeout(() => {
-            Firebase.firestore
-            .collection("users")
-            .doc(uid)
-            .get()
-            .then(docRef => {
-                diagnosedDiseases = docRef.data()[Object.keys(docRef.data())[0]];
-                diagnosedDiseases = diagnosedDiseases.map((str, index) => ({ name: str, id: index + 1}));
-                this.setState({items: diagnosedDiseases})
-            })
-            .then(() => {
-                this.setState({ loading: false });
-            })
-            .catch((error) => { console.log('Error retrieving doc: ', error) })
-        }, 1000);
+      let diagnosedDiseases;
+
+      diagnosedDiseases = this.props.navigation.state.params.diagnoses.map((str, index) => ({ name: str, id: index + 1}));
+      this.state.items = diagnosedDiseases;
+      this.state.loading = false;
     }
 
     //create each list item
