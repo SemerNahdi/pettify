@@ -6,33 +6,48 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import Constants from "expo-constants";
 import { Content } from "native-base";
-import ProfileStore from "../ProfileStore";
  
-import { Text, Avatar, Container, Theme, NavHeaderWithButton } from "../../components";
+import { Firebase, Text, Avatar, Container, Theme, NavHeaderWithButton } from "../../components";
 import type { ScreenProps } from "../../components/Types";
  
-type InjectedProps = {
-  profileStore: ProfileStore
-};
- 
-@inject("profileStore")
 @observer
 export default class ProfileComp extends React.Component<
 ScreenProps<> & InjectedProps
 > {
  
+  constructor(props){
+    super(props);
+    this.state = {
+      profile: [],
+    };
+    this.retireveProfile();
+  }
+
+  retireveProfile() {
+    const user = Firebase.auth.currentUser;
+    Firebase.firestore.collection("users").doc(user.uid).get().then(docs => {
+      prof = docs.data();
+      // For users that don't have email in firestore, can be removed later
+      if (prof.email == null) {
+        Firebase.firestore.collection("users").doc(user.uid).update({email: user.email});
+        prof.email = user.email;
+      }
+      this.setState({profile: prof});
+    });
+  }
+
   @autobind
   settings() {
-    const { profile } = this.props.profileStore;
+    const profile = this.state.profile;
     this.props.navigation.navigate("Settings", { profile });
   }
  
   render(): React.Node {
-    const { profileStore, navigation } = this.props;
-    const { profile } = profileStore;
+    const { navigation } = this.props;
+    prof = this.state.profile;
     return (
       <>
       <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
@@ -42,19 +57,24 @@ ScreenProps<> & InjectedProps
             <Avatar
               size={avatarSize}
               style={styles.avatar}
-              {...profile.picture}
+              {...prof.picture}
             />
           </View>
           <View>
             <View style={styles.informationContainer}>
               <Text style={styles.header}>Name</Text>
-              <Text style={styles.information}>{profile.name}</Text>
+              <Text style={styles.information}>{prof.name}</Text>
             </View>   
           </View>
           <View style={styles.separator}/>
           <View style={styles.informationContainer}>
             <Text style={styles.header}>Email</Text>
-            <Text style={styles.information}>{profile.email}</Text>
+            <Text style={styles.information}>{prof.email}</Text>
+          </View>
+          <View style={styles.separator}/>
+          <View style={styles.informationContainer}>
+            <Text style={styles.header}>Address</Text>
+            <Text style={styles.information}>{prof.address}</Text>
           </View>
         </Content>
       </Container>
