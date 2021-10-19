@@ -99,6 +99,19 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
     }
 
     @autobind
+    async deleteUser(): Promise<void> {
+        const user = Firebase.auth.currentUser;
+        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
+            user.delete().catch((error) => {
+                console.error("Error deleting account: ", error);
+            });
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+        this.props.navigation.navigate("Welcome");
+    }
+
+    @autobind
     setName(name: string) {
         this.setState({ name });
     }
@@ -138,6 +151,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                     />
                     <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
                     <Button label="Sign Out" full onPress={logout} style="base"/>
+                    <Button label="Delete Account" full onPress={this.deleteUser} style="base"/>
                 </Content>
             </View>
         );
