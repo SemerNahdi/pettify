@@ -26,6 +26,7 @@ import type { Picture } from "../../components/ImageUpload";
 
 type SettingsState = {
     name: string,
+    address: String,
     picture: Picture,
     loading: boolean,
     hasCameraRollPermission: boolean | null,
@@ -41,6 +42,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         },
         loading: false,
         hasCameraRollPermission: null,
+        address: "",
     };
 
     async componentDidMount(): Promise<void> {
@@ -51,7 +53,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
             height: 0,
             width: 0,
         };
-        this.setState({ name: profile.name, picture, loading: false, hasCameraRollPermission: null });
+        this.setState({ name: profile.name, address: profile.address, picture, loading: false, hasCameraRollPermission: null });
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         this.setState({ hasCameraRollPermission: status === "granted" });
     }
