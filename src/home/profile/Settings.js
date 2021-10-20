@@ -117,7 +117,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         }
         return (
             <View style={styles.container}>
-                <NavHeader title="Settings" back {...{ navigation }} />
+                <NavHeader title="Settings" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
                 <Content style={styles.content}>
                     <View style={styles.avatarContainer}>
                         <TouchableWithoutFeedback onPress={this.setPicture}>

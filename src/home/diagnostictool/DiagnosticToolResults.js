@@ -57,7 +57,7 @@ export default class DiagnosticToolResults extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeader title="Diagnosed Diseases" back {...{ navigation }} />
+      <NavHeader title="Diagnosed Diseases" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
         
           <FlatList
             data={this.state.items}

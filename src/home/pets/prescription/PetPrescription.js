@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { Theme, NavHeaderWithButton, Text } from "../../../components";
+import { Theme, NavHeader, Text } from "../../../components";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
 
@@ -146,7 +146,7 @@ export default class PetPrescription extends Component<> {
     const { items, selectedItem } = this.state;
     return (
       <ScrollView style={styles.container}>
-        <NavHeaderWithButton title="Prescriptions" back {...{ navigation }} />
+        <NavHeader title="Prescriptions" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
 
         {this.state.role == 'v' && <View style = {styles.prescriptionInputContainer}>
 

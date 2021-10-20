@@ -106,7 +106,7 @@ export default class Pets extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeaderWithButton title="Pets" buttonFn={this.buttonFn} backFn={() => this.props.navigation.goBack()} buttonIcon="plus" back = {vet} {...{ navigation }}/>
+      <NavHeaderWithButton title="Pets" buttonIcon="plus" buttonFn={this.buttonFn} back={vet} backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
         
           <FlatList
             data={this.state.items}

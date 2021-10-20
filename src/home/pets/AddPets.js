@@ -92,7 +92,7 @@ export default class AddPets extends React.Component {
 
         return (
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
-                <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
+                <NavHeaderWithButton title="Add Pet" buttonIcon="check" buttonFn={this.addPetToFireStore} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
 
                 <DropDownPicker
                     items={[
