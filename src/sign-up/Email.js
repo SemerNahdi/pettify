@@ -32,7 +32,7 @@ export default class Email extends React.Component<NavigationProps<*>, EmailStat
             alert("Please provide an email.");
         } else {
             SignUpStore.email = email;
-            this.props.navigation.navigate("SignUpRole");
+            this.props.navigation.navigate("SignUpPassword");
         }
     }
 

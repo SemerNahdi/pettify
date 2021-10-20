@@ -56,11 +56,4 @@ const styles = StyleSheet.create({
         marginTop: Theme.spacing.base * 2,
         marginBottom: Theme.spacing.base * 2
     },
-    gradient: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-    }
 });

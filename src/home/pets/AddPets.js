@@ -132,8 +132,9 @@ export default class AddPets extends React.Component<> {
        // const { shift } = this.state;
 
         return (
-            <ScrollView style={styles.scroll} persistentScrollbar={false} >  
-              <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
+            <ScrollView style={styles.scroll} persistentScrollbar={false} > 
+                <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
+
                 <Text>Name:</Text>
 
                 <TextInput
@@ -335,12 +336,5 @@ const styles = StyleSheet.create({
     },  
     scroll: {
         backgroundColor: '#FFF',
-    },
-    gradient: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: -500
     },
 });

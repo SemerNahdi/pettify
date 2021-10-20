@@ -1,12 +1,12 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, Text, TouchableOpacity, View, Dimensions} from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 import SignUpContainer from "./SignUpContainer";
-import {TextField, Firebase} from "../components";
+
+import {TextField, Firebase, Theme} from "../components";
 import type {NavigationProps} from "../components/Types";
-import {Theme} from "../components/Theme";
 
 type LoginState = {
     email: string,
@@ -77,6 +77,11 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
         }
     }
 
+    @autobind
+    passwordReset() {
+        this.props.navigation.navigate("PasswordReset");
+    }
+
     onPressEye = () => {
         this.setState(prevState => ({
             icon: prevState.icon === 'eye' ? 'eye-slash' : 'eye',
@@ -124,6 +129,11 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                 
                     <Icon name= {icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={{paddingTop:13, marginLeft:10}}/>
                 </View>
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={this.passwordReset}>
+                        <Text style={styles.text}>Forgot Password?</Text>
+                    </TouchableOpacity>
+                </View>
             </SignUpContainer>
         );
     }
@@ -143,5 +153,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.03,
         shadowRadius: 1,
         width: "85%"
-    }
+    },
+    container: {
+        flexDirection: 'row',
+        height: Theme.spacing.base * 1.2,
+        justifyContent: 'center',
+    },
+    text: {
+        color: 'gray',
+        fontSize: 14,
+    },
 });
