@@ -294,7 +294,7 @@ export default class AddPets extends React.Component<> {
                     }
                 
                     ]}
-                    value ={pregnancyPossible} 
+                    value ={this.state.pregnancy} 
                 
                     onChangeText={(value)=> this.setState({pregnancy : value})} 
                                
