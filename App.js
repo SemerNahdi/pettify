@@ -21,7 +21,6 @@ import {
     Profile,
     HomeTab,
     Settings,
-    ProfileStore,
     Pets,
     PetDetailView,
     TrainingScreen,
@@ -73,18 +72,16 @@ if (!console.ignoredYellowBox) {
 // $FlowFixMe
 console.ignoredYellowBox.push("Setting a timer");
 
-@inject("profileStore")
 class Loading extends React.Component<ScreenProps<>> {
     async componentDidMount(): Promise<void> {
         LogBox.ignoreAllLogs();
-        const { navigation, profileStore } = this.props;
+        const { navigation } = this.props;
         await Loading.loadStaticResources();
         Firebase.init();
         Firebase.auth.onAuthStateChanged((user) => {
             const isUserAuthenticated = !!user;
             if (isUserAuthenticated) {
                 const { uid } = Firebase.auth.currentUser;
-                profileStore.init();
                 var data;
                 Firebase.firestore.collection("users").doc(uid).get().then(
                     (doc) =>
@@ -129,8 +126,6 @@ class Loading extends React.Component<ScreenProps<>> {
 
 // eslint-disable-next-line react/no-multi-comp
 export default class App extends React.Component {
-    profileStore = new ProfileStore();
-
     componentDidMount() {
         StatusBar.setBarStyle("dark-content");
         if (Platform.OS === "android") {
@@ -139,9 +134,8 @@ export default class App extends React.Component {
     }
 
     render(): React.Node {
-        const { profileStore } = this;
         return (
-            <Provider {...{ profileStore }}>
+            <Provider {...{}}>
                 <AppNavigator onNavigationStateChange={() => undefined} />
             </Provider>
         );

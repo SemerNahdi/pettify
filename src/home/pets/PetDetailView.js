@@ -26,7 +26,7 @@ import darkColors from "react-native-elements/dist/config/colorsDark";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default class PetDetailView extends Component<> {
+export default class PetDetailView extends Component {
   constructor(props)
   {
     super(props);
@@ -59,6 +59,7 @@ export default class PetDetailView extends Component<> {
     navigation = this.props.navigation;
     uid = navigation.state.params.uid;
     pet_uid  = navigation.state.params.pet_uid;
+    onGoBack = navigation.state.params.onGoBack;
 
     this.retrieveFireStorePetDetails();
   }
@@ -136,8 +137,12 @@ export default class PetDetailView extends Component<> {
                 break;
             }
           }
-          this.setState({loading: false,})
+          this.setState({loading: false})
     })
+  }
+
+  handleLoading = (bool) => {
+    this.setState({loading: bool})
   }
 
   @autobind
@@ -152,7 +157,7 @@ export default class PetDetailView extends Component<> {
 
   @autobind
   goToEditScreen() {
-    navigation.navigate("EditScreen", { pet_uid, uid });
+    navigation.navigate("EditScreen", { pet_uid, uid, onGoBack, onEdit:() => this.retrieveFireStorePetDetails(), setLoading:(bool) => this.handleLoading(bool) });
   }
 
   @autobind

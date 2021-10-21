@@ -13,7 +13,8 @@ export default class ListItem extends Component {
   goToPetDetailView() {
     const pet_uid = this.props.pet_uid
     const uid = this.props.uid
-    this.props.navigation.navigate("PetDetailView", { pet_uid, uid });
+    const onGoBack = this.props.onGoBack
+    this.props.navigation.navigate("PetDetailView", { pet_uid, uid, onGoBack });
   }
 
   render() {
