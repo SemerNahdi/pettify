@@ -65,7 +65,7 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
         return(
             <View>
                 
-                <NavHeader title="Training Videos" back {...{navigation}}/>
+                <NavHeader title="Training Videos" back backFn={() => this.props.navigation.goBack()} {...{navigation}}/>
                 <SafeAreaView>
                     {/* <PlayYouTube videoId={this.state.videos[2].videoId}/> */}
                     <FlatList 

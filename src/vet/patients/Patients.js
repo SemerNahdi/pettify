@@ -17,10 +17,10 @@ export default class Patients extends Component {
 
       navigation = this.props.navigation;
 
-      this.retrieveFireStorePets();
+      this.retrieveFireStorePatients();
     }
 
-  retrieveFireStorePets() {
+  retrieveFireStorePatients() {
     let allUsers = []
 
     Firebase.firestore
