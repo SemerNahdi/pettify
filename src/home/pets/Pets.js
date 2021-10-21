@@ -10,7 +10,7 @@ import autobind from 'autobind-decorator';
 export default class Pets extends Component {
   @autobind
   buttonFn() {
-    navigation.navigate("AddPets", { uid });
+    navigation.navigate("AddPets", { uid, onGoBack:() => this.retrieveFireStorePets() });
   }
 
   constructor(props){
@@ -26,7 +26,7 @@ export default class Pets extends Component {
       this.retrieveFireStorePets()
   }
 
-  retrieveFireStorePets() {
+  retrieveFireStorePets = () => {
     let currentUsersPets = []
 
     Firebase.firestore
@@ -77,6 +77,7 @@ export default class Pets extends Component {
         pregnancy={item.pregnancy}
         lactating={item.lactating}
         classification={item.classification} 
+        onGoBack={this.retrieveFireStorePets}
         {...{navigation}}
       />)
     };
@@ -105,7 +106,7 @@ export default class Pets extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeaderWithButton title="My Pets45" buttonFn={this.buttonFn} buttonIcon="plus" back = {vet} {...{ navigation }}/>
+      <NavHeaderWithButton title="Pets" buttonIcon="plus" buttonFn={this.buttonFn} back={vet} backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
         
           <FlatList
             data={this.state.items}

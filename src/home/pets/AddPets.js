@@ -7,7 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 const { State: TextInputState } = TextInput;
 
-export default class AddPets extends React.Component<> {
+export default class AddPets extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,7 +47,7 @@ export default class AddPets extends React.Component<> {
         this.setState({weight: text})
     }
 
-    addPetToFireStore = (event) =>{
+    addPetToFireStore = () => {
         pet_uid = this.guidGenerator();
         var pic = "null";
         const {species, breed, name, age, yearsOwned, sex, activity, weight, 
@@ -64,78 +64,35 @@ export default class AddPets extends React.Component<> {
                 return;
             }
         }
-
-        var docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
-
+        
         //Add pet to firestore
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                this.addPetToFireStore();
-            } else {
-                Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
-                    species, breed, name, age, yearsOwned, sex, activity, weight, classification, spayNeuter_Status,
-                    pregnancy, lactating, size, pic, uid 
-                })
-                .catch((error) => {
-                    console.error("Error writing document: ", error);
-                });
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
+        Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
+            species, breed, name, age, yearsOwned, sex, activity, weight, classification, spayNeuter_Status,
+            pregnancy, lactating, size, pic, uid 
+        })
+        .then(() => {
+            navigation.state.params.onGoBack();
+            navigation.goBack();
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
         });
-
-        navigation.goBack();
     }
 
     //Generate pet ids
-    guidGenerator = (event) => {
+    guidGenerator = () => {
         var S4 = function() {
            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
         };
         return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
     }
 
-    //Handles keyboard stuff
-    handleKeyboardDidShow = (event) => {
-        const { height: windowHeight } = Dimensions.get('window');
-        const keyboardHeight = event.endCoordinates.height;
-        const currentlyFocusedField = TextInputState.currentlyFocusedField();
-        UIManager.measure(currentlyFocusedField, (originX, originY, width, height, pageX, pageY) => {
-          const fieldHeight = height;
-          const fieldTop = pageY;
-          const gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-          if (gap >= 0) {
-            return;
-          }
-          Animated.timing(
-            this.state.shift,
-            {
-              toValue: gap,
-              duration: 300,
-              useNativeDriver: true,
-            }
-          ).start();
-        });
-    }
-    
-      handleKeyboardDidHide = () => {
-        Animated.timing(
-          this.state.shift,
-          {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: true,
-          }
-        ).start();
-    }
-    
-
     render() {
         const { shift } = this.state;
 
         return (
             <ScrollView style={styles.scroll} persistentScrollbar={false} >  
-                <NavHeaderWithButton title="Add Pet" back {...{ navigation }} buttonFn={this.addPetToFireStore} buttonIcon="check" />
+                <NavHeaderWithButton title="Add Pet" buttonIcon="check" buttonFn={this.addPetToFireStore} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
 
                 <DropDownPicker
                     items={[

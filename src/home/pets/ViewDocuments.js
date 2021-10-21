@@ -138,7 +138,7 @@ export default class ViewDocuments extends Component<> {
  
         return (
             <View style={styles.container}>
-                <NavHeaderWithButton title="Lab Results" back {...{ navigation }} buttonFn={this.chooseFile} buttonIcon="plus" />
+                <NavHeaderWithButton title="Lab Results" buttonIcon="plus" buttonFn={this.chooseFile} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
                 
                 <ScrollView>
                     {this.renderPdfViewer()}
