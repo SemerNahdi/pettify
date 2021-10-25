@@ -11,6 +11,7 @@ import {
     NavHeader,
     Firebase,
     Button,
+    Text,
     TextField,
     Theme,
     ImageUpload,
@@ -41,6 +42,8 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         },
         loading: false,
         hasCameraRollPermission: null,
+        address: "",
+        email: "",
     };
 
     async componentDidMount(): Promise<void> {
@@ -51,7 +54,14 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
             height: 0,
             width: 0,
         };
-        this.setState({ name: profile.name, picture, loading: false, hasCameraRollPermission: null });
+        this.setState({
+            name: profile.name,
+            address: profile.address,
+            email: profile.email,
+            picture,
+            loading: false,
+            hasCameraRollPermission: null
+        });
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         this.setState({ hasCameraRollPermission: status === "granted" });
     }
@@ -60,12 +70,18 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
     async save(): Promise<void> {
         const { navigation } = this.props;
         const originalProfile = navigation.state.params.profile;
-        const { name, picture } = this.state;
+        const { name, picture, address, email } = this.state;
         const { uid } = Firebase.auth.currentUser;
         this.setState({ loading: true });
         try {
             if (name !== originalProfile.name) {
                 await Firebase.firestore.collection("users").doc(uid).update({ name });
+            }
+            if (address !== originalProfile.address) {
+                await Firebase.firestore.collection("users").doc(uid).update({ address });
+            }
+            if (email !== originalProfile.email) {
+                await Firebase.firestore.collection("users").doc(uid).update({ email });
             }
             if (picture.uri !== originalProfile.picture.uri) {
                 const preview = await ImageUpload.preview(picture);
@@ -116,9 +132,19 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         this.setState({ name });
     }
 
+    @autobind
+    setEmail(email: string) {
+        this.setState({ email });
+    }
+
+    @autobind
+    setAddress(address: string) {
+        this.setState({ address });
+    }
+
     render(): React.Node {
         const { navigation } = this.props;
-        const { name, picture, loading, hasCameraRollPermission } = this.state;
+        const { name, picture, loading, hasCameraRollPermission, address, email } = this.state;
         if (hasCameraRollPermission === null) {
             return (
                 <View style={styles.refreshContainer}>
@@ -140,6 +166,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
+                    <Text style={styles.header}>Name</Text>
                     <TextField
                         placeholder="Name"
                         autoCapitalize="none"
@@ -148,10 +175,36 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         defaultValue={name}
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
+                        style={styles.trial}
                     />
+                    <View style={styles.separator}/>
+                    <Text style={styles.header}>Email</Text>
+                    <TextField
+                        placeholder="Email"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        defaultValue={email}
+                        onSubmitEditing={this.save}
+                        onChangeText={this.setEmail}
+                        style={styles.trial}
+                    />
+                    <View style={styles.separator}/>
+                    <Text style={styles.header}>Address</Text>
+                    <TextField
+                        placeholder="Address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        defaultValue={address}
+                        onSubmitEditing={this.save}
+                        onChangeText={this.setAddress}
+                        style={styles.trial}
+                    />
+                    <View style={styles.separator}/>
                     <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
                     <Button label="Sign Out" full onPress={logout} style="base"/>
-                    <Button label="Delete Account" full onPress={this.deleteUser} style="base"/>
+                    <Button label="Delete Account" full onPress={this.deleteUser} style="base" color="#ff5c5c"/>
                 </Content>
             </View>
         );
@@ -194,5 +247,30 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 50 - 12.5,
         left: 50 - 12.5,
+    },
+    separator: {
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 1,
+        alignSelf: 'flex-start',
+        width: '100%',
+        marginBottom: 20,
+    },
+    header: {
+        fontWeight: "900",
+        color: "black",
+        marginTop: 8,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
+    informationContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignSelf: 'flex-start',
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    trial: {
+        marginLeft: 4,
+        width: "100%",
     },
 });
