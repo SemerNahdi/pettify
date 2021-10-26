@@ -14,7 +14,8 @@ type NavHeaderProps = NavigationProps<*> & {
     back?: boolean,
     backFn?: () => void,
     buttonFn?: () => void,
-    buttonIcon?: string
+    buttonIcon?: string,
+    buttonName?: string,
 };
 
 export default class NavHeaderWithButton extends React.Component<NavHeaderProps> {
@@ -34,12 +35,21 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
         buttonFn();
     }
 
+    @autobind
+    rightButton() {
+        const { buttonIcon } = this.props;
+        const { buttonName } = this.props;
+        if (buttonName != null) {
+            return (<Text style={styles.text}>{buttonName}</Text>);
+        } else {
+            return (<Icon name={buttonIcon} size={25} color={Theme.palette.black} />);
+        }
+    }
+
     render(): React.Node {
         const { onPress } = this;
         const { onPressButton } = this;
         const { title, back } = this.props;
-        const { buttonIcon } = this.props;
-        const { buttonName } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.content}>
@@ -55,8 +65,7 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
                     <Text type="header3">{title}</Text>
                     <View style={styles.side}>
                         <TouchableOpacity onPress={onPressButton}>
-                            <Text style={styles.text}>{buttonName}</Text>
-                            <Icon style={{paddingTop: -24}} name={buttonIcon} size={25} color={Theme.palette.black} />
+                            {this.rightButton()}
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -84,15 +93,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     side: {
-        width: 60,
+        width: 100,
     },
     back: {
         marginLeft: Theme.spacing.tiny,
     },
     text: {
-        paddingTop: 12,
-        paddingRight: 12,
+        paddingRight: 20,
         color: 'black',
         fontSize: 16,
+        alignSelf: "flex-end",
+        flexWrap: "wrap",
     },
 });
