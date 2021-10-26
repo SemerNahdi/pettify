@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Image } from "react-native";
+import { Alert, StyleSheet, View, TouchableWithoutFeedback, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Content } from "native-base";
 import { Feather as Icon } from "@expo/vector-icons";
@@ -207,9 +207,9 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         style={styles.trial}
                     />
                     <View style={styles.separator}/>
-                    <View style={{paddingTop: 20}}></View>
-                    <Button label="Sign Out" full onPress={logout} style="base"/>
-                    <Button label="Delete Account" full onPress={this.deleteUser} style="base" color="#ff5c5c"/>
+                    <View style={{paddingTop: 12}}></View>
+                    <Button label="Sign Out" full onPress={logout} style="base" color="deepskyblue"/>
+                    <View style={{marginTop:-8}}><Button label="Delete Account" full onPress={this.deleteUser} style="base" color="deepskyblue"/></View>
                 </Content>
             </View>
         );
