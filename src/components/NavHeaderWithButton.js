@@ -42,7 +42,7 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
         if (buttonName != null) {
             return (<Text style={styles.text}>{buttonName}</Text>);
         } else {
-            return (<Icon name={buttonIcon} size={25} color={Theme.palette.black} />);
+            return (<Icon style={styles.icon} name={buttonIcon} size={25} color={Theme.palette.black} />);
         }
     }
 
@@ -97,6 +97,10 @@ const styles = StyleSheet.create({
     },
     back: {
         marginLeft: Theme.spacing.tiny,
+    },
+    icon: {
+        alignSelf:"flex-end",
+        paddingEnd: 20,
     },
     text: {
         paddingRight: 20,
