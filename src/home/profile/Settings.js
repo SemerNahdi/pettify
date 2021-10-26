@@ -17,6 +17,7 @@ import {
     ImageUpload,
     serializeException,
     RefreshIndicator,
+    NavHeaderWithButton,
 } from "../../components";
 
 import EnableCameraRollPermission from "./EnableCameraRollPermission";
@@ -156,7 +157,11 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         }
         return (
             <View style={styles.container}>
-                <NavHeader title="Settings" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+                <NavHeaderWithButton 
+                    title="Settings" 
+                    back backFn={() => this.props.navigation.goBack()} {...{ navigation }} 
+                    buttonFn={this.save} buttonName="Save"
+                />
                 <Content style={styles.content}>
                     <View style={styles.avatarContainer}>
                         <TouchableWithoutFeedback onPress={this.setPicture}>
@@ -202,7 +207,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         style={styles.trial}
                     />
                     <View style={styles.separator}/>
-                    <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
+                    <View style={{paddingTop: 20}}></View>
                     <Button label="Sign Out" full onPress={logout} style="base"/>
                     <Button label="Delete Account" full onPress={this.deleteUser} style="base" color="#ff5c5c"/>
                 </Content>

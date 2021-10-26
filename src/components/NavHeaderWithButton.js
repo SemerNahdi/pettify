@@ -39,6 +39,7 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
         const { onPressButton } = this;
         const { title, back } = this.props;
         const { buttonIcon } = this.props;
+        const { buttonName } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.content}>
@@ -54,7 +55,8 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
                     <Text type="header3">{title}</Text>
                     <View style={styles.side}>
                         <TouchableOpacity onPress={onPressButton}>
-                            <Icon name={buttonIcon} size={25} color={Theme.palette.black} />
+                            <Text style={styles.text}>{buttonName}</Text>
+                            <Icon style={{paddingTop: -24}} name={buttonIcon} size={25} color={Theme.palette.black} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -82,9 +84,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     side: {
-        width: 40,
+        width: 60,
     },
     back: {
         marginLeft: Theme.spacing.tiny,
+    },
+    text: {
+        paddingTop: 12,
+        paddingRight: 12,
+        color: 'black',
+        fontSize: 16,
     },
 });
