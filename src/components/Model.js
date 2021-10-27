@@ -7,6 +7,7 @@ export type Picture = {
 export type Profile = {
     picture: Picture,
     name: string,
+    address: string,
     outline: string
 };
 

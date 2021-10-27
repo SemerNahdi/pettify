@@ -75,7 +75,7 @@ export default class Name extends React.Component<NavigationProps<*>, NameState>
             alert("Please provide an address");
         } else {
             SignUpStore.displayName = `${firstName} ${lastName} `;
-            SignUpStore.address = `${address}`;
+            SignUpStore.displayAddress = `${address}`;
             this.props.navigation.navigate("SignUpEmail");
         }
 

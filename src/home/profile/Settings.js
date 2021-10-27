@@ -62,7 +62,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
     async save(): Promise<void> {
         const { navigation } = this.props;
         const originalProfile = navigation.state.params.profile;
-        const { name, picture } = this.state;
+        const { name, picture, address } = this.state;
         const { uid } = Firebase.auth.currentUser;
         this.setState({ loading: true });
         try {
