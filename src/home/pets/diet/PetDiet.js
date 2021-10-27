@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { Theme, NavHeaderWithButton, Text } from "../../../components";
+import { Theme, NavHeader, Text } from "../../../components";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
  
@@ -338,7 +338,7 @@ export default class PetDiet extends Component<> {
  
     return (
       <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-        <NavHeaderWithButton title="Diet" back {...{ navigation }} />
+        <NavHeader title="Diet" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
         
  
         <View style= {styles.dietHeading}>

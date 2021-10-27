@@ -84,7 +84,7 @@ export default class DiagnosisDetailView extends Component {
     else {
     return (
       <>
-      <NavHeader title={diagnosisName} back {...{ navigation }} />
+      <NavHeader title={diagnosisName} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
       <ScrollView persistentScrollbar={false} >
         <View style={styles.container}>
           <Card containerStyle={styles.cardContainer}>

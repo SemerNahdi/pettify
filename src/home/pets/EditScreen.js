@@ -22,7 +22,7 @@ import {Text, Theme} from "../../components";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default class EditScreen extends React.Component<> {
+export default class EditScreen extends React.Component {
   constructor(props)
   {
     super(props);
@@ -175,7 +175,12 @@ export default class EditScreen extends React.Component<> {
     .update({
       name, age, yearsOwned, sex, classification, spayNeuter_Status, weight, activity, 
       pregnancy, lactating, size, species, breed 
-    })
+    }).then(() => {
+      navigation.state.params.setLoading(true);
+      navigation.state.params.onEdit();
+      navigation.state.params.onGoBack();
+      navigation.goBack();
+    });
   }
 
   chooseFile = async () => {
@@ -236,7 +241,7 @@ export default class EditScreen extends React.Component<> {
 
   @autobind
   goBackToPets() {
-    this.props.navigation.goBack();
+    navigation.goBack();
   }
 
   @autobind
@@ -247,7 +252,6 @@ export default class EditScreen extends React.Component<> {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
         { text: "Delete", onPress: () => this.deletingPet(), style:"destructive" }
@@ -263,14 +267,12 @@ export default class EditScreen extends React.Component<> {
       .collection("pets")
       .doc(pet_uid)
       .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
+      .then( () => {
+        navigation.state.params.onGoBack();
+        navigation.navigate("Pets");
       }).catch((error) => {
           console.error("Error removing document: ", error);
       });
-
-    console.log("Delete Pressed")
-    navigation.navigate("Pets");
   }
 
   @autobind
@@ -292,7 +294,7 @@ export default class EditScreen extends React.Component<> {
 
     switch(species){
       case("isDog"):
-        this.setState({petBiology: {"species":"Dog", breed: this.state.petBiology.breed}});
+        this.setState({petBiology: {species: "Dog", breed: this.state.petBiology.breed}});
         break;
       case("isCat"):
         this.setState({petBiology: {species: "Cat", breed: this.state.petBiology.breed}});
@@ -536,13 +538,6 @@ export default class EditScreen extends React.Component<> {
 
   handleWeight = (text) => {
     this.setState({weight: text})
-  }
-
-  @autobind
-  submitChanges()
-  {
-    this.updateFireStorePetDetails();
-    navigation.goBack();
   }
 
   renderHeader = () => {
@@ -958,7 +953,7 @@ export default class EditScreen extends React.Component<> {
           }}>
           <TouchableOpacity
               style={styles.submitButton}
-              onPress={this.submitChanges}
+              onPress={this.updateFireStorePetDetails}
             >
                 <Text>
                   Submit Changes
