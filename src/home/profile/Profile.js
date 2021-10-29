@@ -5,28 +5,26 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  Image,
 } from "react-native";
-import { observer } from "mobx-react";
 import Constants from "expo-constants";
 import { Content } from "native-base";
  
-import { Firebase, Text, Avatar, Container, Theme, NavHeaderWithButton } from "../../components";
-import type { ScreenProps } from "../../components/Types";
- 
-@observer
-export default class ProfileComp extends React.Component<
-ScreenProps<> & InjectedProps
-> {
+import { Firebase, Text, Container, Theme, NavHeaderWithButton } from "../../components";
+
+export default class ProfileComp extends React.Component {
  
   constructor(props){
     super(props);
     this.state = {
       profile: [],
+      //picture is only needed until all users have a pic field in Firease database
+      picture: "temp"
     };
-    this.retireveProfile();
+    this.retrieveProfile();
   }
 
-  retireveProfile() {
+  retrieveProfile = () => {
     const user = Firebase.auth.currentUser;
     Firebase.firestore.collection("users").doc(user.uid).get().then(docs => {
       prof = docs.data();
@@ -36,13 +34,20 @@ ScreenProps<> & InjectedProps
         prof.email = user.email;
       }
       this.setState({profile: prof});
+      //this is also only temporary until all profiles have a pic field 
+      this.setState({picture: prof.pic ? prof.pic : prof.picture.uri})
+      //this will slowly give everyone a pic field with the same picture they already have
+      if(prof.picture && !prof.pic)
+      {
+        Firebase.firestore.collection("users").doc(user.uid).update({pic : prof.picture.uri})
+      }
     });
   }
 
   @autobind
   settings() {
     const profile = this.state.profile;
-    this.props.navigation.navigate("Settings", { profile });
+    this.props.navigation.navigate("Settings", { profile, onSubmit:() => this.retrieveProfile() });
   }
  
   render(): React.Node {
@@ -54,10 +59,9 @@ ScreenProps<> & InjectedProps
       <Container gutter={1} style={styles.container}>
         <Content scrollEnabled={false}>
           <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
-            <Avatar
-              size={avatarSize}
-              style={styles.avatar}
-              {...prof.picture}
+          <Image
+                source={{ uri: this.state.picture }}
+                style={styles.avatar}
             />
           </View>
           <View>
@@ -92,8 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    alignSelf: "center",
+    borderRadius: 85,
+    height: 120,
+    width: 120,
     marginBottom: 20,
+    alignSelf: "center"
   },
   separator: {
     borderBottomColor: 'lightgray',
