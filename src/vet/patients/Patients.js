@@ -19,7 +19,14 @@ export default class Patients extends Component {
         loading: true,
       };
       navigation = this.props.navigation;
-
+      const { uid } = Firebase.auth.currentUser;
+      Firebase.firestore.collection("users").doc(uid).get().then(
+        (doc)=>{
+          data=doc.data()
+          this.setState({role: data.role})
+        //console.log(data);
+        }
+      ) 
       
 
       this.retrieveFireStorePets();
@@ -33,9 +40,6 @@ export default class Patients extends Component {
     //.where("role", "==", "p")
     .get()
     .then(docs => {
-      this.setState({
-        role: docs.data().role,
-      });
 
         var i = 0;
         docs.forEach(doc => {
@@ -104,7 +108,7 @@ export default class Patients extends Component {
     //var data;
     
             
-            if(role == "a")
+            if(this.state.role == "a")
             {
               return (
                 <View style={[styles.container]}>

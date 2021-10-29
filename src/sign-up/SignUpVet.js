@@ -7,7 +7,7 @@ import SignUpStore from "./SignUpStore";
 import SignUpContainer from "./SignUpContainer";
 import type {NavigationProps} from "../components/Types";
 import type {Profile} from "../components/Model";
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet, Dimensions} from "react-native";
 import {Theme} from "../components/Theme";
 import { TextInput } from "react-native-gesture-handler";
 
@@ -34,7 +34,15 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     setEmail(email: string) {
         this.setState({ email });
     }
-
+    @autobind
+    back() {
+        const { navigation, first } = this.props;
+        if (first) {
+            navigation.navigate("Vet");
+        } else {
+            navigation.pop();
+        }
+    }
     @autobind
     setPassword(password: string) {
         this.setState({ password });
@@ -59,7 +67,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     setPassView(passView: boolean) {
         this.setState({ passView });
     }
-
+    
     @autobind
     async next(): Promise<void> {
         
@@ -110,7 +118,6 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
         const {icon} = this.state;
         const {passView} = this.state;
         return (
-            <SignUpContainer title="Vet Creation" subtitle="" next={this.next} {...{ navigation, loading }}>
                 <View style={{flexDirection:"column"}}>
                     <TextField
                         placeholder="Email"
@@ -135,11 +142,11 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
                     />
                     <Icon name= {icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={{paddingTop:13, marginLeft:10}}/>
                 </View>
-            </SignUpContainer>
+         
         );
     }
 }
-
+const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
     textInput: {
         borderColor: Theme.palette.borderColor,
@@ -164,4 +171,11 @@ const styles = StyleSheet.create({
         color: 'gray',
         fontSize: 14,
     },
+    content: {
+        padding: Theme.spacing.base,
+    },
+    innerContainer: {
+        height: height - (Theme.spacing.base * 3),
+        justifyContent: "center",
+    }
 });

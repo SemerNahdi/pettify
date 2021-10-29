@@ -90,7 +90,7 @@ class Loading extends React.Component<ScreenProps<>> {
                     (doc) =>
                     { 
                         data = doc.data(); 
-                        if(data.role == "v")
+                        if(data.role == "v" || data.role == "a")
                         {
                             navigation.navigate("Vet")
                         }
@@ -229,7 +229,7 @@ const VetNavigator = createBottomTabNavigator(
         swipeEnabled: false,
     }
 );
-const VetSignUpNavigator = createBottomTabNavigator(
+const VetSignUpNavigator = createStackNavigator(
     {
         SignUpVet: { screen: SignUpVet},
     },
