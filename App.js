@@ -191,6 +191,7 @@ const PetsNavigator = createStackNavigator(
 const PatientsNavigator = createStackNavigator(
     {
         Patients: {screen: Patients},
+        SignUpVet: { screen: SignUpVet },
         Pets: {screen: Pets},
         PetDetailView: {screen : PetDetailView},
         AddPets: { screen: AddPets },
@@ -229,12 +230,6 @@ const VetNavigator = createBottomTabNavigator(
         swipeEnabled: false,
     }
 );
-const VetSignUpNavigator = createStackNavigator(
-    {
-        SignUpVet: { screen: SignUpVet},
-    },
-        StackNavigatorOptions
-);
 
 const SignUpNavigator = createStackNavigator(
     {
@@ -264,7 +259,6 @@ const AppNavigator = createAppContainer(
             SignUp: { screen: SignUpNavigator },
             Home: { screen: HomeNavigator },
             Vet: { screen: VetNavigator },
-            SignUpVet: { screen: VetSignUpNavigator },
         },
         StackNavigatorOptions
     )

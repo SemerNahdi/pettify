@@ -3,8 +3,9 @@ import * as React from "react";
 import {TextField, Firebase, Button} from "../components";
 import {View, StyleSheet, Dimensions} from "react-native";
 import {Theme} from "../components/Theme";
+import * as firebase from "firebase";
 
-export default class Password extends React.Component {
+export default class SignUpVet extends React.Component {
 
     //does loading reset every time the page is opened??
     state = {
@@ -49,7 +50,12 @@ export default class Password extends React.Component {
                 name: "Vet",
                 email: email,
                 role: "v",
-                pic: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c"
+                pic: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
+                picture: {
+                    // eslint-disable-next-line max-len
+                    uri: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
+                    preview: "data:image/gif;base64,R0lGODlhAQABAPAAAKyhmP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                }
             });
     
             await vetCreation.auth().signOut();
@@ -66,6 +72,8 @@ export default class Password extends React.Component {
         } catch (e) {
             alert(e);
             this.setState({ loading: false });
+            await vetCreation.auth().signOut();
+            await vetCreation.delete();
         }
     }
 
