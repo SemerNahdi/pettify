@@ -12,7 +12,12 @@ type DropdownIsVisibleState = { dropdownIsVisible: boolean };
 export default class DiagnosticTool extends React.Component<DropdownIsVisibleState> {
   constructor(props) {
     super(props);
-    this.state = {dropdownIsVisible: false};
+    this.state = {
+      dropdownIsVisible: false,
+      dogStyle: "primary",
+      catStyle: "primary",
+      birdStyle: "primary"
+    };
   }
 
   hideDropdown() {
@@ -23,12 +28,34 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     this.setState({ dropdownIsVisible: true });
   }
 
-  selectSpecies = ( species) => {
-    if (this._multiselectdropdown === undefined) {
+  selectSpecies = ( species ) => {
+    if (this._multiselectdropdown === undefined) 
+    {
       this.hideDropdown();
       this._multiselectdropdown.selectPet("Dog");
-    } else {
+    } 
+    else 
+    {
       this._multiselectdropdown.selectPet(species);
+
+      if(species === "Dog")
+      {
+        this.setState({ catStyle: "primary" })
+        this.setState({ birdStyle: "primary" })
+        this.setState({ dogStyle: "highlight" })
+      }
+      else if(species === "Cat")
+      {
+        this.setState({ catStyle: "highlight" })
+        this.setState({ birdStyle: "primary" })
+        this.setState({ dogStyle: "primary" })
+      }
+      else if(species === "Bird")
+      {
+        this.setState({ catStyle: "primary" })
+        this.setState({ birdStyle: "highlight" })
+        this.setState({ dogStyle: "primary" })
+      }
     }
   }
 
@@ -47,7 +74,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
               label = "Dog"
               onPress={() => this.selectSpecies("Dog")}
               full
-              style="primary"
+              style={this.state.dogStyle}
             />
           </View>
           <View style={styles.iconContainer}>
@@ -56,7 +83,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
               label = "Cat"
               onPress={() => this.selectSpecies("Cat")}
               full
-              style="primary"
+              style={this.state.catStyle}
             />
             </View>
           <View style={styles.iconContainer}>
@@ -65,7 +92,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
               label = "Bird"
               onPress={() => this.selectSpecies("Bird")}
               full
-              style="primary"
+              style={this.state.birdStyle}
             />
           </View>
         </View>
