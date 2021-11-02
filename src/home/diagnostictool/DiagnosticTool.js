@@ -14,9 +14,9 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     super(props);
     this.state = {
       dropdownIsVisible: false,
-      dogStyle: "primary",
-      catStyle: "primary",
-      birdStyle: "primary"
+      dogStyle: "defaultButton",
+      catStyle: "defaultButton",
+      birdStyle: "defaultButton"
     };
   }
 
@@ -40,21 +40,21 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
 
       if(species === "Dog")
       {
-        this.setState({ catStyle: "primary" })
-        this.setState({ birdStyle: "primary" })
+        this.setState({ catStyle: "defaultButton" })
+        this.setState({ birdStyle: "defaultButton" })
         this.setState({ dogStyle: "highlight" })
       }
       else if(species === "Cat")
       {
         this.setState({ catStyle: "highlight" })
-        this.setState({ birdStyle: "primary" })
-        this.setState({ dogStyle: "primary" })
+        this.setState({ birdStyle: "defaultButton" })
+        this.setState({ dogStyle: "defaultButton" })
       }
       else if(species === "Bird")
       {
-        this.setState({ catStyle: "primary" })
+        this.setState({ catStyle: "defaultButton" })
         this.setState({ birdStyle: "highlight" })
-        this.setState({ dogStyle: "primary" })
+        this.setState({ dogStyle: "defaultButton" })
       }
     }
   }
