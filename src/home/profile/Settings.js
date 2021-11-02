@@ -19,8 +19,6 @@ import {
 
 import EnableCameraRollPermission from "./EnableCameraRollPermission";
 
-import type { ScreenParams } from "../../components/Types";
-
 export default class Settings extends React.Component {
 
     constructor(props){
@@ -30,6 +28,7 @@ export default class Settings extends React.Component {
             pic: "",
             loading: false,
             hasCameraRollPermission: null,
+            address: "",
         };
 
         navigation = this.props.navigation;
@@ -37,6 +36,7 @@ export default class Settings extends React.Component {
 
         this.state.name = profile.name;
         this.state.pic = profile.pic ? profile.pic : profile.picture.uri;
+        this.state.address = profile.address;
 
         Permissions.askAsync(Permissions.CAMERA_ROLL)
         .then((stat) => {
@@ -47,7 +47,7 @@ export default class Settings extends React.Component {
     @autobind
     async save(): Promise<void> {
         const originalProfile = profile;
-        const { name, pic } = this.state;
+        const { name, pic, address } = this.state;
         const { uid } = Firebase.auth.currentUser;
 
         this.setState({ loading: true });
@@ -55,6 +55,13 @@ export default class Settings extends React.Component {
         try {
             if (name !== originalProfile.name) {
                 await Firebase.firestore.collection("users").doc(uid).update({ name })
+                .then(() => {
+                    this.props.navigation.state.params.onSubmit();
+                    this.props.navigation.goBack()
+                });
+            }
+            if (address !== originalProfile.address) {
+                await Firebase.firestore.collection("users").doc(uid).update({ address })
                 .then(() => {
                     this.props.navigation.state.params.onSubmit();
                     this.props.navigation.goBack()
@@ -105,6 +112,11 @@ export default class Settings extends React.Component {
         this.setState({ name });
     }
 
+    @autobind
+    setAddress(address: string) {
+        this.setState({ address });
+    }
+
     render(): React.Node {
         const { loading } = this.state;
         if (this.state.hasCameraRollPermission === null) {
@@ -137,6 +149,15 @@ export default class Settings extends React.Component {
                         defaultValue={this.state.name}
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
+                    />
+                    <TextField
+                        placeholder="Address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        defaultValue={this.state.address}
+                        onSubmitEditing={this.save}
+                        onChangeText={this.setAddress}
                     />
                     <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
                     <Button label="Sign Out" full onPress={logout} style="base"/>
