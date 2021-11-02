@@ -7,7 +7,6 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import AppLoading from "expo-app-loading";
-import { Provider, inject } from "mobx-react";
 import { Feather } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
@@ -135,9 +134,7 @@ export default class App extends React.Component {
 
     render(): React.Node {
         return (
-            <Provider {...{}}>
-                <AppNavigator onNavigationStateChange={() => undefined} />
-            </Provider>
+            <AppNavigator onNavigationStateChange={() => undefined} />
         );
     }
 }
