@@ -51,7 +51,7 @@ export default class Settings extends React.Component {
     @autobind
     async save(): Promise<void> {
         const originalProfile = profile;
-        const { name, picture, address, email } = this.state;
+        const { name, pic, address, email } = this.state;
         const { uid } = Firebase.auth.currentUser;
 
         this.setState({ loading: true });
