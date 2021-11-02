@@ -26,6 +26,7 @@ import type { Picture } from "../../components/ImageUpload";
 
 type SettingsState = {
     name: string,
+    address: String,
     picture: Picture,
     loading: boolean,
     hasCameraRollPermission: boolean | null,
@@ -41,6 +42,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         },
         loading: false,
         hasCameraRollPermission: null,
+        address: "",
     };
 
     async componentDidMount(): Promise<void> {
@@ -51,7 +53,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
             height: 0,
             width: 0,
         };
-        this.setState({ name: profile.name, picture, loading: false, hasCameraRollPermission: null });
+        this.setState({ name: profile.name, address: profile.address, picture, loading: false, hasCameraRollPermission: null });
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         this.setState({ hasCameraRollPermission: status === "granted" });
     }
@@ -60,12 +62,15 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
     async save(): Promise<void> {
         const { navigation } = this.props;
         const originalProfile = navigation.state.params.profile;
-        const { name, picture } = this.state;
+        const { name, picture, address } = this.state;
         const { uid } = Firebase.auth.currentUser;
         this.setState({ loading: true });
         try {
             if (name !== originalProfile.name) {
                 await Firebase.firestore.collection("users").doc(uid).update({ name });
+            }
+            if (address !== originalProfile.address) {
+                await Firebase.firestore.collection("users").doc(uid).update({ address });
             }
             if (picture.uri !== originalProfile.picture.uri) {
                 const preview = await ImageUpload.preview(picture);
@@ -103,9 +108,14 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
         this.setState({ name });
     }
 
+    @autobind
+    setAddress(address: string) {
+        this.setState({ address });
+    }
+
     render(): React.Node {
         const { navigation } = this.props;
-        const { name, picture, loading, hasCameraRollPermission } = this.state;
+        const { name, address, picture, loading, hasCameraRollPermission } = this.state;
         if (hasCameraRollPermission === null) {
             return (
                 <View style={styles.refreshContainer}>
@@ -135,6 +145,15 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
                         defaultValue={name}
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
+                    />
+                    <TextField
+                        placeholder="Address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        defaultValue={address}
+                        onSubmitEditing={this.save}
+                        onChangeText={this.setAddress}
                     />
                     <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
                     <Button label="Sign Out" full onPress={logout} style="base"/>

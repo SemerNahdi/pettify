@@ -45,6 +45,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     async next(): Promise<void> {
         const {password} = this.state;
         const {email, displayName} = SignUpStore;
+        const {displayAddress} = SignUpStore;
         try {
             if (password === "") {
                 throw new Error("Please provide a password.");
@@ -54,6 +55,7 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
             const profile: Profile = {
                 name: displayName,
                 email: email,
+                address: displayAddress,
                 role: "p",
                 picture: {
                     // eslint-disable-next-line max-len
