@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
-import { StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import {Theme, Button, NavHeader} from "../../components";
@@ -47,27 +46,27 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
         this.setState({ catStyle: "defaultButton" })
         this.setState({ birdStyle: "defaultButton" })
         this.setState({ dogStyle: "highlight" })
-        this.setState({dogImage: styles.image2})
-        this.setState({catImage: styles.image})
-        this.setState({birdImage: styles.image})
+        this.setState({ dogImage: styles.image2 })
+        this.setState({ catImage: styles.image })
+        this.setState({ birdImage: styles.image })
       }
       else if(species === "Cat")
       {
         this.setState({ catStyle: "highlight" })
         this.setState({ birdStyle: "defaultButton" })
         this.setState({ dogStyle: "defaultButton" })
-        this.setState({dogImage: styles.image})
-        this.setState({catImage: styles.image2})
-        this.setState({birdImage: styles.image})
+        this.setState({ dogImage: styles.image })
+        this.setState({ catImage: styles.image2 })
+        this.setState({ birdImage: styles.image })
       }
       else if(species === "Bird")
       {
         this.setState({ catStyle: "defaultButton" })
         this.setState({ birdStyle: "highlight" })
         this.setState({ dogStyle: "defaultButton" })
-        this.setState({dogImage: styles.image})
-        this.setState({catImage: styles.image})
-        this.setState({birdImage: styles.image2})
+        this.setState({ dogImage: styles.image })
+        this.setState({ catImage: styles.image })
+        this.setState({ birdImage: styles.image2 })
       }
     }
   }
@@ -78,7 +77,6 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     return (
       <View style={styles.container}>
         <NavHeader title="Diagnostic Tool" {...{ navigation }} />
-        <LinearGradient colors={["#81f1f7", "#9dffb0"]} style={styles.gradient} />
         <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
