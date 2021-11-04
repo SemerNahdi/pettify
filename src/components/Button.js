@@ -7,7 +7,7 @@ import {Theme} from "./Theme";
 
 export default class Button extends React.Component<> {
     render(): React.Node {
-        const {label, full, disabled, transparent, onPress, style, loading, color} = this.props;
+        const {label, full, disabled, transparent, onPress, style, loading, textColor} = this.props;
         var appliedStyle
         var primary = false
 
@@ -38,7 +38,7 @@ export default class Button extends React.Component<> {
                 {!loading &&(
                 <Text
                     style={{
-                        color: disabled ? "transparent" : (color ? color : (primary ? (transparent ? Theme.palette.primary : Theme.palette.black) : Theme.typography.color)),
+                        color: disabled ? "transparent" : (textColor ? textColor : (primary ? (transparent ? Theme.palette.primary : Theme.palette.black) : Theme.typography.color)),
                         fontSize: primary ? 16 : Theme.typography.regular.fontSize,
                         fontFamily: Theme.typography.semibold,
                     }}

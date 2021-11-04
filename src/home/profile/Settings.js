@@ -210,8 +210,8 @@ export default class Settings extends React.Component {
                     />
                     <View style={styles.separator}/>
                     <View style={{paddingTop: 12}}></View>
-                    <Button label="Sign Out" full onPress={logout} style="base" color="deepskyblue"/>
-                    <View style={{marginTop:-8}}><Button label="Delete Account" full onPress={this.deleteUser} style="base" color="deepskyblue"/></View>
+                    <Button label="Sign Out" full onPress={logout} style="base" textColor={Theme.palette.danger}/>
+                    <View style={{marginTop:-8}}><Button label="Delete Account" full onPress={this.deleteUser} style="base" textColor={Theme.palette.danger}/></View>
                 </Content>
             </View>
         );
