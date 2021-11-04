@@ -16,9 +16,9 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
       dogStyle: "defaultButton",
       catStyle: "defaultButton",
       birdStyle: "defaultButton",
-      dogImage: styles.image,
-      catImage: styles.image,
-      birdImage: styles.image
+      dogImage: styles.petImage,
+      catImage: styles.petImage,
+      birdImage: styles.petImage
 
     };
   }
@@ -46,27 +46,27 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
         this.setState({ catStyle: "defaultButton" })
         this.setState({ birdStyle: "defaultButton" })
         this.setState({ dogStyle: "highlight" })
-        this.setState({ dogImage: styles.image2 })
-        this.setState({ catImage: styles.image })
-        this.setState({ birdImage: styles.image })
+        this.setState({ dogImage: styles.petImage2 })
+        this.setState({ catImage: styles.petImage })
+        this.setState({ birdImage: styles.petImage })
       }
       else if(species === "Cat")
       {
         this.setState({ catStyle: "highlight" })
         this.setState({ birdStyle: "defaultButton" })
         this.setState({ dogStyle: "defaultButton" })
-        this.setState({ dogImage: styles.image })
-        this.setState({ catImage: styles.image2 })
-        this.setState({ birdImage: styles.image })
+        this.setState({ dogImage: styles.petImage })
+        this.setState({ catImage: styles.petImage2 })
+        this.setState({ birdImage: styles.petImage })
       }
       else if(species === "Bird")
       {
         this.setState({ catStyle: "defaultButton" })
         this.setState({ birdStyle: "highlight" })
         this.setState({ dogStyle: "defaultButton" })
-        this.setState({ dogImage: styles.image })
-        this.setState({ catImage: styles.image })
-        this.setState({ birdImage: styles.image2 })
+        this.setState({ dogImage: styles.petImage })
+        this.setState({ catImage: styles.petImage })
+        this.setState({ birdImage: styles.petImage2 })
       }
     }
   }
@@ -140,11 +140,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: Theme.spacing.base
   },
-  image: {
+  petImage: {
     padding: 10,
     color: Theme.palette.white
   },
-  image2: {
+  petImage2: {
     padding: 10,
     color: Theme.palette.black
   },
