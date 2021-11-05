@@ -35,7 +35,6 @@ export default class Button extends React.Component<> {
                 disabled = {disabled}
                 transparent = {!primary || transparent}
                 
-            >
                 {!!loading && (<Spinner color="white" />)}
                 {!loading &&(
                 <Text
@@ -45,7 +44,6 @@ export default class Button extends React.Component<> {
                         fontFamily: Theme.typography.semibold
                         
                     }}
-                >
                     {label}
                 </Text>
                 )}
@@ -64,7 +62,6 @@ const styles = StyleSheet.create({
     },
     primary: {
         backgroundColor: Theme.palette.primary,
-        //opacity: 1,
         shadowColor: "rgba(85, 85, 85, 0.29)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
@@ -77,7 +74,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 10,
         paddingHorizontal: 5
-        //padding: 2,
         
     },
     diagnosisButton: {
