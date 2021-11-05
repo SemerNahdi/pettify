@@ -5,7 +5,6 @@ import _ from 'lodash';
 import Pagination from 'react-native-pagination';
 import Firebase from "../../components/Firebase";
 import { NavHeader, Text } from "../../components";
-import { LinearGradient } from "expo-linear-gradient";
 
 export default class DiagnosticToolResults extends Component {
 
@@ -15,27 +14,14 @@ export default class DiagnosticToolResults extends Component {
         items: [],
         loading: true,
       };
-    }
 
-    componentDidMount(){
-        const { uid } = Firebase.auth.currentUser;
-        let diagnosedDiseases;
+      const { uid } = Firebase.auth.currentUser;
 
-        setTimeout(() => {
-            Firebase.firestore
-            .collection("users")
-            .doc(uid)
-            .get()
-            .then(docRef => {
-                diagnosedDiseases = docRef.data()[Object.keys(docRef.data())[0]];
-                diagnosedDiseases = diagnosedDiseases.map((str, index) => ({ name: str, id: index + 1}));
-                this.setState({items: diagnosedDiseases})
-            })
-            .then(() => {
-                this.setState({ loading: false });
-            })
-            .catch((error) => { console.log('Error retrieving doc: ', error) })
-        }, 1000);
+      let diagnosedDiseases;
+
+      diagnosedDiseases = this.props.navigation.state.params.diagnoses.map((str, index) => ({ name: str, id: index + 1}));
+      this.state.items = diagnosedDiseases;
+      this.state.loading = false;
     }
 
     //create each list item
@@ -71,8 +57,8 @@ export default class DiagnosticToolResults extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeader title="Diagnosed Diseases" back {...{ navigation }} />
-        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+      <NavHeader title="Diagnosed Diseases" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+        
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling
@@ -103,14 +89,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 0
   },
   noItemsMessage: {
     zIndex: 1000,

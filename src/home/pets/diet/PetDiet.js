@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { Theme, NavHeaderWithButton, Text } from "../../../components";
-import { LinearGradient } from "expo-linear-gradient";
+import { Theme, NavHeader, Text } from "../../../components";
 import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
  
@@ -339,8 +338,8 @@ export default class PetDiet extends Component<> {
  
     return (
       <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-        <NavHeaderWithButton title="Diet" back {...{ navigation }} />
-        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+        <NavHeader title="Diet" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+        
  
         <View style= {styles.dietHeading}>
             <Text style={{fontSize: 20 }}> {"Proteins:"} </Text>
@@ -671,13 +670,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     overflow: 'scroll'
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   },
   prescBottom: {
     backgroundColor: '#FFFFFF',

@@ -121,13 +121,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
   },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
-  },
   message: {
     color: Theme.palette.black,
     fontSize: 20,

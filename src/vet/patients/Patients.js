@@ -5,7 +5,6 @@ import _ from 'lodash';
 import Pagination from 'react-native-pagination';//{Icon,Dot} also available
 import Firebase from "../../components/Firebase";
 import { NavHeader, Theme } from "../../components";
-import { LinearGradient } from "expo-linear-gradient";
 
 export default class Patients extends Component {
 
@@ -18,10 +17,10 @@ export default class Patients extends Component {
 
       navigation = this.props.navigation;
 
-      this.retrieveFireStorePets();
+      this.retrieveFireStorePatients();
     }
 
-  retrieveFireStorePets() {
+  retrieveFireStorePatients() {
     let allUsers = []
 
     Firebase.firestore
@@ -57,7 +56,7 @@ export default class Patients extends Component {
         index={item.id}
         uid={item.uid}
         name={item.name}
-        pic={item.picture.uri}
+        pic={item.pic ? item.pic : item.picture.uri}
         email={item.email}
         {...{navigation}}
       />)
@@ -86,7 +85,7 @@ export default class Patients extends Component {
     return (
       <View style={[styles.container]}>
       <NavHeader title="Patients" />
-        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+        
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling
@@ -115,12 +114,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   },
 });

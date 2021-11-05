@@ -22,7 +22,7 @@ import {Text, Theme} from "../../components";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default class EditScreen extends React.Component<> {
+export default class EditScreen extends React.Component {
   constructor(props)
   {
     super(props);
@@ -32,7 +32,6 @@ export default class EditScreen extends React.Component<> {
     this.state = {
       petDetails: "",
       loading: true,
-      imagePath: require("../../../assets/PetCare.png"),
       isLoading: false,
       isDog: true,
       isCat: true,
@@ -69,9 +68,9 @@ export default class EditScreen extends React.Component<> {
       status: '',
       avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
       avatarBackground: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg", 
-      name: "Gina Mahdi",
-      sex: "female",
-      petBiology: {"species": "Miami", "breed": "Florida"},
+      name: "",
+      sex: "",
+      petBiology: {"species": "", "breed": ""},
       setOverlay: false,
     };
 
@@ -175,7 +174,12 @@ export default class EditScreen extends React.Component<> {
     .update({
       name, age, yearsOwned, sex, classification, spayNeuter_Status, weight, activity, 
       pregnancy, lactating, size, species, breed 
-    })
+    }).then(() => {
+      navigation.state.params.setLoading(true);
+      navigation.state.params.onEdit();
+      navigation.state.params.onGoBack();
+      navigation.goBack();
+    });
   }
 
   chooseFile = async () => {
@@ -185,58 +189,43 @@ export default class EditScreen extends React.Component<> {
     if (result.cancelled) {
       this.setState({loading: false});
     } else if (result.error) {
-        console.log('ImagePicker Error: ', result.error);
+      console.log('ImagePicker Error: ', result.error);
     } else if (result.customButton) {
-        console.log('User tapped custom button: ', result.customButton);
+      console.log('User tapped custom button: ', result.customButton);
     } else {
-        let path = result.uri;
-        let imageName = this.getFileName(result.fileName, path);
-        this.setState({ imagePath: path });
-        this.uploadImage(path, imageName);
+      let path = result.uri;
+      let imageName = path.split("/").pop();
+      const response = await fetch(path);
+      const blob = await response.blob();
+
+      Firebase.storage.ref().child("petPictures/" + imageName).put(blob)
+      .then(() => {
+        Firebase.storage.ref().child("petPictures/" + imageName).getDownloadURL()
+        .then((pic) => {
+              Firebase.firestore
+                .collection("users")
+                .doc(uid)
+                .collection("pets")
+                .doc(pet_uid)
+                .update({pic})
+                .then(() => {
+                  this.retrieveFireStorePetDetails()
+                  navigation.state.params.setLoading(true);
+                  navigation.state.params.onEdit();
+                  navigation.state.params.onGoBack();
+                  this.setState({loading: false})
+                })
+          });
+      }).catch((e) => {
+          console.log('uploading image error => ', e);
+          this.setState({ loading: false });
+      });
     }
-  }
-
-  uploadImage = async (path, imageName) => {
-    const response = await fetch(path);
-    const blob = await response.blob();
-
-    var ref = Firebase.storage.ref().child("petPictures/" + imageName);
-    let task = ref.put(blob);
-
-    task.then(() => {
-        this.setState({ status: 'Image uploaded successfully' });
-        ref.getDownloadURL().then(function(pic) {
-            Firebase.firestore
-              .collection("users")
-              .doc(uid)
-              .collection("pets")
-              .doc(pet_uid)
-              .update({pic})
-        }
-        , function(error){
-            console.log(error);
-        });
-        this.retrieveFireStorePetDetails()
-          .then(this.setState({loading: false}));
-    }).catch((e) => {
-        status = 'Something went wrong';
-        console.log('uploading image error => ', e);
-        this.setState({ loading: false, status: 'Something went wrong' });
-    });
-  }
-
-  getFileName(name, path) {
-      if (name != null) { return name; }
-
-      if (Platform.OS === "ios") {
-          path = "~" + path.substring(path.indexOf("/Documents"));
-      }
-      return path.split("/").pop();
   }
 
   @autobind
   goBackToPets() {
-    this.props.navigation.goBack();
+    navigation.goBack();
   }
 
   @autobind
@@ -247,7 +236,6 @@ export default class EditScreen extends React.Component<> {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
         { text: "Delete", onPress: () => this.deletingPet(), style:"destructive" }
@@ -263,14 +251,12 @@ export default class EditScreen extends React.Component<> {
       .collection("pets")
       .doc(pet_uid)
       .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
+      .then( () => {
+        navigation.state.params.onGoBack();
+        navigation.navigate("Pets");
       }).catch((error) => {
           console.error("Error removing document: ", error);
       });
-
-    console.log("Delete Pressed")
-    navigation.navigate("Pets");
   }
 
   @autobind
@@ -292,7 +278,7 @@ export default class EditScreen extends React.Component<> {
 
     switch(species){
       case("isDog"):
-        this.setState({petBiology: {"species":"Dog", breed: this.state.petBiology.breed}});
+        this.setState({petBiology: {species: "Dog", breed: this.state.petBiology.breed}});
         break;
       case("isCat"):
         this.setState({petBiology: {species: "Cat", breed: this.state.petBiology.breed}});
@@ -536,13 +522,6 @@ export default class EditScreen extends React.Component<> {
 
   handleWeight = (text) => {
     this.setState({weight: text})
-  }
-
-  @autobind
-  submitChanges()
-  {
-    this.updateFireStorePetDetails();
-    navigation.goBack();
   }
 
   renderHeader = () => {
@@ -958,7 +937,7 @@ export default class EditScreen extends React.Component<> {
           }}>
           <TouchableOpacity
               style={styles.submitButton}
-              onPress={this.submitChanges}
+              onPress={this.updateFireStorePetDetails}
             >
                 <Text>
                   Submit Changes

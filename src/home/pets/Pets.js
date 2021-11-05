@@ -5,13 +5,12 @@ import _ from 'lodash';
 import Pagination,{Icon,Dot} from 'react-native-pagination';//{Icon,Dot} also available
 import Firebase from "../../components/Firebase";
 import { NavHeaderWithButton, Theme } from "../../components";
-import { LinearGradient } from "expo-linear-gradient";
 import autobind from 'autobind-decorator';
 
 export default class Pets extends Component {
   @autobind
   buttonFn() {
-    navigation.navigate("AddPets", { uid });
+    navigation.navigate("AddPets", { uid, onGoBack:() => this.retrieveFireStorePets() });
   }
 
   constructor(props){
@@ -27,7 +26,7 @@ export default class Pets extends Component {
       this.retrieveFireStorePets()
   }
 
-  retrieveFireStorePets() {
+  retrieveFireStorePets = () => {
     let currentUsersPets = []
 
     Firebase.firestore
@@ -78,6 +77,7 @@ export default class Pets extends Component {
         pregnancy={item.pregnancy}
         lactating={item.lactating}
         classification={item.classification} 
+        onGoBack={this.retrieveFireStorePets}
         {...{navigation}}
       />)
     };
@@ -106,8 +106,8 @@ export default class Pets extends Component {
     }
     return (
       <View style={[styles.container]}>
-      <NavHeaderWithButton title="My Pets" buttonFn={this.buttonFn} buttonIcon="plus" back = {vet} {...{ navigation }}/>
-        <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.gradient} />
+      <NavHeaderWithButton title="Pets" buttonIcon="plus" buttonFn={this.buttonFn} back={vet} backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+        
           <FlatList
             data={this.state.items}
             ref={r=>this.refs=r}//create refrence point to enable scrolling
@@ -136,12 +136,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
   },
 });

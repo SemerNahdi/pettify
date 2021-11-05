@@ -1,10 +1,11 @@
 PropTypes;
 import autobind from "autobind-decorator";
 import React, { Component } from 'react';
-import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { FontAwesome5 } from '@expo/vector-icons';
+
 const { width, height } = Dimensions.get('window');
 
 export default class ListItem extends Component {
@@ -19,72 +20,16 @@ export default class ListItem extends Component {
     const { name, email, pic, id } = this.props; 
 
     return (
-      <TouchableOpacity
-        style={[
-          {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }
-        ]}
-        onPress={this.goToPets}
-      >
-        <View
-          style={{
-            paddingBottom: 15,
-            paddingTop: 15,
-            flex: 1,
-            width,
-            flexDirection: 'row',
-            borderBottomWidth: 1,
-            borderColor: 'white'
-          }}
-        >
-          <View
-            style={{
-              paddingRight: 5,
-              alignSelf: 'center',
-              justifyContent: 'center',
-            }}>
-            <Image
-              source={{ uri: pic }}
-              style={{
-                borderRadius: 85,
-                height: 70,
-                marginBottom: 15,
-                width: 70,
-              }}
-            />
+      <TouchableOpacity onPress={this.goToPets}>
+        <View style={styles.patientItemContainer}>
+          <View style={styles.imageContainer}>
+            <Image source={{ uri: pic }} style={styles.picture}/>
           </View> 
-          <View
-            style={{
-              alignSelf: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: '600',
-                fontSize: 32,
-                color: 'black',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: 210
-              }}
-            >
+          <View style={styles.column}>
+            <Text style={styles.name}>
               {name}
             </Text>
-            <Text
-              style={{
-                fontWeight: '500',
-                fontSize: 20,
-                color: 'black',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: 210
-              }}
-            >
+            <Text style={styles.email}>
               {email}
             </Text>
           </View>
@@ -93,3 +38,46 @@ export default class ListItem extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  email: {
+    fontWeight: '400',
+    fontSize: 18,
+    color: 'black',
+    flexDirection: 'row',
+    width: width - 100
+  },
+  name: {
+    fontWeight: '600',
+    fontSize: 26,
+    color: 'black',
+    flexDirection: 'row',
+    width: width - 100
+  },
+  column: {
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  picture: {
+    borderRadius: 45,
+    height: 70,
+    marginBottom: 5,
+    marginTop: 5,
+    width: 70,
+  },
+  imageContainer: {
+    paddingRight: 8,
+    paddingLeft: 8,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  patientItemContainer: {
+    paddingBottom: 15,
+    paddingTop: 15,
+    flex: 1,
+    width: width,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: 'white'
+  }
+})
