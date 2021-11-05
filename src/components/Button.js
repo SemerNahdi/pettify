@@ -34,14 +34,16 @@ export default class Button extends React.Component<> {
                 full = {full}
                 disabled = {disabled}
                 transparent = {!primary || transparent}
+                
             >
                 {!!loading && (<Spinner color="white" />)}
                 {!loading &&(
                 <Text
                     style={{
                         color: disabled ? "transparent" : (primary ? (transparent ? Theme.palette.primary : Theme.palette.black) : Theme.typography.color),
-                        fontSize: primary ? 16 : Theme.typography.regular.fontSize,
+                        fontSize: primary ? 18 : Theme.typography.regular.fontSize,
                         fontFamily: Theme.typography.semibold
+                        
                     }}
                 >
                     {label}
@@ -62,18 +64,19 @@ const styles = StyleSheet.create({
     },
     primary: {
         backgroundColor: Theme.palette.primary,
+        opacity: 1,
         shadowColor: "rgba(85, 85, 85, 0.29)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
-        shadowRadius: 7,
-        borderRadius: 10,
+        shadowRadius: .2,
+        borderRadius: 100,
         borderWidth: 1,
         borderColor: Theme.palette.white,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 5
+        padding: 2,
+        
     },
     diagnosisButton: {
         backgroundColor: Theme.palette.primary,
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: 10,
-        paddingHorizontal: 5,
+        paddingHorizontal: 20,
         position: 'absolute',
         bottom: -200,
         zIndex: 0,

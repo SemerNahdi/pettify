@@ -2,8 +2,10 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {TextField, Firebase, Button} from "../components";
 import {View, StyleSheet, Dimensions} from "react-native";
-import {Theme} from "../components/Theme";
+import {Theme, NavHeader} from "../components/Theme";
 import * as firebase from "firebase";
+import { Title } from "native-base";
+import Text from "../components/Text";
 
 export default class SignUpVet extends React.Component {
 
@@ -75,61 +77,81 @@ export default class SignUpVet extends React.Component {
             await vetCreation.auth().signOut();
             await vetCreation.delete();
         }
+        
     }
 
     render(): React.Node {
-        const {navigation} = this.props;
         const {loading} = this.state;
 
         return (
-                <View style={styles.innerContainer}>
-                    
-                    <TextField
-                        placeholder="Email"
-                        keyboardType="email-address"
-                        contrast
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        returnKeyType="go"
-                        onChangeText={this.setEmail}
-                    />
+            
+            <View style={styles.container}>
+            <View style={styles.firstrow}>
+                <Text type="header2" >{"Vet Sign Up"}</Text>        
+            </View>
+            <View style={styles.secondrow}>
+                <TextField
+                    placeholder="Vets Email"
+                    placeholderTextColor={"black"}
+                    keyboardType="email-address"
+                    contrast
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    returnKeyType="go"
+                    onChangeText={this.setEmail}
+                />   
+            </View>
+            <View style={styles.thirdrow}>
+                 <Button label="Create" full onPress={this.next} {...{ loading } } style="primary"/> 
 
-                    <Button label="Create Vet" full onPress={this.next} {...{ loading } } style="primary"/> 
-
-                    <Button label="Back" full onPress={this.back} style="base" />
+            </View>
+            <View style={styles.fourthrow}>
+                <Button label="Back" full onPress={this.back} style="base" />
                     
-                </View>
+            </View>
+            
+         
+                   
+                    
+                    </View>
+                
         );
     }
 }
 
 //CSS most likely needs to be worked on
 const { height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
-    textInput: {
-        borderColor: Theme.palette.borderColor,
-        borderWidth: 1,
-        borderRadius: 3,
-        ...Theme.typography.regular,
-        color: Theme.typography.color,
-        padding: Theme.spacing.small,
-        marginBottom: Theme.spacing.base,
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.03,
-        shadowRadius: 1,
-        width: "85%"
-    },
+        
     container: {
-        flexDirection: 'row',
-        height: Theme.spacing.base * 1.2,
-        justifyContent: 'center',
-    },
-    content: {
-        padding: Theme.spacing.base,
-    },
-    innerContainer: {
-        height: height - (Theme.spacing.base * 3),
+        height: height - (Theme.spacing.base ),
         justifyContent: "center",
-    }
+        backgroundColor: "#F0F6F7FF",
+        flex: 1,
+        justifyContent: 'space-between',
+        paddingTop: 0
+    
+    },
+    firstrow: {
+        flex: 1.4,
+        justifyContent: "center",
+    },
+    secondrow: {
+        flex: .3,
+        justifyContent: "center",
+        justifyContent: 'space-between'
+        },
+    thirdrow: {
+        flex: .4,
+        justifyContent: "center",
+        justifyContent: 'space-between'
+        },
+    fourthrow: {
+        flex: .5,
+        justifyContent: "center",
+        justifyContent: 'space-between'
+        }
+
+
 });

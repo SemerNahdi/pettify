@@ -46,7 +46,7 @@ type Theme = {
 
 const theme: Theme = {
     palette: {
-        primary: "#81f1f7",
+        primary: "#39c3ef",
         info: "#00A699",
         secondary: "#9dffb0",
         success: "#5cb85c",
@@ -54,12 +54,12 @@ const theme: Theme = {
         warning: "#FFF563",
         sidebar: "#484848",
         lightGray: "#BFBFBF",
-        borderColor: "#F5F5F5",
+        borderColor: "#555555",
         white: "#FFFFFA",
         black: "#555555"
     },
     typography: {
-        color: "#555555",
+        color: "#1d1d1d",
         bold: "SFProText-Bold",
         semibold: "SFProText-Semibold",
         normal: "SFProText-Medium",
