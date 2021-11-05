@@ -41,7 +41,7 @@ export default class Button extends React.Component<> {
                 <Text
                     style={{
                         color: disabled ? "transparent" : (primary ? (transparent ? Theme.palette.primary : Theme.palette.black) : Theme.typography.color),
-                        fontSize: primary ? 18 : Theme.typography.regular.fontSize,
+                        fontSize: primary ? 16 : Theme.typography.regular.fontSize,
                         fontFamily: Theme.typography.semibold
                         
                     }}
@@ -64,18 +64,20 @@ const styles = StyleSheet.create({
     },
     primary: {
         backgroundColor: Theme.palette.primary,
-        opacity: 1,
+        //opacity: 1,
         shadowColor: "rgba(85, 85, 85, 0.29)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
-        shadowRadius: .2,
-        borderRadius: 100,
+        shadowRadius: 7,
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: Theme.palette.white,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        padding: 2,
+        paddingVertical: 10,
+        paddingHorizontal: 5
+        //padding: 2,
         
     },
     diagnosisButton: {
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 5,
         position: 'absolute',
         bottom: -200,
         zIndex: 0,
