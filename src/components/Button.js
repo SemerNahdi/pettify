@@ -21,6 +21,16 @@ export default class Button extends React.Component<> {
         {
             appliedStyle = styles.diagnosisButton
         }
+        else if(style === "highlight")
+        {
+            appliedStyle = styles.highlight
+            primary = true
+        }
+        else if(style === "defaultButton")
+        {
+            appliedStyle = styles.defaultButton
+            primary = true
+        }
         else
         {
             appliedStyle = styles.base
@@ -62,6 +72,36 @@ const styles = StyleSheet.create({
     },
     primary: {
         backgroundColor: Theme.palette.primary,
+        shadowColor: "rgba(85, 85, 85, 0.29)",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 7,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
+    },
+    defaultButton: {
+        backgroundColor: Theme.palette.primary,
+        shadowColor: "rgba(85, 85, 85, 0.29)",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 7,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
+    },
+    highlight: {
+        backgroundColor: Theme.palette.secondary,
         shadowColor: "rgba(85, 85, 85, 0.29)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
