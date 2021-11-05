@@ -47,7 +47,7 @@ export class HomeTab extends React.Component<NavigationProps<*>> {
 
 const styles = StyleSheet.create({
     tabs: {
-        backgroundColor: "white",
+        backgroundColor: "#F0F6F7FF",
         shadowColor: "black",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,

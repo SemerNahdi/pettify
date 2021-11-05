@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         borderColor: Theme.palette.borderColor,
         borderBottomWidth: Platform.OS === "ios" ? 0 : 1,
         zIndex: 10000,
-        backgroundColor: "white",
+        backgroundColor: "#f3f6f4",
     },
     content: {
         marginTop: Platform.OS === "ios" ? 0 : 20,

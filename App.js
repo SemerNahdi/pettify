@@ -152,7 +152,7 @@ const StackNavigatorOptions = {
     headerMode: "none",
     defaultNavigationOptions: {
         cardStyle: {
-            backgroundColor: "white",
+            backgroundColor: "#F0F6F7FF",
         },
     },
 };

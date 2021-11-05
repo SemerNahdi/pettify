@@ -147,7 +147,7 @@ export default class Settings extends React.Component<ScreenParams<{ profile: Pr
 const logout = () => Firebase.auth.signOut();
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "white",
+        backgroundColor: "#F0F6F7FF",
         flex: 1,
     },
     content: {

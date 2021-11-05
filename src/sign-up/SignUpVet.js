@@ -91,7 +91,7 @@ export default class SignUpVet extends React.Component {
             </View>
             <View style={styles.secondrow}>
                 <TextField
-                    placeholder="Vets Email"
+                    placeholder="Enter Vet's Email"
                     placeholderTextColor={"black"}
                     keyboardType="email-address"
                     contrast
@@ -102,7 +102,7 @@ export default class SignUpVet extends React.Component {
                 />   
             </View>
             <View style={styles.thirdrow}>
-                 <Button label="Create" full onPress={this.next} {...{ loading } } style="primary"/> 
+                 <Button label="Create New Vet" full onPress={this.next} {...{ loading } } style="primary"/> 
 
             </View>
             <View style={styles.fourthrow}>
@@ -129,28 +129,43 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#F0F6F7FF",
         flex: 1,
-        justifyContent: 'space-between',
-        paddingTop: 0
+       
     
     },
     firstrow: {
-        flex: 1.4,
-        justifyContent: "center",
+        alignSelf: "center",
+        justifyContent: "space-between",
+        justifyContent: "flex-start",
+        flex: .3,
+        paddingVertical:60,
+        
     },
     secondrow: {
-        flex: .3,
+        margin:10,
+        
+        //alignSelf: "center",
+        paddingHorizontal:3,
+        //flex: .25,
         justifyContent: "center",
-        justifyContent: 'space-between'
+        
         },
     thirdrow: {
-        flex: .4,
+        marginTop:.01,
+        margin:10,
+        //alignSelf: "center",
+        
+        //flex: .1,
+        //paddingVertical:10,
         justifyContent: "center",
-        justifyContent: 'space-between'
+        justifyContent: "space-between",
         },
     fourthrow: {
-        flex: .5,
+        
+        flex: .50,
+       // paddingVertical:1,
         justifyContent: "center",
-        justifyContent: 'space-between'
+        justifyContent: "space-between",
+        
         }
 
 

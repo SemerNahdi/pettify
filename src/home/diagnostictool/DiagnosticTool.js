@@ -94,7 +94,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#F0F6F7FF",
     flex: 1,
   },
   message: {
