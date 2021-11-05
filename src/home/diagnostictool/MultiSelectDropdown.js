@@ -1,13 +1,8 @@
-// @flow
 import * as React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-
+import { Dimensions, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Theme, Button } from "../../components";
 import Firebase from "../../components/Firebase";
-import MultiSelect from "react-native-multiple-select";
-
-type Symptom = { name: string };
-//type DiseaseP = { name: string };
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default class MultiSelectDropdown extends React.Component {
   constructor(props) {
@@ -15,107 +10,108 @@ export default class MultiSelectDropdown extends React.Component {
       this.state = {
         items: [],
         selectedItems: [],
-        diagnoseButtonIsVisible: true
+        open: false,
+        diagnoseButtonIsVisible: true,
       };
       this.selectPet = this.selectPet.bind(this);
   }
 
-  static dogSymptoms: Symptom[] = [
-    { name: "Coughing" },
-    { name: "Lethargy" },
-    { name: "Decreased appetite" },
-    { name: "Fever" },
-    { name: "Intense breathing" },
-    { name: "Eye redness" },
-    { name: "Pustular dermatitis (rarely)" },
-    { name: "Runny nose" },
-    { name: "Diarrhea" },
-    { name: "Purulent eye discharge" },
-    { name: "Vomiting" },
-    { name: "Depression" },
-    { name: "Abdominal pain" },
-    { name: "Clear nasal discharge" },
-    { name: "Sneezing" },
-    { name: "Anorexia" },
-    { name: "Discoloration of the gums" },
-    { name: "Inflammation of the brain and spinal cord" },
-    { name: "Lack of energy" },
-    { name: "Stomach ache" },
-    { name: "Muscular pain" },
-    { name: "Blood in the urine" },
-    { name: "Severe itching" },
-    { name: "Paralysis" },
-    { name: "Fallen jaw" },
-    { name: "Wounds in the mouth" },
-    { name: "Lack of coordination" },
-    { name: "High temperature" },
-    { name: "Convulsions" },
-    { name: "Inability to swallow" },
-    { name: "Shyness or aggression" },
-    { name: "Frequent changes in behavior" },
-    { name: "Dermatitis" },
-    { name: "Existence of an external agent on the skin" }
+  static dogSymptoms = [
+    { label: "Coughing", value: "Coughing" },
+    { label: "Lethargy", value: "Lethargy" },
+    { label: "Decreased appetite", value: "Decreased appetite" },
+    { label: "Fever", value: "Fever" },
+    { label: "Intense breathing", value: "Intense breathing" },
+    { label: "Eye redness", value: "Eye redness" },
+    { label: "Pustular dermatitis (rarely)", value: "Pustular dermatitis (rarely)" },
+    { label: "Runny nose", value: "Runny nose" },
+    { label: "Diarrhea", value: "Diarrhea" },
+    { label: "Purulent eye discharge", value: "Purulent eye discharge" },
+    { label: "Vomiting", value: "Vomiting" },
+    { label: "Depression", value: "Depression" },
+    { label: "Abdominal pain", value: "Abdominal pain" },
+    { label: "Clear nasal discharge", value: "Clear nasal discharge" },
+    { label: "Sneezing", value: "Sneezing" },
+    { label: "Anorexia", value: "Anorexia" },
+    { label: "Discoloration of the gums", value: "Discoloration of the gums" },
+    { label: "Inflammation of the brain and spinal cord", value: "Inflammation of the brain and spinal cord" },
+    { label: "Lack of energy", value: "Lack of energy" },
+    { label: "Stomach ache", value: "Stomach ache" },
+    { label: "Muscular pain", value: "Muscular pain" },
+    { label: "Blood in the urine", value: "Blood in the urine" },
+    { label: "Severe itching", value: "Severe itching" },
+    { label: "Paralysis", value: "Paralysis" },
+    { label: "Fallen jaw", value: "Fallen jaw" },
+    { label: "Wounds in the mouth", value: "Wounds in the mouth" },
+    { label: "Lack of coordination", value: "Lack of coordination" },
+    { label: "High temperature", value: "High temperature" },
+    { label: "Convulsions", value: "Convulsions" },
+    { label: "Inability to swallow", value: "Inability to swallow" },
+    { label: "Shyness or aggression", value: "Shyness or aggression" },
+    { label: "Frequent changes in behavior", value: "Frequent changes in behavior" },
+    { label: "Dermatitis", value: "Dermatitis" },
+    { label: "Existence of an external agent on the skin", value: "Existence of an external agent on the skin" }
   ];
 
-  static catSymptoms: Symptom[] = [
-    { name: "Struggle and discomfort when urinating" },
-    { name: "Presence of blood in the urine" },
-    { name: "Urination in unusual places" },
-    { name: "Crying when urinating" },
-    { name: "Licking the urinary tract (usually due to pain)" },
-    { name: "Depression" },
-    { name: "Anorexia" },
-    { name: "Vomiting" },
-    { name: "Dehydration" },
-    { name: "Freckles on cat skin" },
-    { name: "Persistent itching of the body" },
-    { name: "Permanent body licking" },
-    { name: "Redness and irritation of the skin" },
-    { name: "Hair loss" },
-    { name: "Skin infections and inflamed red spots on the skin" },
-    { name: "Decreased appetite" },
-    { name: "Lethargy" },
-    { name: "Discharge from the eyes" },
-    { name: "Nasal discharge" },
-    { name: "Wounds around the mouth, soft palate, nose tip, lips, or around the paws" },
-    { name: "Pneumonia (lung infection)" },
-    { name: "Difficulty breathing" },
-    { name: "Infection" },
-    { name: "Arthritis (inflammation of the joints)" },
-    { name: "Walking with pain" },
-    { name: "High fever" },
-    { name: "Very severe gastrointestinal symptoms" },
-    { name: "Bloody vomiting" },
-    { name: "Bloody diarrhea" },
-    { name: "Sneezing" },
-    { name: "Serious to purulent mucus from the nose and eyes" },
-    { name: "Conjunctivitis" },
-    { name: "Conjunctival chemosis" }
+  static catSymptoms = [
+    { label: "Struggle and discomfort when urinating", value: "Struggle and discomfort when urinating" },
+    { label: "Presence of blood in the urine", value: "Presence of blood in the urine" },
+    { label: "Urination in unusual places", value: "Urination in unusual places" },
+    { label: "Crying when urinating", value: "Crying when urinating" },
+    { label: "Licking the urinary tract (usually due to pain)", value: "Licking the urinary tract (usually due to pain)" },
+    { label: "Depression", value: "Depression" },
+    { label: "Anorexia", value: "Anorexia" },
+    { label: "Vomiting", value: "Vomiting" },
+    { label: "Dehydration", value: "Dehydration" },
+    { label: "Freckles on cat skin", value: "Freckles on cat skin" },
+    { label: "Persistent itching of the body", value: "Persistent itching of the body" },
+    { label: "Permanent body licking", value: "Permanent body licking" },
+    { label: "Redness and irritation of the skin", value: "Redness and irritation of the skin" },
+    { label: "Hair loss", value: "Hair loss" },
+    { label: "Skin infections and inflamed red spots on the skin", value: "Skin infections and inflamed red spots on the skin" },
+    { label: "Decreased appetite", value: "Decreased appetite" },
+    { label: "Lethargy", value: "Lethargy" },
+    { label: "Discharge from the eyes", value: "Discharge from the eyes" },
+    { label: "Nasal discharge", value: "Nasal discharge" },
+    { label: "Wounds around the mouth, soft palate, nose tip, lips, or around the paws", value: "Wounds around the mouth, soft palate, nose tip, lips, or around the paws" },
+    { label: "Pneumonia (lung infection)", value: "Pneumonia (lung infection)" },
+    { label: "Difficulty breathing", value: "Difficulty breathing" },
+    { label: "Infection", value: "Infection" },
+    { label: "Arthritis (inflammation of the joints)", value: "Arthritis (inflammation of the joints)" },
+    { label: "Walking with pain", value: "Walking with pain" },
+    { label: "High fever", value: "High fever" },
+    { label: "Very severe gastrointestinal symptoms", value: "Very severe gastrointestinal symptoms" },
+    { label: "Bloody vomiting", value: "Bloody vomiting" },
+    { label: "Bloody diarrhea", value: "Bloody diarrhea" },
+    { label: "Sneezing", value: "Sneezing" },
+    { label: "Serious to purulent mucus from the nose and eyes", value: "Serious to purulent mucus from the nose and eyes" },
+    { label: "Conjunctivitis", value: "Conjunctivitis" },
+    { label: "Conjunctival chemosis", value: "Conjunctival chemosis" }
   ];
 
-  static birdSymptoms: Symptom[] = [
-    { name: "Increased urination (polyuria)" },
-    { name: "Loose diarrhea and watery stools" },
-    { name: "Blood in the stool" },
-    { name: "Green diarrhea" },
-    { name: "Depression" },
-    { name: "Torticoline (twisting of the head and neck)" },
-    { name: "Ataxia (loss of balance)" },
-    { name: "Paralysis of limbs and wings" },
-    { name: "Decreased appetite" },
-    { name: "Difficulty eating" },
-    { name: "Respiratory problems such as wheezing" },
-    { name: "Decreased egg production" },
-    { name: "Egg abnormality (egg size, shape and color)" },
-    { name: "Eye discharge" },
-    { name: "Nasal discharge" },
-    { name: "Discharge from the beak" },
-    { name: "Weakness" },
-    { name: "Anorexia" },
-    { name: "Drowsiness" },
-    { name: "Dirty feathers and dangling wings" },
-    { name: "Swelling of the soles of the feet and joints" },
-    { name: "Blindness" }
+  static birdSymptoms = [
+    { label: "Increased urination (polyuria)", value: "Increased urination (polyuria)" },
+    { label: "Loose diarrhea and watery stools", value: "Loose diarrhea and watery stools" },
+    { label: "Blood in the stool", value: "Blood in the stool" },
+    { label: "Green diarrhea", value: "Green diarrhea" },
+    { label: "Depression", value: "Depression" },
+    { label: "Torticoline (twisting of the head and neck)", value: "Torticoline (twisting of the head and neck)" },
+    { label: "Ataxia (loss of balance)", value: "Ataxia (loss of balance)" },
+    { label: "Paralysis of limbs and wings", value: "Paralysis of limbs and wings" },
+    { label: "Decreased appetite", value: "Decreased appetite" },
+    { label: "Difficulty eating", value: "Difficulty eating" },
+    { label: "Respiratory problems such as wheezing", value: "Respiratory problems such as wheezing" },
+    { label: "Decreased egg production", value: "Decreased egg production" },
+    { label: "Egg abnormality (egg size, shape and color)", value: "Egg abnormality (egg size, shape and color)" },
+    { label: "Eye discharge", value: "Eye discharge" },
+    { label: "Nasal discharge", value: "Nasal discharge" },
+    { label: "Discharge from the beak", value: "Discharge from the beak" },
+    { label: "Weakness", value: "Weakness" },
+    { label: "Anorexia", value: "Anorexia" },
+    { label: "Drowsiness", value: "Drowsiness" },
+    { label: "Dirty feathers and dangling wings", value: "Dirty feathers and dangling wings" },
+    { label: "Swelling of the soles of the feet and joints", value: "Swelling of the soles of the feet and joints" },
+    { label: "Blindness", value: "Blindness" }
   ];
 
   selectPet = (species) => {
@@ -133,14 +129,6 @@ export default class MultiSelectDropdown extends React.Component {
         this.setState({ items: species });
     }
   }
-  
-  onSelectedItemsChange = (selectedItems) => {
-    this.setState({ selectedItems: selectedItems });
-  }
-
-  clearSelectedCategories = () => {
-    this._multiSelect._removeAllItems();
-  };
 
   // Check if all of the elements in selected symptoms exist in the list of symptoms of a disease in Firestore then return those diseases
   searchForSymptomsInFirestore = (event, symptoms) => {
@@ -162,70 +150,116 @@ export default class MultiSelectDropdown extends React.Component {
     });
   }
 
+  setItemValue = (callback) => {
+    var value = callback([this.state])[1];
+    let array = [...this.state.selectedItems];
+    var index = array.indexOf(value)
+    
+    if(array.length >= 10)
+    {
+      alert("Too many symptoms selected")
+    }
+    else if(index > -1)
+    {
+      array.splice(index, 1)
+      this.setState({selectedItems: array})
+    }
+    else
+    {
+      array.push(value)
+      this.setState({selectedItems: array})
+    }
+  }
+
+  badgePress = (value) => {
+    let array = [...this.state.selectedItems];
+    var index = array.indexOf(value)
+    
+    if(index > -1)
+    {
+      array.splice(index, 1)
+      this.setState({selectedItems: array})
+    }
+  }
+
   render() {
     const { items, selectedItems } = this.state;
 
     return (
       <>
         <View style={styles.multiSelectOptionsContainer}>
-          <MultiSelect
-            items={items} // List of items to display in the multi-select component
-            uniqueKey="name" // Unique identifier that is part of each item"s properties
-            onSelectedItemsChange={this.onSelectedItemsChange} // Triggered when Submit button is clicked
-            onChangeInput={(text) => console.warn(text)} // Called every time TextInput is changed with the value
-            displayKey="name" // Used to select the key to display the objects in the items array
-            flatListProps={{nestedScrollEnabled: true}} // Necessary for nested scrolling in Android devices
 
-            selectText="Select symptoms"
-            fontFamily="SFProText-Semibold"
-            altFontFamily="SFProText-Semibold"
-            styleListContainer={{backgroundColor: Theme.palette.white, paddingVertical: 10}}
-            styleItemsContainer={{justifyContent: "space-evenly", flexDirection: "column"}}
-            styleMainWrapper={{height: height/4.5, shadowColor: Theme.palette.white, shadowOffset: { width: 10, height: 10 }, shadowOpacity: 0.5, shadowRadius: 6}}
-
-            itemTextColor={Theme.palette.black}
-            textColor={Theme.palette.black}
-            selectedItems={selectedItems}
-            selectedItemFontFamily="SFProText-Semibold"
-            selectedItemTextColor={Theme.palette.success}
-            selectedItemIconColor={Theme.palette.success}
-
-            searchInputPlaceholderText="Search symptoms..."
-            searchInputStyle={{color: Theme.palette.black, fontFamily: "SFProText-Semibold"}}
-            styleInputGroup={{backgroundColor: "rgba(157, 255, 176, .5)", height: height/15, borderRadius: 10, paddingRight: 15}}
-            styleDropdownMenuSubsection={{height: height/15, borderRadius: 10, width: "100%", paddingLeft: 25}}
-
-            tagTextColor={Theme.palette.black}
-            tagRemoveIconColor={Theme.palette.black}
-            tagBorderColor={Theme.palette.primary}
-            tagContainerStyle={{backgroundColor: Theme.palette.white, alignSelf: "flex-start"}}
-
-            submitButtonColor={Theme.palette.primary}
-            submitButtonText="Confirm"
-            // hideSubmitButton
-            // hideTags
-            hideDropdown
-            ref={(component) => { this._multiSelect = component }}
+          <DropDownPicker 
+            placeholder="Select Symptoms"
+            multiple={true}
+            multipleText={this.state.selectedItems.length + " symptom(s) have been selected"}
+            searchable={true}
+            searchContainerStyle={styles.searchContainer}
+            searchTextInputStyle={styles.searchInput}
+            items={this.state.items}
+            value={this.state.selectedItems}
+            setValue={this.setItemValue}
+            open={this.state.open}
+            setOpen={(open) => { this.setState({open: open}) } }
+            zIndex={2}
           />
+          
+          <View style={styles.container}>
+          {
+            this.state.selectedItems.map((item, key) => {
+              return(
+                <TouchableOpacity key={key} style={styles.badgeStyle} onPress={() => {this.badgePress(item)}}>
+                  <View style={styles.badgeDotStyle} />
+                  <Text> {item} </Text>
+                </TouchableOpacity>
+              )
+            })
+          }
+
+          </View>
+          {
+            this.state.selectedItems.length > 3 && 
+            <Button
+              style="diagnosis"
+              label="Diagnose My Pet!"
+              onPress={(e) => this.searchForSymptomsInFirestore(e, this.state.selectedItems)}
+              full
+            />
+          }
         </View>
-        {this.state.selectedItems.length > 3 && 
-          <Button
-            style="diagnosis"
-            label="Diagnose My Pet!"
-            onPress={(e) => this.searchForSymptomsInFirestore(e, this.state.selectedItems)}
-            full
-          />
-        }
       </>
     );
   }
 }
 
-const {height} = Dimensions.get("window");
-
 const styles = StyleSheet.create({
-  multiSelectOptionsContainer: {
-    zIndex: 2
+  badgeStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#dfdfdf',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginRight: 10,
+    marginTop: 5
+  },
+  badgeDotStyle: {
+    width: 8,
+    height: 8,
+    borderRadius: 10 / 2,
+    backgroundColor: '#808080'
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  searchContainer: {
+    borderBottomColor: Theme.palette.lightGray,
+    padding:4
+  },
+  searchInput: {
+    borderColor: Theme.palette.white,
+    fontSize: 16,
   }
 });
-
