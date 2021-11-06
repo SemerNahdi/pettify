@@ -7,7 +7,6 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import AppLoading from "expo-app-loading";
-import { Provider, inject } from "mobx-react";
 import { Feather } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
@@ -16,12 +15,11 @@ import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
 import { Walkthrough } from "./src/walkthrough";
-import { PasswordReset, SignUpName, SignUpEmail, Role, SignUpPassword, Login, SignUpRole, SignUpVet } from "./src/sign-up";
+import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login, SignUpVet } from "./src/sign-up";
 import {
     Profile,
     HomeTab,
     Settings,
-    ProfileStore,
     Pets,
     PetDetailView,
     TrainingScreen,
@@ -73,18 +71,16 @@ if (!console.ignoredYellowBox) {
 // $FlowFixMe
 console.ignoredYellowBox.push("Setting a timer");
 
-@inject("profileStore")
 class Loading extends React.Component<ScreenProps<>> {
     async componentDidMount(): Promise<void> {
         LogBox.ignoreAllLogs();
-        const { navigation, profileStore } = this.props;
+        const { navigation } = this.props;
         await Loading.loadStaticResources();
         Firebase.init();
         Firebase.auth.onAuthStateChanged((user) => {
             const isUserAuthenticated = !!user;
             if (isUserAuthenticated) {
                 const { uid } = Firebase.auth.currentUser;
-                profileStore.init();
                 var data;
                 Firebase.firestore.collection("users").doc(uid).get().then(
                     (doc) =>
@@ -129,8 +125,6 @@ class Loading extends React.Component<ScreenProps<>> {
 
 // eslint-disable-next-line react/no-multi-comp
 export default class App extends React.Component {
-    profileStore = new ProfileStore();
-
     componentDidMount() {
         StatusBar.setBarStyle("dark-content");
         if (Platform.OS === "android") {
@@ -139,11 +133,8 @@ export default class App extends React.Component {
     }
 
     render(): React.Node {
-        const { profileStore } = this;
         return (
-            <Provider {...{ profileStore }}>
-                <AppNavigator onNavigationStateChange={() => undefined} />
-            </Provider>
+            <AppNavigator onNavigationStateChange={() => undefined} />
         );
     }
 }
@@ -236,7 +227,6 @@ const SignUpNavigator = createStackNavigator(
     {
         SignUp: { screen: SignUpName },
         SignUpEmail: { screen: SignUpEmail },
-        SignUpRole: { screen: SignUpRole },
         SignUpPassword: { screen: SignUpPassword },
         Walkthrough: { screen: Walkthrough }
     },

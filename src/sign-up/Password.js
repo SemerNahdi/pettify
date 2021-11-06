@@ -6,18 +6,10 @@ import {TextField, Firebase} from "../components";
 import SignUpStore from "./SignUpStore";
 import SignUpContainer from "./SignUpContainer";
 import type {NavigationProps} from "../components/Types";
-import type {Profile} from "../components/Model";
 import {View, StyleSheet} from "react-native";
 import {Theme} from "../components/Theme";
 
-type PasswordState = {
-    password: string,
-    loading: boolean,
-    icon: string,
-    passView: boolean
-};
-
-export default class Password extends React.Component<NavigationProps<*>, PasswordState> {
+export default class Password extends React.Component {
 
     state = {
         password: "",
@@ -44,26 +36,23 @@ export default class Password extends React.Component<NavigationProps<*>, Passwo
     @autobind
     async next(): Promise<void> {
         const {password} = this.state;
-        const {email, displayName, role} = SignUpStore;
-
+        const {email, displayName} = SignUpStore;
+        const {displayAddress} = SignUpStore;
         try {
             if (password === "") {
                 throw new Error("Please provide a password.");
             }
             this.setState({ loading: true });
             const user = await Firebase.auth.createUserWithEmailAndPassword(email, password);
-            const profile: Profile = {
-                name: displayName,
-                email: email,
-                role: role.value,
-                outline: "React Native",
-                picture: {
-                    // eslint-disable-next-line max-len
-                    uri: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
-                    preview: "data:image/gif;base64,R0lGODlhAQABAPAAAKyhmP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+            await Firebase.firestore.collection("users").doc(user.user.uid).set(
+                {
+                    name: displayName,
+                    email: email,
+                    address: displayAddress,
+                    role: "p",
+                    pic: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
                 }
-            };
-            await Firebase.firestore.collection("users").doc(user.user.uid).set(profile)
+            )
             .then(() => {
                 this.props.navigation.navigate("Walkthrough")
             });
