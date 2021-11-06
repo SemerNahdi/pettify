@@ -219,7 +219,6 @@ const VetNavigator = createBottomTabNavigator(
         tabBarComponent: VetTab,
         tabBarPosition: "top",
         swipeEnabled: false,
-        
     }
 );
 

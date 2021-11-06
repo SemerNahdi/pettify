@@ -27,11 +27,8 @@ export default class Patients extends Component {
         (doc)=>{
           data=doc.data()
           this.setState({role: data.role})
-        //console.log(data);
         }
-      ) 
-      
-
+      )
       this.retrieveFireStorePatients();
     }
 
@@ -93,8 +90,7 @@ export default class Patients extends Component {
           <View style={{
               paddingTop: "40%",
               justifyContent:"center",
-              }}
-          >
+              }}>
               <ActivityIndicator size="large" />
           </View>
         </SafeAreaView>
@@ -132,9 +128,7 @@ export default class Patients extends Component {
     else{
       return (
         <View style={[styles.container]}>
-
           <NavHeader title="Users"{...{ navigation }}/>
-      
             <FlatList
               data={this.state.items}
               ref={r=>this.refs=r}//create refrence point to enable scrolling

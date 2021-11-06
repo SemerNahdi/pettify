@@ -26,7 +26,6 @@ export default class Firebase {
         Firebase.firestore = firebase.firestore();
         Firebase.storage = firebase.storage();
         Firebase.config = config;
-          
         /*
         //Start of default admin creation
         try{
