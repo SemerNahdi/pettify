@@ -170,7 +170,7 @@ export default class Settings extends React.Component {
 const logout = () => Firebase.auth.signOut();
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#F0F6F7FF",
+        backgroundColor: "white",
         flex: 1,
     },
     content: {

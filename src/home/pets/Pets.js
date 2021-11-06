@@ -134,7 +134,7 @@ export default class Pets extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F0F6F7FF",
+    backgroundColor: "white",
     flex: 1,
   },
 });

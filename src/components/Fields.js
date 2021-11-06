@@ -43,6 +43,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.03,
         shadowRadius: 1,
         width: "100%"
-        
     }
 });

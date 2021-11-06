@@ -44,7 +44,7 @@ export default class Button extends React.Component<> {
                 full = {full}
                 disabled = {disabled}
                 transparent = {!primary || transparent}
-                
+            >
                 {!!loading && (<Spinner color="white" />)}
                 {!loading &&(
                 <Text
@@ -52,8 +52,8 @@ export default class Button extends React.Component<> {
                         color: disabled ? "transparent" : (primary ? (transparent ? Theme.palette.primary : Theme.palette.black) : Theme.typography.color),
                         fontSize: primary ? 16 : Theme.typography.regular.fontSize,
                         fontFamily: Theme.typography.semibold
-                        
                     }}
+                >
                     {label}
                 </Text>
                 )}
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 10,
         paddingHorizontal: 5
-        
     },
     defaultButton: {
         backgroundColor: Theme.palette.primary,
