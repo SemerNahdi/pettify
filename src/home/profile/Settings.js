@@ -119,15 +119,30 @@ export default class Settings extends React.Component {
 
     @autobind
     async deleteUser(): Promise<void> {
-        const user = Firebase.auth.currentUser;
-        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
-            user.delete().catch((error) => {
-                console.error("Error deleting account: ", error);
-            });
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
-        });
-        this.props.navigation.navigate("Welcome");
+        Alert.alert(
+            "Delete Account",
+            "Are you sure you want to delete your account? You cannot undo this action.",
+            [
+                {
+                    text: "Cancel",
+                },
+                {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: () => {
+                        const user = Firebase.auth.currentUser;
+                        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
+                            user.delete().catch((error) => {
+                                console.error("Error deleting account: ", error);
+                            });
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                        this.props.navigation.navigate("Welcome");
+                    },
+                },
+            ]
+        );
     }
 
     @autobind
