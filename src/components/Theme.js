@@ -19,7 +19,8 @@ type Theme = {
         lightGray: Color,
         borderColor: Color,
         white: Color,
-        black: Color
+        black: Color,
+        washedBlue: Color,
     },
     typography: {
         color: string,
@@ -56,7 +57,8 @@ const theme: Theme = {
         lightGray: "#BFBFBF",
         borderColor: "#F5F5F5",
         white: "#FFFFFA",
-        black: "#555555"
+        black: "#555555",
+        washedBlue: "#b6c5c6",
     },
     typography: {
         color: "#555555",

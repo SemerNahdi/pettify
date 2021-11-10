@@ -31,6 +31,14 @@ export default class Button extends React.Component<> {
             appliedStyle = styles.defaultButton
             primary = true
         }
+        else if(style === "unpressed")
+        {
+            appliedStyle = styles.unpressed
+        }
+        else if(style === "pressed")
+        {
+            appliedStyle = styles.pressed
+        }
         else
         {
             appliedStyle = styles.base
@@ -114,6 +122,28 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 10,
         paddingHorizontal: 5
+    },
+    pressed: {
+        backgroundColor: Theme.palette.primary,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 5,
+        width: "40%"
+    },
+    unpressed: {
+        backgroundColor: Theme.palette.washedBlue,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 5,
+        width: "40%"
     },
     diagnosisButton: {
         backgroundColor: Theme.palette.primary,
