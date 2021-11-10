@@ -200,18 +200,6 @@ export default class Settings extends React.Component {
                         style={styles.textField}
                     />
                     <View style={styles.separator}/>
-                    <Text style={styles.header}>Email</Text>
-                    <TextField
-                        placeholder="Email"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        returnKeyType="go"
-                        defaultValue={this.state.email}
-                        onSubmitEditing={this.save}
-                        onChangeText={this.setEmail}
-                        style={styles.textField}
-                    />
-                    <View style={styles.separator}/>
                     <Text style={styles.header}>Address</Text>
                     <TextField
                         placeholder="Address"
