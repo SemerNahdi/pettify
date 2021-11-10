@@ -31,7 +31,6 @@ export default class Settings extends React.Component {
             loading: false,
             hasCameraRollPermission: null,
             address: "",
-            email: "",
         };
 
         navigation = this.props.navigation;
@@ -40,7 +39,6 @@ export default class Settings extends React.Component {
         this.state.name = profile.name;
         this.state.pic = profile.pic ? profile.pic : profile.picture.uri;
         this.state.address = profile.address;
-        this.state.email = profile.email;
 
         Permissions.askAsync(Permissions.CAMERA_ROLL)
         .then((stat) => {
@@ -51,7 +49,7 @@ export default class Settings extends React.Component {
     @autobind
     async save(): Promise<void> {
         const originalProfile = profile;
-        const { name, pic, address, email } = this.state;
+        const { name, pic, address } = this.state;
         const { uid } = Firebase.auth.currentUser;
 
         this.setState({ loading: true });
@@ -70,12 +68,6 @@ export default class Settings extends React.Component {
                     this.props.navigation.state.params.onSubmit();
                     this.props.navigation.goBack()
                 });
-            }
-            if (address !== originalProfile.address) {
-                await Firebase.firestore.collection("users").doc(uid).update({ address });
-            }
-            if (email !== originalProfile.email) {
-                await Firebase.firestore.collection("users").doc(uid).update({ email });
             }
             if (pic !== originalProfile.pic) {
                 let imageName = pic.split("/").pop();
@@ -148,11 +140,6 @@ export default class Settings extends React.Component {
     @autobind
     setName(name: string) {
         this.setState({ name });
-    }
-
-    @autobind
-    setEmail(email: string) {
-        this.setState({ email });
     }
 
     @autobind
