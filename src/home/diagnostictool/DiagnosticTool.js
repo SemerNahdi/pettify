@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import {Theme, Button, NavHeader} from "../../components";
@@ -77,7 +77,6 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     return (
       <View style={styles.container}>
         <NavHeader title="Diagnostic Tool" {...{ navigation }} />
-        <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
             <FontAwesome5 name="dog" size={Theme.typography.header1.fontSize} style={this.state.dogImage} />
@@ -110,7 +109,6 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
         <View style={styles.multiSelectContainer}>
           <MultiSelectDropdown navigation={this.props.navigation} ref={ref => (this._multiselectdropdown = ref)} />
         </View>
-        </ScrollView>
       </View>
     );
   }
