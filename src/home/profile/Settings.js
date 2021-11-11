@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Image } from "react-native";
+import { Alert, StyleSheet, View, TouchableWithoutFeedback, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Content } from "native-base";
 import { Feather as Icon } from "@expo/vector-icons";
@@ -11,10 +11,12 @@ import {
     NavHeader,
     Firebase,
     Button,
+    Text,
     TextField,
     Theme,
     serializeException,
     RefreshIndicator,
+    NavHeaderWithButton,
 } from "../../components";
 
 import EnableCameraRollPermission from "./EnableCameraRollPermission";
@@ -108,6 +110,34 @@ export default class Settings extends React.Component {
     }
 
     @autobind
+    async deleteUser(): Promise<void> {
+        Alert.alert(
+            "Delete Account",
+            "Are you sure you want to delete your account? You cannot undo this action.",
+            [
+                {
+                    text: "Cancel",
+                },
+                {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: () => {
+                        const user = Firebase.auth.currentUser;
+                        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
+                            user.delete().catch((error) => {
+                                console.error("Error deleting account: ", error);
+                            });
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                        this.props.navigation.navigate("Welcome");
+                    },
+                },
+            ]
+        );
+    }
+
+    @autobind
     setName(name: string) {
         this.setState({ name });
     }
@@ -131,7 +161,11 @@ export default class Settings extends React.Component {
         }
         return (
             <View style={styles.container}>
-                <NavHeader title="Settings" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+                <NavHeaderWithButton 
+                    title="Settings" 
+                    back backFn={() => this.props.navigation.goBack()} {...{ navigation }} 
+                    buttonFn={this.save} buttonName="Save"
+                />
                 <Content style={styles.content}>
                     <View style={styles.avatarContainer}>
                         <TouchableWithoutFeedback onPress={this.setPicture}>
@@ -141,6 +175,7 @@ export default class Settings extends React.Component {
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
+                    <Text style={styles.header}>Name</Text>
                     <TextField
                         placeholder="Name"
                         autoCapitalize="none"
@@ -149,7 +184,10 @@ export default class Settings extends React.Component {
                         defaultValue={this.state.name}
                         onSubmitEditing={this.save}
                         onChangeText={this.setName}
+                        style={styles.textField}
                     />
+                    <View style={styles.separator}/>
+                    <Text style={styles.header}>Address</Text>
                     <TextField
                         placeholder="Address"
                         autoCapitalize="none"
@@ -158,9 +196,12 @@ export default class Settings extends React.Component {
                         defaultValue={this.state.address}
                         onSubmitEditing={this.save}
                         onChangeText={this.setAddress}
+                        style={styles.textField}
                     />
-                    <Button label="Save" full onPress={this.save} {...{ loading }} style="primary" />
-                    <Button label="Sign Out" full onPress={logout} style="base"/>
+                    <View style={styles.separator}/>
+                    <View style={{paddingTop: 12}}></View>
+                    <Button label="Sign Out" full onPress={logout} style="base" textColor={Theme.palette.danger}/>
+                    <View style={{marginTop:-8}}><Button label="Delete Account" full onPress={this.deleteUser} style="base" textColor={Theme.palette.danger}/></View>
                 </Content>
             </View>
         );
@@ -203,5 +244,30 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 50 - 12.5,
         left: 50 - 12.5,
+    },
+    separator: {
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 1,
+        alignSelf: 'flex-start',
+        width: '100%',
+        marginBottom: 20,
+    },
+    header: {
+        fontWeight: "900",
+        color: "black",
+        marginTop: 8,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
+    informationContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignSelf: 'flex-start',
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    textField: {
+        marginLeft: 4,
+        width: "100%",
     },
 });
