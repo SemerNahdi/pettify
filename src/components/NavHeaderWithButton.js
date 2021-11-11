@@ -14,7 +14,8 @@ type NavHeaderProps = NavigationProps<*> & {
     back?: boolean,
     backFn?: () => void,
     buttonFn?: () => void,
-    buttonIcon?: string
+    buttonIcon?: string,
+    buttonName?: string,
 };
 
 export default class NavHeaderWithButton extends React.Component<NavHeaderProps> {
@@ -34,11 +35,21 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
         buttonFn();
     }
 
+    @autobind
+    rightButton() {
+        const { buttonIcon } = this.props;
+        const { buttonName } = this.props;
+        if (buttonName != null) {
+            return (<Text style={styles.text}>{buttonName}</Text>);
+        } else {
+            return (<Icon style={styles.icon} name={buttonIcon} size={25} color={Theme.palette.black} />);
+        }
+    }
+
     render(): React.Node {
         const { onPress } = this;
         const { onPressButton } = this;
         const { title, back } = this.props;
-        const { buttonIcon } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.content}>
@@ -54,7 +65,7 @@ export default class NavHeaderWithButton extends React.Component<NavHeaderProps>
                     <Text type="header3">{title}</Text>
                     <View style={styles.side}>
                         <TouchableOpacity onPress={onPressButton}>
-                            <Icon name={buttonIcon} size={25} color={Theme.palette.black} />
+                            {this.rightButton()}
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -72,7 +83,7 @@ const styles = StyleSheet.create({
         borderColor: Theme.palette.borderColor,
         borderBottomWidth: Platform.OS === "ios" ? 0 : 1,
         zIndex: 10000,
-        backgroundColor: "#f3f6f4",
+        backgroundColor: "white",
     },
     content: {
         marginTop: Platform.OS === "ios" ? 0 : 20,
@@ -82,9 +93,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     side: {
-        width: 40,
+        width: 100,
     },
     back: {
         marginLeft: Theme.spacing.tiny,
+    },
+    icon: {
+        alignSelf:"flex-end",
+        paddingEnd: 20,
+    },
+    text: {
+        paddingRight: 20,
+        color: 'black',
+        fontSize: 16,
+        alignSelf: "flex-end",
+        flexWrap: "wrap",
     },
 });

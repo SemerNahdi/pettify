@@ -86,6 +86,12 @@ class Loading extends React.Component<ScreenProps<>> {
                     (doc) =>
                     { 
                         data = doc.data(); 
+
+                        if(data === undefined)
+                        {
+                            Firebase.auth.signOut();
+                        }
+                        
                         if(data.role == "v" || data.role == "a")
                         {
                             navigation.navigate("Vet")
