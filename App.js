@@ -15,7 +15,7 @@ import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
 import { Walkthrough } from "./src/walkthrough";
-import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login } from "./src/sign-up";
+import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login, SignUpVet } from "./src/sign-up";
 import {
     Profile,
     HomeTab,
@@ -92,7 +92,7 @@ class Loading extends React.Component<ScreenProps<>> {
                             Firebase.auth.signOut();
                         }
                         
-                        if(data.role == "v")
+                        if(data.role == "v" || data.role == "a")
                         {
                             navigation.navigate("Vet")
                         }
@@ -188,6 +188,7 @@ const PetsNavigator = createStackNavigator(
 const PatientsNavigator = createStackNavigator(
     {
         Patients: {screen: Patients},
+        SignUpVet: { screen: SignUpVet },
         Pets: {screen: Pets},
         PetDetailView: {screen : PetDetailView},
         AddPets: { screen: AddPets },
@@ -232,7 +233,7 @@ const SignUpNavigator = createStackNavigator(
         SignUp: { screen: SignUpName },
         SignUpEmail: { screen: SignUpEmail },
         SignUpPassword: { screen: SignUpPassword },
-        Walkthrough: { screen: Walkthrough },
+        Walkthrough: { screen: Walkthrough }
     },
     StackNavigatorOptions
 );
