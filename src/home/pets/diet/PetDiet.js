@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { Theme, NavHeader, Text, Button } from "../../../components";
 import Separator from "../Separator"
+=======
+import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
+import { Theme, NavHeader, Text } from "../../../components";
+>>>>>>> main
 import Firebase from "../../../components/Firebase";
  
 export default class PetDiet extends Component<> {

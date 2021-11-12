@@ -14,6 +14,8 @@ const config = {
 };
 
 export default class Firebase {
+    
+    static config: config;
     static firestore: firebase.firestore.Firestore;
     static auth: firebase.auth.Auth;
     static storage: firebase.storage.Storage;
@@ -23,7 +25,7 @@ export default class Firebase {
         Firebase.auth = firebase.auth();
         Firebase.firestore = firebase.firestore();
         Firebase.storage = firebase.storage();
-          
+        Firebase.config = config;
         /*
         //Start of default admin creation
         try{
