@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { Theme, NavHeader, Text } from "../../../components";
-import MultiSelect from "react-native-multiple-select";
 import Firebase from "../../../components/Firebase";
  
 export default class PetDiet extends Component<> {
