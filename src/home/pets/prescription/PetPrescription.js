@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions, SectionList, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { Theme, NavHeader, Text, Container } from "../../../components";
+import { View, StyleSheet, ScrollView, Dimensions, SectionList, TextInput, SafeAreaView } from 'react-native';
+import { Theme, NavHeader, Text, Container, Button } from "../../../components";
 import Firebase from "../../../components/Firebase";
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -187,13 +187,9 @@ export default class PetPrescription extends Component<> {
               value={this.state.instructions}
             />
 
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={this.savePrescriptionToFireStore}>
-              <Text>
-                Submit Prescription
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.buttonView}>
+              <Button label="Submit Prescription" onPress={this.savePrescriptionToFireStore} style="secondary"/>
+            </View>
           </Container>
         </View>}
 
@@ -275,4 +271,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 5,
   },
+  buttonView: {
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 });

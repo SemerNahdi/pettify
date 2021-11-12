@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { Theme, NavHeader, Text, Button } from "../../../components";
+import Separator from "../Separator"
 import Firebase from "../../../components/Firebase";
  
 export default class PetDiet extends Component<> {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -11,8 +13,8 @@ export default class PetDiet extends Component<> {
       selectedDiet: [],
       existentDiet: [],
       existentDietU: [],
-      dietToString: "",  
-      dietDetails: "",
+      dietToString: null,  
+      dietDetails: null,
       date: ""
     };
  
@@ -41,48 +43,35 @@ export default class PetDiet extends Component<> {
   arrayToString = () => {
     this.state.dietToString = JSON.stringify(this.state.selectedDiet);
     this.state.dietToString = this.state.dietToString.replace(/["]+/g, '');
-    this.state.selectedDiet = [];
   }
  
   saveDietToFireStore = () => {
- 
-    var checkForInputs = [
-      this.state.dietDetails,
-    ];
- 
-    this.arrayToString();
- 
+
     //Checks to see if any inputs are not filled out
-    for (let i = 0; i < checkForInputs.length; i++) {
-      if (checkForInputs[i] == null) {
-        alert("Fill all fields");
-        return;
-      }
+    if(this.state.selectedDiet.length === 0 || this.state.dietDetails === null){
+      alert("Fill all fields");
+      return;
     }
  
-    var docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
- 
+    this.arrayToString();
+
     //Add pet to firestore
-    docRef
-    .get()
-    .then((doc) => {
-      this.setState({ loading: true});
-      if (doc.exists) {
-        docRef
-        .collection("diet")
-        .add({
-          date: new Date(),
-          diet: this.state.dietToString,
-          dietDetails: this.state.dietDetails
-        })
-        .catch((error) => {
-          console.error("Error writing document: ", error);
-        });
-    }})
+    Firebase.firestore
+    .collection("users")
+    .doc(uid)
+    .collection("pets")
+    .doc(pet_uid)
+    .collection("diet")
+    .add({
+      date: new Date(),
+      diet: this.state.dietToString,
+      dietDetails: this.state.dietDetails
+    })
     .then((res) => {
-      this.state.dietDetails = "";
-      this.state.dietToString = "";
-      this.setState({ loading: false});
+      this.state.dietDetails = null;
+      this.state.dietToString = null;
+      this.state.selectedDiet = [];
+      this.retrieveFireStoreDiet();
     })
     .catch((error) => {
       console.log("Error getting document:", error);
@@ -91,43 +80,31 @@ export default class PetDiet extends Component<> {
 
   saveDietToFireStoreU = () => {
  
-    var checkForInputs = [
-      this.state.dietDetails,
-    ];
- 
+    //Checks to see if any inputs are not filled out
+    if(this.state.selectedDiet.length === 0 || this.state.dietDetails === null){
+      alert("Fill all fields");
+      return;
+    }
+
     this.arrayToString();
  
-    //Checks to see if any inputs are not filled out
-    for (let i = 0; i < checkForInputs.length; i++) {
-      if (checkForInputs[i] == null) {
-        alert("Fill all fields");
-        return;
-      }
-    }
- 
-    var docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
- 
     //Add pet to firestore
-    docRef
-    .get()
-    .then((doc) => {
-      this.setState({ loading: true});
-      if (doc.exists) {
-        docRef
-        .collection("dietU")
-        .add({
-          date: new Date(),
-          diet: this.state.dietToString,
-          dietDetails: this.state.dietDetails
-        })
-        .catch((error) => {
-          console.error("Error writing document: ", error);
-        });
-    }})
-    .then((res) => {
-      this.state.dietDetails = "";
-      this.state.dietToString = "";
-      this.setState({ loading: false});
+    Firebase.firestore
+    .collection("users")
+    .doc(uid)
+    .collection("pets")
+    .doc(pet_uid)
+    .collection("dietU")
+    .add({
+      date: new Date(),
+      diet: this.state.dietToString,
+      dietDetails: this.state.dietDetails
+    })
+    .then(() => {
+      this.state.dietDetails = null;
+      this.state.dietToString = null;
+      this.state.selectedDiet = [];
+      this.retrieveFireStoreDietU();
     })
     .catch((error) => {
       console.log("Error getting document:", error);
@@ -139,48 +116,48 @@ export default class PetDiet extends Component<> {
     this.state.existentDiet = [];
  
     Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .doc(pet_uid)
-      .collection("diet")
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          this.state.existentDiet.push({
-            diet: doc.data().diet,
-            dietDetails: doc.data().dietDetails,
-            date: new Date(doc.data().date.seconds*1000).toString()
-          });
-        });
+    .collection("users")
+    .doc(uid)
+    .collection("pets")
+    .doc(pet_uid)
+    .collection("diet")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        this.state.existentDiet.push({
+          diet: doc.data().diet,
+          dietDetails: doc.data().dietDetails,
+          date: new Date(doc.data().date.seconds*1000).toString()
+        })
       })
-      .then((res) => {
-        this.setState({ loading: false})
-      });      
+    })
+    .then(() => {
+      this.setState({
+        existentDiet: [...this.state.existentDiet]
+      })
+    })
   }
 
   retrieveFireStoreDietU() {
+
     this.state.existentDietU = [];
  
     Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .doc(pet_uid)
-      .collection("dietU")
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          this.state.existentDietU.push({
-            diet: doc.data().diet,
-            dietDetails: doc.data().dietDetails,
-            date: new Date(doc.data().date.seconds*1000).toString()
-          });
-        });
+    .collection("users")
+    .doc(uid)
+    .collection("pets")
+    .doc(pet_uid)
+    .collection("dietU")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        this.state.existentDietU.push({
+          diet: doc.data().diet,
+          dietDetails: doc.data().dietDetails,
+          date: new Date(doc.data().date.seconds*1000).toString()
+        })
       })
-      .then((res) => {
-        this.setState({ loading: false})
-      });      
+    });
   }
  
   onItemSelect = (item) => {
@@ -201,11 +178,11 @@ export default class PetDiet extends Component<> {
  
   render() {
     return (
-      <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView style={styles.container}>
         <NavHeader title="Diet" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
       
         <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 20 }}> {"Proteins:"} </Text>
+          <Text style={styles.groupHeader}> {"Proteins:"} </Text>
         </View> 
  
         <View style= {styles.buttonContainer}>
@@ -223,7 +200,7 @@ export default class PetDiet extends Component<> {
         </View>
 
         <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 20 }}> {"Carbohydrates:"} </Text>
+          <Text style={styles.groupHeader}> {"Carbohydrates:"} </Text>
         </View> 
 
         <View style= {styles.buttonContainer}>
@@ -247,7 +224,7 @@ export default class PetDiet extends Component<> {
         </View>
 
         <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 20 }}> {"Fats:"} </Text>
+          <Text style={styles.groupHeader}> {"Fats:"} </Text>
         </View> 
 
         <View style= {styles.buttonContainer}>
@@ -260,7 +237,7 @@ export default class PetDiet extends Component<> {
         </View>
 
         <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 20 }}> {"Vitamins:"} </Text>
+          <Text style={styles.groupHeader}> {"Vitamins:"} </Text>
         </View> 
 
         <View style= {styles.buttonContainer}>
@@ -293,7 +270,7 @@ export default class PetDiet extends Component<> {
         </View>
 
         <View style= {styles.dietHeading}>
-          <Text style={{fontSize: 20 }}> {"Other:"} </Text>
+          <Text style={styles.groupHeader}> {"Other:"} </Text>
         </View> 
 
         <View style= {styles.buttonContainer}>
@@ -316,43 +293,57 @@ export default class PetDiet extends Component<> {
  
         {this.state.role == 'v' &&
           <View style={styles.submitContainer}>
-            <Button label="Save Diet" onPress={this.saveDietToFireStore} style="primary" />
+            <Button label="Save Diet" onPress={this.saveDietToFireStore} style="secondary" />
           </View>
         }
 
         {this.state.role == 'p' &&
           <View style={styles.submitContainer}>
-            <Button label="Save Diet" onPress={this.saveDietToFireStoreU} style="primary" />
+            <Button label="Save Diet" onPress={this.saveDietToFireStoreU} style="secondary" />
           </View>
         }
 
         <Text type="header3"> Suggested Diet </Text>
-        <View style={{paddingBottom: 10}}>
+          {
+            this.state.existentDiet.length === 0 && (
+              <View style={styles.centerText}>
+                <Text type="large"> No Diets to show </Text>
+              </View>
+            )
+          }
           {
             this.state.existentDiet.map((element, k) => {
-              return <View key={k}>
-                <Text> Diet: {element.diet}</Text>
-                <Text> Diet Details: {element.dietDetails}</Text>
-                <Text> Date: {element.date}</Text>
-                <Text> --</Text>
-              </View>
+              return(
+                <View key={k} style={styles.dietContainer}>
+                  <Text> Diet: {element.diet}</Text>
+                  <Text> Diet Details: {element.dietDetails}</Text>
+                  <Text> Date: {element.date}</Text>
+                  <Separator/>
+                </View>
+              )
             })
           }
-        </View>
          
         <Text type="header3"> User Diet </Text>
-        <View style={{paddingBottom: 10}}>
+          {
+            this.state.existentDietU.length === 0 && (
+              <View style={styles.centerText}>
+                <Text type="large"> No Diets to show </Text>
+              </View>
+            )
+          }
           {
             this.state.existentDietU.map((element, k) => {
-              return <View key={k}>
-                <Text> Diet: {element.diet}</Text>
-                <Text> Diet Details: {element.dietDetails}</Text>
-                <Text> Date: {element.date}</Text>
-                <Text> --</Text>
-              </View>
+              return (
+                <View key={k} style={styles.dietContainer}>
+                  <Text> Diet: {element.diet}</Text>
+                  <Text> Diet Details: {element.dietDetails}</Text>
+                  <Text> Date: {element.date}</Text>
+                  <Separator/>
+                </View>
+              )
             })
           }
-        </View>
       </ScrollView>
     )
   }
@@ -372,14 +363,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 25
   },
-  prescBottom: {
-    backgroundColor: '#FFFFFF',
-    alignSelf: 'center',
-    padding: 10,
-    marginTop: 0,
-    bottom: 0,
-    position: 'absolute',
-    zIndex: 99
+  dietContainer: {
+    padding:5,
+    marginTop:2,
+    marginBottom:3
   },
   bigInput: {
     height: 70,
@@ -396,5 +383,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     margin: 2
+  },
+  groupHeader:{
+    fontSize:20
+  },
+  centerText:{
+    flexDirection:"row",
+    justifyContent:"center",
+    paddingBottom: 10
   }
 });

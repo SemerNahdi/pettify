@@ -17,6 +17,10 @@ export default class Button extends React.Component<> {
             appliedStyle = styles.primary
             primary = true
         }
+        else if(style === "secondary")
+        {
+            appliedStyle = styles.secondary
+        }
         else if(style === "diagnosis")
         {
             appliedStyle = styles.diagnosisButton
@@ -84,6 +88,21 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 1,
         shadowRadius: 7,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
+    },
+    secondary: {
+        backgroundColor: Theme.palette.secondary,
+        shadowColor: "rgba(85, 85, 85, 0.29)",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: Theme.palette.white,
