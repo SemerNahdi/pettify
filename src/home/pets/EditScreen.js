@@ -6,19 +6,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {
-  ActivityIndicator,
   Alert,
   Dimensions,
   Image,
   ImageBackground,
-  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
-import {Text, Button, Theme} from "../../components";
+import {Text, Button, Theme, RefreshIndicator} from "../../components";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -28,8 +26,6 @@ export default class EditScreen extends React.Component {
   {
     super(props);
 
-    this.avatar = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
-    this.avatarBackground = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
     this.state = {
       loading: true,
       avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
@@ -223,7 +219,6 @@ export default class EditScreen extends React.Component {
     this.setState({lactatingOpen: false})
   }
 
-  @autobind
   updateSpecies(species) {
     this.setState({species: species})
   }
@@ -313,7 +308,7 @@ export default class EditScreen extends React.Component {
             <View style={styles.side}>
               <TouchableOpacity onPress={this.deletePet}>
                   <View>
-                      <Icon type="font-awesome-5" name="trash-alt" size={30} color="#C70000"/>
+                      <Icon type="font-awesome-5" name="trash-alt" size={30} color={Theme.palette.danger}/>
                   </View>
               </TouchableOpacity>
             </View>
@@ -324,11 +319,7 @@ export default class EditScreen extends React.Component {
                 style={styles.userImage}
                 source={{uri: avatar}}
               />
-                  <Text style={{
-                    alignSelf: "center",
-                    color: "black",
-                    fontSize: 20,
-                  }}>Edit Image</Text>
+                  <Text style={styles.editText}>Edit Image</Text>
             </TouchableOpacity>
          </View>
         </ImageBackground>
@@ -340,12 +331,12 @@ export default class EditScreen extends React.Component {
     if(this.state.loading)
     {
         return(
-        <ScrollView style={[styles.container]}>
+        <ScrollView>
           <View style={{
-              paddingTop: "40%",
+              paddingTop: height/2,
               justifyContent:"center",
           }}>
-              <ActivityIndicator size="large" />
+              <RefreshIndicator refreshing />
           </View>
         </ScrollView>
         )
@@ -359,61 +350,68 @@ export default class EditScreen extends React.Component {
             <Text type="header3" style={styles.cardText}> Edit Information </Text>
 
             <Text>Name:</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={this.handleName}
-                returnKeyType = 'done'
-                defaultValue = {this.state.name}
-            /> 
+            <View style={styles.textContainer}>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={this.handleName}
+                  returnKeyType = 'done'
+                  defaultValue = {this.state.name}
+              /> 
+            </View>
 
             <Text>Breed:</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={this.handleBreed}
-                returnKeyType = 'done'
-                defaultValue = {this.state.breed}
-            /> 
+            <View style={styles.textContainer}>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={this.handleBreed}
+                  returnKeyType = 'done'
+                  defaultValue = {this.state.breed}
+              /> 
+            </View>
 
             <Text>Weight (kg):</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={this.handleWeight}
-                keyboardType="numeric" 
-                returnKeyType = 'done'
-                defaultValue={this.state.weight}
-            /> 
+            <View style={styles.textContainer}>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={this.handleWeight}
+                  keyboardType="numeric" 
+                  returnKeyType = 'done'
+                  defaultValue={this.state.weight}
+              /> 
+            </View>
 
             <Text>Years Owned:</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={this.handleYearsOwned}
-                keyboardType="numeric" 
-                returnKeyType = 'done'
-                defaultValue = {this.state.yearsOwned}
-            /> 
+            <View style={styles.textContainer}>
+              <TextInput
+                  style={styles.input}
+                  onChangeText={this.handleYearsOwned}
+                  keyboardType="numeric" 
+                  returnKeyType = 'done'
+                  defaultValue = {this.state.yearsOwned}
+              /> 
+            </View>
 
             <Text>Species:</Text>
             <View style={styles.inputContainer}>
               <TouchableOpacity onPress={() => this.updateSpecies("Dog")}>
-                <FontAwesome5 name="dog" size={30} color={this.state.species == "Dog" ? "#0080ff" : Theme.palette.washedBlue} />
+                <FontAwesome5 name="dog" size={30} color={this.state.species == "Dog" ? Theme.palette.dogBlue : Theme.palette.washedBlue} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.updateSpecies("Cat")}>
-                <FontAwesome5 name="cat" size={30} color={this.state.species == "Cat" ? "#ffb347" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="cat" size={30} color={this.state.species == "Cat" ? Theme.palette.catOrange : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.updateSpecies("Bird")}>
-                <FontAwesome5 name="dove" size={30} color={this.state.species == "Bird" ? "#c93335" : Theme.palette.washedBlue} />
+                <FontAwesome5 name="dove" size={30} color={this.state.species == "Bird" ? Theme.palette.birdRed : Theme.palette.washedBlue} />
               </TouchableOpacity>
             </View>
 
             <Text>Sex:</Text>
             <View style={styles.inputContainer}>
               <TouchableOpacity onPress={() => this.updateSex("Male")}>
-                <FontAwesome5 name="mars" size={30} color={this.state.sex == "Male" ? "#009dff" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="mars" size={30} color={this.state.sex == "Male" ? Theme.palette.maleBlue : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.updateSex("Female")}>
-                <FontAwesome5 name="venus" size={30} color={this.state.sex == "Female" ? "#e75480" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="venus" size={30} color={this.state.sex == "Female" ? Theme.palette.femalePink : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              
             </View>
 
             <Text>Age Group:</Text>
@@ -458,23 +456,25 @@ export default class EditScreen extends React.Component {
             <Text>Living Space:</Text>
             <View style={styles.inputContainer}>
               <TouchableOpacity onPress={() => this.updateClassification("Indoors")}>
-                <FontAwesome5 name="home" size={30} color={this.state.classification == "Indoors" ? "#71b6f7" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="home" size={30} color={this.state.classification == "Indoors" ? Theme.palette.skyBlue : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.updateClassification("Outdoors")}>
-                <FontAwesome5 name="tree" size={30} color={this.state.classification == "Outdoors" ? "#0dbf0d" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="tree" size={30} color={this.state.classification == "Outdoors" ? Theme.palette.leafGreen : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
             </View>
 
             <Text>Spayed/Neutered Status:</Text>
             <View style={styles.inputContainer}>
               <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Spayed/Neutered")}>
-                <FontAwesome5 name="check" size={30} color={this.state.spayNeuter_Status == "Spayed/Neutered" ? "#0dbf0d" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="check" size={30} color={this.state.spayNeuter_Status == "Spayed/Neutered" ? Theme.palette.success : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Intact")}>
-                <FontAwesome5 name="ban" size={30} color={this.state.spayNeuter_Status == "Intact" ? "#c93335" : Theme.palette.washedBlue} /> 
+                <FontAwesome5 name="ban" size={30} color={this.state.spayNeuter_Status == "Intact" ? Theme.palette.danger : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
             </View>
 
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
+            <>
             <Text>Duration of Pregnancy:</Text>
             <DropDownPicker 
               placeholder="Select duration of pregnancy"
@@ -487,7 +487,11 @@ export default class EditScreen extends React.Component {
               zIndex={2}
               style={styles.dropdown}
             />
+            </>
+            }
 
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" && 
+            <>
             <Text>Duration of Lactation:</Text>
             <DropDownPicker 
               placeholder="Select duration of lactation"
@@ -500,6 +504,8 @@ export default class EditScreen extends React.Component {
               zIndex={1}
               style={styles.dropdown}
             />
+            </>
+            }
 
             <View style={styles.buttonView}>
               <Button label="Submit Changes" onPress={this.updateFireStorePetDetails} style="secondary"/>
@@ -536,31 +542,27 @@ const styles = StyleSheet.create({
     paddingTop: 45,
   },
   headerColumn: {
-    backgroundColor: 'transparent',
+    backgroundColor: Theme.palette.transparent,
     alignItems: "center"
   },
   input: {
     height: 30,
     margin: 2,
-    borderWidth: 1,
-    paddingTop: 0,
     textAlign: 'left'
   },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginHorizontal: 50,
-    marginVertical: 1
+    marginVertical: 3,
   },
   navContent: {
-    marginTop: Platform.OS === "ios" ? 0 : 20,
     height: 57,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   userImage: {
-    borderColor: '#FFF',
+    borderColor: Theme.palette.white,
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
@@ -572,5 +574,18 @@ const styles = StyleSheet.create({
     justifyContent:"center", 
     marginTop: 15, 
     marginBottom: 25
+  },
+  editText: {
+    alignSelf: "center",
+    color: Theme.palette.black,
+    fontSize: 20,
+  },
+  textContainer: {
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: Theme.palette.black,
+    borderRadius: 8,
+    marginVertical: 3
   },
 })
