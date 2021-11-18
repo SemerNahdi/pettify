@@ -4,20 +4,19 @@ import React from 'react'
 import { Card, Icon } from 'react-native-elements'
 import { FontAwesome5 } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {
-  ActivityIndicator,
   Alert,
   Dimensions,
   Image,
   ImageBackground,
-  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
-import {Text, Button, Theme} from "../../components";
+import {Text, Button, Theme, RefreshIndicator} from "../../components";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -27,51 +26,23 @@ export default class EditScreen extends React.Component {
   {
     super(props);
 
-    this.avatar = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
-    this.avatarBackground = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
     this.state = {
-      petDetails: "",
       loading: true,
-      isLoading: false,
-      isDog: true,
-      isCat: true,
-      isBird: true,
-      isFish: true,
-      isHorse: true,
-      isExotic: true,
-      isMale: true,
-      isFemale: true,
-      isIndoors: true,
-      isOutdoors: true,
-      isInactive: true,
-      isMild: true,
-      isModerate: true,
-      isHigh: true,
-      isSmall: true,
-      isMedium: true,
-      isLarge: true,
-      isXLarge: true,
-      isNotPregnant: true,
-      isFirstStage: true,
-      isSecondStage: true,
-      isThirdStage: true,
-      isNonLactating: true,
-      isShortTime: true,
-      isMediumTime: true,
-      isLongTime: true,
-      isNewborn: true,
-      isInfant: true,
-      isToddler: true,
-      isAdult: true,
-      isIntact: true,
-      isSpayedOrNeutered: true,
-      status: '',
       avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
       avatarBackground: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg", 
-      name: "",
-      sex: "",
-      petBiology: {"species": "", "breed": ""},
-      setOverlay: false,
+      name: null,
+      breed: null,
+      weight: null,
+      yearsOwned: null,
+      species: null,
+      sex: null,
+      age: null,
+      size: null,
+      activity: null,
+      classification: null,
+      spayNeuter_Status: null,
+      pregnancy: null,
+      lactating: null,
     };
 
     navigation = this.props.navigation;
@@ -92,79 +63,60 @@ export default class EditScreen extends React.Component {
     .get()
     .then(doc => {
         this.setState({
-          petDetails: doc.data(), 
+          avatar: doc.data().pic,
+          avatarBackground: doc.data().pic,
           name: doc.data().name,
-          age: doc.data().age,
-          yearsOwned: doc.data().yearsOwned, 
+          breed: doc.data().breed,
           weight: doc.data().weight,
-          activity: doc.data().activity,
+          yearsOwned: doc.data().yearsOwned, 
+          species: doc.data().species,
+          sex: doc.data().sex,
+          age: doc.data().age,
           size: doc.data().size,
+          activity: doc.data().activity,
           classification: doc.data().classification,
           spayNeuter_Status: doc.data().spayNeuter_Status, 
           pregnancy: doc.data().pregnancy,
           lactating: doc.data().lactating,
-          petBiology: {"species" : doc.data().species, "breed" : doc.data().breed},
-          avatar: doc.data().pic,
-          avatarBackground: doc.data().pic,
-          sex: doc.data().sex,
         });
 
         if(doc.data().pic == "null")
         {
-          switch (this.state.petDetails.species) {
-              case "Cat":
-                this.setState({
-                  avatar: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
-                  avatarBackground: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"
-                })
-                break;
-              case "Dog":
-                this.setState({
-                  avatar: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-                  avatarBackground: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg"
-                })
-                break;
-              case "Bird":
-                this.setState({
-                  avatar: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
-                  avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
-                })
-                break;
-              case "Horse":
-                this.setState({
-                  avatar: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  avatarBackground: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                })
-                break;
-              case "Fish":
-                this.setState({
-                  avatar: "https://images.immediate.co.uk/production/volatile/sites/4/2009/07/GettyImages-931270318-43ab672.jpg?quality=90&resize=940%2C400",
-                  avatarBackground: "https://images.immediate.co.uk/production/volatile/sites/4/2009/07/GettyImages-931270318-43ab672.jpg?quality=90&resize=940%2C400"
-                })
-                break;
-              case "Exotic":
-                this.setState({
-                  avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg",
-                  avatarBackground: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg"
-                })
-                break;
-              default:
-                this.setState({
-                  avatar: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
-                  avatarBackground: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
-                })
-                break;
-            }
+          switch (this.state.species) {
+            case "Cat":
+              this.setState({
+                avatar: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
+                avatarBackground: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"
+              })
+              break;
+            case "Dog":
+              this.setState({
+                avatar: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
+                avatarBackground: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg"
+              })
+              break;
+            case "Bird":
+              this.setState({
+                avatar: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
+                avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
+              })
+              break;
+            default:
+              this.setState({
+                avatar: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+                avatarBackground: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
+              })
+              break;
           }
-          this.setState({loading: false,})
+        }
+      this.setState({loading: false,})
     })
   }
 
   @autobind
   updateFireStorePetDetails() {
     const { name, age, yearsOwned, sex, classification, spayNeuter_Status, weight, activity, 
-            pregnancy, lactating, size} = this.state; 
-    const { species, breed } = this.state.petBiology;
+            pregnancy, lactating, size, species, breed} = this.state; 
 
     Firebase.firestore
     .collection("users")
@@ -259,253 +211,58 @@ export default class EditScreen extends React.Component {
       });
   }
 
-  @autobind
+  setAllClose = () => {
+    this.setState({ageOpen: false})
+    this.setState({sizeOpen: false})
+    this.setState({activityOpen: false})
+    this.setState({pregnancyOpen: false})
+    this.setState({lactatingOpen: false})
+  }
+
   updateSpecies(species) {
-    let turnOff = {
-      isDog: false,
-      isCat: false,
-      isBird: false,
-      isFish: false,
-      isHorse: false,
-      isExotic: false,
-    }
-
-    turnOff[species] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    switch(species){
-      case("isDog"):
-        this.setState({petBiology: {species: "Dog", breed: this.state.petBiology.breed}});
-        break;
-      case("isCat"):
-        this.setState({petBiology: {species: "Cat", breed: this.state.petBiology.breed}});
-        break;
-      case("isBird"):
-        this.setState({petBiology: {species: "Bird", breed: this.state.petBiology.breed}});
-        break;
-      case("isFish"):
-        this.setState({petBiology: {species: "Fish", breed: this.state.petBiology.breed}});
-        break;
-      case("isHorse"):
-        this.setState({petBiology: {species: "Horse", breed: this.state.petBiology.breed}});
-        break;
-      case("isExotic"):
-        this.setState({petBiology: {species: "Exotic", breed: this.state.petBiology.breed}});
-        break;
-    }
+    this.setState({species: species})
   }
 
   updateSex(sex) {
-    let turnOff = {
-      isMale: false,
-      isFemale: false,
-    }
-
-    turnOff[sex] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    if(sex=="isFemale") {
-      this.setState({sex: "female"})
-    }
-    else {
-      this.setState({sex: "male"})
-    }
+    this.setState({sex: sex})   
   }
 
-  updateActivity(activity) {
-    let turnOff = {
-      isInactive: false,
-      isMild: false,
-      isModerate: false,
-      isHigh: false,
-    }
-
-    turnOff[activity] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    switch(activity){
-      case("isInactive"):
-        this.setState({activity: "Inactive"});
-        break;
-      case("isMild"):
-        this.setState({activity: "Mild"});
-        break;
-      case("isModerate"):
-        this.setState({activity: "Moderate"});
-        break;
-      case("isHigh"):
-        this.setState({activity: "High"});
-        break;
-    }
+  setAgeValue = (callback) => {
+    this.setState( item => ({
+        age: callback(item.label)
+    }))
   }
 
-  updateSize(size) {
-    let turnOff = {
-      isSmall: false,
-      isMedium: false,
-      isLarge: false,
-      isXLarge: false,
-    }
-
-    turnOff[size] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    switch(size){
-      case("isSmall"):
-        this.setState({size: "Small"});
-        break;
-      case("isMedium"):
-        this.setState({size: "Medium"});
-        break;
-      case("isLarge"):
-        this.setState({size: "Large"});
-        break;
-      case("isXLarge"):
-        this.setState({size: "X-Large"});
-        break;
-    }
+  setSizeValue = (callback) => {
+    this.setState( item => ({
+        size: callback(item.label)
+    }))
   }
 
-  updatePregnancy(pregnancy) {
-    let turnOff = {
-      isNotPregnant: false,
-      isFirstStage: false,
-      isSecondStage: false,
-      isThirdStage: false,
-    }
-
-    turnOff[pregnancy] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    switch(pregnancy){
-      case("isNotPregnant"):
-        this.setState({pregnancy: "Not Pregnant"});
-        break;
-      case("isFirstStage"):
-        this.setState({pregnancy: "0 - 5 Weeks"});
-        break;
-      case("isSecondStage"):
-        this.setState({pregnancy: "5 - 10 Weeks"});
-        break;
-      case("isThirdStage"):
-        this.setState({pregnancy: "10+ Weeks"});
-        break;
-    }
-  }
-
-  updateLactating(lactating) {
-    let turnOff = {
-      isNonLactating: false,
-      isShortTime: false,
-      isMediumTime: false,
-      isLongTime: false,
-    }
-
-    turnOff[lactating] = true;
-
-    this.setState(
-      turnOff
-    );
-
-    switch(lactating){
-      case("isNonLactating"):
-        this.setState({lactating: "Non Lactating"});
-        break;
-      case("isShortTime"):
-        this.setState({lactating: "0 - 1 Weeks"});
-        break;
-      case("isMediumTime"):
-        this.setState({lactating: "1 - 3 Weeks"});
-        break;
-      case("isLongTime"):
-        this.setState({lactating: "3 - 5+ Weeks"});
-        break;
-    }
+  setActivityValue = (callback) => {
+    this.setState( item => ({
+        activity: callback(item.label)
+    }))
   }
 
   updateClassification(classification) {
-    let turnOff = {
-      isIndoors: false,
-      isOutdoors: false,
-    }
-    
-    turnOff[classification] = true;
-    
-    this.setState(
-      turnOff
-    );
-      
-    if(classification=="isOutdoors") {
-      this.setState({classification: "Outdoors"})
-    }
-    else {
-      this.setState({classification: "Indoors"})
-    }
+    this.setState({classification: classification})
   } 
 
   updateSpayNeuter_Status(spayNeuter_Status) {
-    let turnOff = {
-      isIntact: false,
-      isSpayedOrNeutered: false,
-    }
-    
-    turnOff[spayNeuter_Status] = true;
-    
-    this.setState(
-      turnOff
-    );
-      
-    if(spayNeuter_Status=="isSpayedOrNeutered") {
-      this.setState({spayNeuter_Status: "Spayed/Neutered"})
-    }
-    else {
-      this.setState({spayNeuter_Status: "Intact"})
-    }
+    this.setState({spayNeuter_Status: spayNeuter_Status})
   }
 
-  updateAge(age) {
-    let turnOff = {
-      isNewborn: false,
-      isInfant: false,
-      isToddler: false,
-      isAdult: false,
-    }
-    
-    turnOff[age] = true;
-    
-    this.setState(
-      turnOff
-    );
-      
-    switch(age){
-      case("isNewborn"):
-        this.setState({age: "0 - 1 Months"});
-        break;
-      case("isInfant"):
-        this.setState({age: "1 - 4 Months"});
-        break;
-      case("isToddler"):
-        this.setState({age: "4 - 8 Months"});
-        break;
-      case("isAdult"):
-        this.setState({age: "Adult"});
-        break;
-    }
+  setPregnancyValue = (callback) => {
+    this.setState( item => ({
+        pregnancy: callback(item.label)
+    }))
+  }
+
+  setLactatingValue = (callback) => {
+    this.setState( item => ({
+        lactating: callback(item.label)
+    }))
   }
 
   handleName = (text) => {
@@ -513,7 +270,7 @@ export default class EditScreen extends React.Component {
   }
 
   handleBreed = (text) => {
-    this.setState({petBiology: {species: this.state.petBiology.species, breed: text}});
+    this.setState({breed: text});
   }
 
   handleYearsOwned = (text) => {
@@ -529,7 +286,8 @@ export default class EditScreen extends React.Component {
       avatar,
       avatarBackground,
       name,
-      petBiology: { species, breed },
+      species,
+      breed,
     } = this.state
 
     return (
@@ -550,7 +308,7 @@ export default class EditScreen extends React.Component {
             <View style={styles.side}>
               <TouchableOpacity onPress={this.deletePet}>
                   <View>
-                      <Icon type="font-awesome-5" name="trash-alt" size={30} color="#C70000"/>
+                      <Icon type="font-awesome-5" name="trash-alt" size={30} color={Theme.palette.danger}/>
                   </View>
               </TouchableOpacity>
             </View>
@@ -561,11 +319,7 @@ export default class EditScreen extends React.Component {
                 style={styles.userImage}
                 source={{uri: avatar}}
               />
-                  <Text style={{
-                    alignSelf: "center",
-                    color: "black",
-                    fontSize: 20,
-                  }}>Edit Image</Text>
+                  <Text style={styles.editText}>Edit Image</Text>
             </TouchableOpacity>
          </View>
         </ImageBackground>
@@ -577,12 +331,12 @@ export default class EditScreen extends React.Component {
     if(this.state.loading)
     {
         return(
-        <ScrollView style={[styles.container]}>
+        <ScrollView>
           <View style={{
-              paddingTop: "40%",
+              paddingTop: height/2,
               justifyContent:"center",
           }}>
-              <ActivityIndicator size="large" />
+              <RefreshIndicator refreshing />
           </View>
         </ScrollView>
         )
@@ -594,11 +348,9 @@ export default class EditScreen extends React.Component {
           {this.renderHeader()}
           <View style={styles.cardContainer}>
             <Text type="header3" style={styles.cardText}> Edit Information </Text>
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Name:</Text>
 
+            <Text>Name:</Text>
+            <View style={styles.textContainer}>
               <TextInput
                   style={styles.input}
                   onChangeText={this.handleName}
@@ -607,324 +359,159 @@ export default class EditScreen extends React.Component {
               /> 
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Species:</Text>
-
-              {this.state.isDog &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isDog")}>
-                <FontAwesome5 name="dog" size={30} color="#0080ff" />
-              </TouchableOpacity>
-             }
-
-             {this.state.isCat &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isCat")}>
-                <FontAwesome5 name="cat" size={30} color="#ffb347" /> 
-              </TouchableOpacity>
-              }
-
-              {this.state.isBird &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isBird")}>
-                <FontAwesome5 name="dove" size={30} color="#c93335" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isHorse &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isHorse")}>
-                <FontAwesome5 name="horse" size={30} color="#0dbf0d" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isFish &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isFish")}>
-                <FontAwesome5 name="fish" size={30} color="#71b6f7" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isExotic &&
-              <TouchableOpacity onPress={() => this.updateSpecies("isExotic")}>
-                <FontAwesome5 name="spider" size={30} color="#9379c2" />
-              </TouchableOpacity>
-              }
-
-              <View></View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Breed:</Text>
-
+            <Text>Breed:</Text>
+            <View style={styles.textContainer}>
               <TextInput
                   style={styles.input}
                   onChangeText={this.handleBreed}
                   returnKeyType = 'done'
-                  defaultValue = {this.state.petBiology.breed}
+                  defaultValue = {this.state.breed}
               /> 
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Sex:</Text>
-  
-              {this.state.isMale &&
-              <TouchableOpacity onPress={() => this.updateSex("isMale")}>
-                <FontAwesome5 name="mars" size={30} color="#009dff" /> 
-              </TouchableOpacity>
-              }
-              {this.state.isFemale &&
-              <TouchableOpacity onPress={() => this.updateSex("isFemale")}>
-                <FontAwesome5 name="venus" size={30} color="#e75480" /> 
-              </TouchableOpacity>
-              }
-
-              <View/>
-              <View/>
-              <View/>
-              <View/>
-              <View/>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Age Group:</Text>
-  
-              {this.state.isNewborn &&
-              <TouchableOpacity onPress={() => this.updateAge("isNewborn")}>
-                <FontAwesome5 name="birthday-cake" size={18} color="#ffd800" />
-              </TouchableOpacity>
-              }
-  
-              {this.state.isInfant &&
-              <TouchableOpacity onPress={() => this.updateAge("isInfant")}>
-                <FontAwesome5 name="birthday-cake" size={22} color="#ffd800" /> 
-              </TouchableOpacity>
-              }
-  
-              {this.state.isToddler &&
-              <TouchableOpacity onPress={() => this.updateAge("isToddler")}>
-                <FontAwesome5 name="birthday-cake" size={26} color="#ffd800" />
-              </TouchableOpacity>
-              }
-  
-              {this.state.isAdult &&
-              <TouchableOpacity onPress={() => this.updateAge("isAdult")}>
-                <FontAwesome5 name="birthday-cake" size={30} color="#ffd800" />
-              </TouchableOpacity>
-              }
-              <View/>
-              <View/>
-              <View/>
-            </View>
-
-
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Size:</Text>
-
-              {this.state.isSmall &&
-              <TouchableOpacity onPress={() => this.updateSize("isSmall")}>
-                <FontAwesome5 name="dog" size={18} color="#5fdcde" />
-              </TouchableOpacity>
-             }
-
-              {this.state.isMedium &&
-              <TouchableOpacity onPress={() => this.updateSize("isMedium")}>
-                <FontAwesome5 name="dog" size={22} color="#5fdcde" /> 
-              </TouchableOpacity>
-              }
-
-              {this.state.isLarge &&
-              <TouchableOpacity onPress={() => this.updateSize("isLarge")}>
-                <FontAwesome5 name="dog" size={26} color="#5fdcde" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isXLarge &&
-              <TouchableOpacity onPress={() => this.updateSize("isXLarge")}>
-                <FontAwesome5 name="dog" size={30} color="#5fdcde" />
-              </TouchableOpacity>
-              }
-
-              <View/>
-              <View/>
-              <View/>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Weight:</Text>
-  
+            <Text>Weight (kg):</Text>
+            <View style={styles.textContainer}>
               <TextInput
                   style={styles.input}
                   onChangeText={this.handleWeight}
+                  keyboardType="numeric" 
                   returnKeyType = 'done'
-                  defaultValue = {this.state.weight}
+                  defaultValue={this.state.weight}
               /> 
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Activity Level:</Text>
-  
-              {this.state.isInactive &&
-              <TouchableOpacity onPress={() => this.updateActivity("isInactive")}>
-                <FontAwesome5 name="bed" size={30} color="#4d4d4d" />
-              </TouchableOpacity>
-              }
-  
-              {this.state.isMild &&
-              <TouchableOpacity onPress={() => this.updateActivity("isMild")}>
-                <FontAwesome5 name="male" size={30} color="#4d4d4d" /> 
-              </TouchableOpacity>
-              }
-  
-              {this.state.isModerate &&
-              <TouchableOpacity onPress={() => this.updateActivity("isModerate")}>
-                <FontAwesome5 name="walking" size={30} color="#4d4d4d" />
-              </TouchableOpacity>
-              }
-  
-              {this.state.isHigh &&
-              <TouchableOpacity onPress={() => this.updateActivity("isHigh")}>
-                <FontAwesome5 name="running" size={30} color="#4d4d4d" />
-              </TouchableOpacity>
-              }
-  
-              <View></View>
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Years Owned:</Text>
-  
+            <Text>Years Owned:</Text>
+            <View style={styles.textContainer}>
               <TextInput
                   style={styles.input}
                   onChangeText={this.handleYearsOwned}
+                  keyboardType="numeric" 
                   returnKeyType = 'done'
                   defaultValue = {this.state.yearsOwned}
               /> 
             </View>
 
+            <Text>Species:</Text>
             <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Living Space:</Text>
-  
-              {this.state.isIndoors &&
-              <TouchableOpacity onPress={() => this.updateClassification("isIndoors")}>
-                <FontAwesome5 name="home" size={30} color="#71b6f7" /> 
+              <TouchableOpacity onPress={() => this.updateSpecies("Dog")}>
+                <FontAwesome5 name="dog" size={30} color={this.state.species == "Dog" ? Theme.palette.dogBlue : Theme.palette.washedBlue} />
               </TouchableOpacity>
-              }
-              {this.state.isOutdoors &&
-              <TouchableOpacity onPress={() => this.updateClassification("isOutdoors")}>
-                <FontAwesome5 name="tree" size={30} color="#0dbf0d" /> 
+              <TouchableOpacity onPress={() => this.updateSpecies("Cat")}>
+                <FontAwesome5 name="cat" size={30} color={this.state.species == "Cat" ? Theme.palette.catOrange : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              }
-              <View/>
-              <View/>
-              <View/>
-              <View/>
-              <View/>
+              <TouchableOpacity onPress={() => this.updateSpecies("Bird")}>
+                <FontAwesome5 name="dove" size={30} color={this.state.species == "Bird" ? Theme.palette.birdRed : Theme.palette.washedBlue} />
+              </TouchableOpacity>
             </View>
 
+            <Text>Sex:</Text>
             <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Spayed/Neutered Status:</Text>
-  
-              {this.state.isSpayedOrNeutered &&
-              <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("isSpayedOrNeutered")}>
-                <FontAwesome5 name="check" size={30} color="#0dbf0d" /> 
+              <TouchableOpacity onPress={() => this.updateSex("Male")}>
+                <FontAwesome5 name="mars" size={30} color={this.state.sex == "Male" ? Theme.palette.maleBlue : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              }
-              {this.state.isIntact &&
-              <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("isIntact")}>
-                <FontAwesome5 name="ban" size={30} color="#c93335" /> 
+              <TouchableOpacity onPress={() => this.updateSex("Female")}>
+                <FontAwesome5 name="venus" size={30} color={this.state.sex == "Female" ? Theme.palette.femalePink : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              }
-
-              <View/>
-              <View/>
-              <View/>
-              <View/>
-              <View/>
             </View>
 
+            <Text>Age Group:</Text>
+            <DropDownPicker 
+              placeholder="Select age group"
+              value={this.state.age}
+              items={[{label: '0 - 1 Months', value: '0 - 1 Months'}, {label: '1 - 4 Months', value: '1 - 4 Months'},{label: '4 - 8 Months', value: '4 - 8 Months'},{label: 'Adult', value: 'Adult'}]}
+              open={this.state.ageOpen}
+              setOpen={(open) => { this.setAllClose(); this.setState({ageOpen: open}) } }
+              setValue={this.setAgeValue}
+              listMode="SCROLLVIEW"
+              zIndex={5}
+              style={styles.dropdown}
+            />
+
+            <Text>Size:</Text>
+            <DropDownPicker 
+              placeholder="Select size"
+              value={this.state.size}
+              items={[{label: 'Small', value: 'Small'}, {label:'Medium', value: 'Medium'},{label:'Large', value: 'Large'},{label:'X-Large', value: 'X-Large'}]}
+              open={this.state.sizeOpen}
+              setOpen={(open) => { this.setAllClose(); this.setState({sizeOpen: open}) } }
+              setValue={this.setSizeValue}
+              listMode="SCROLLVIEW"
+              zIndex={4}
+              style={styles.dropdown}
+            />
+
+            <Text>Activity Level:</Text>
+            <DropDownPicker 
+              placeholder="Select activity level"
+              value={this.state.activity}
+              items={[{label: 'Inactive', value: 'Inactive'}, {label: 'Mild', value: 'Mild'},{label: 'Moderate', value: 'Moderate'},{label: 'High', value: 'High'}]}
+              open={this.state.activityOpen}
+              setOpen={(open) => { this.setAllClose(); this.setState({activityOpen: open}) } }
+              setValue={this.setActivityValue}
+              listMode="SCROLLVIEW"
+              zIndex={3}
+              style={styles.dropdown}
+            />
+
+            <Text>Living Space:</Text>
             <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Duration of Pregnancy:</Text>
-
-              {this.state.isNotPregnant &&
-              <TouchableOpacity onPress={() => this.updatePregnancy("isNotPregnant")}>
-                <FontAwesome5 name="ban" size={30} color="#c93335" />
+              <TouchableOpacity onPress={() => this.updateClassification("Indoors")}>
+                <FontAwesome5 name="home" size={30} color={this.state.classification == "Indoors" ? Theme.palette.skyBlue : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-             }
-
-             {this.state.isFirstStage &&
-              <TouchableOpacity onPress={() => this.updatePregnancy("isFirstStage")}>
-                <FontAwesome5 name="heart" size={22} color="#f7d2d2" /> 
+              <TouchableOpacity onPress={() => this.updateClassification("Outdoors")}>
+                <FontAwesome5 name="tree" size={30} color={this.state.classification == "Outdoors" ? Theme.palette.leafGreen : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              }
-
-              {this.state.isSecondStage &&
-              <TouchableOpacity onPress={() => this.updatePregnancy("isSecondStage")}>
-                <FontAwesome5 name="heart" size={26} color="#f7d2d2" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isThirdStage &&
-              <TouchableOpacity onPress={() => this.updatePregnancy("isThirdStage")}>
-                <FontAwesome5 name="heart" size={30} color="#f7d2d2" />
-              </TouchableOpacity>
-              }
-
-              <View></View>
             </View>
 
+            <Text>Spayed/Neutered Status:</Text>
             <View style={styles.inputContainer}>
-              <Text style={{
-                padding: 5,
-              }}>Duration of Lactation:</Text>
-
-              {this.state.isNonLactating &&
-              <TouchableOpacity onPress={() => this.updateLactating("isNonLactating")}>
-                <FontAwesome5 name="ban" size={30} color="#c93335" />
+              <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Spayed/Neutered")}>
+                <FontAwesome5 name="check" size={30} color={this.state.spayNeuter_Status == "Spayed/Neutered" ? Theme.palette.success : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-             }
-
-             {this.state.isShortTime &&
-              <TouchableOpacity onPress={() => this.updateLactating("isShortTime")}>
-                <FontAwesome5 name="wine-bottle" size={22} color="#d1d1d1" /> 
+              <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Intact")}>
+                <FontAwesome5 name="ban" size={30} color={this.state.spayNeuter_Status == "Intact" ? Theme.palette.danger : Theme.palette.washedBlue} /> 
               </TouchableOpacity>
-              }
-
-              {this.state.isMediumTime &&
-              <TouchableOpacity onPress={() => this.updateLactating("isMediumTime")}>
-                <FontAwesome5 name="wine-bottle" size={26} color="#d1d1d1" />
-              </TouchableOpacity>
-              }
-
-              {this.state.isLongTime &&
-              <TouchableOpacity onPress={() => this.updateLactating("isLongTime")}>
-                <FontAwesome5 name="wine-bottle" size={30} color="#d1d1d1" />
-              </TouchableOpacity>
-              }
-              <View/>
             </View>
 
-          </View>
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
+            <>
+            <Text>Duration of Pregnancy:</Text>
+            <DropDownPicker 
+              placeholder="Select duration of pregnancy"
+              value={this.state.pregnancy}
+              items={[{label: 'Not Pregnant', value: 'Not Pregnant'}, {label: '0 - 5 Weeks', value: '0 - 5 Weeks'},{label: '5 - 10 Weeks', value: '5 - 10 Weeks'}, {label: '10+ Weeks', value: '10+ Weeks'}]}
+              open={this.state.pregnancyOpen}
+              setOpen={(open) => { this.setAllClose(); this.setState({pregnancyOpen: open}) } }
+              setValue={this.setPregnancyValue}
+              listMode="SCROLLVIEW"
+              zIndex={2}
+              style={styles.dropdown}
+            />
+            </>
+            }
+
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" && 
+            <>
+            <Text>Duration of Lactation:</Text>
+            <DropDownPicker 
+              placeholder="Select duration of lactation"
+              value={this.state.lactating}
+              items={[{label: 'Non Lactating', value: 'Non Lactating'}, {label: '0 - 1 Weeks', value: '0 - 1 Weeks'},{label: '1 - 3 Weeks', value: '1 - 3 Weeks'}, {label: '3+ Weeks', value: '3+ Weeks'}]}
+              open={this.state.lactatingOpen}
+              setOpen={(open) => { this.setAllClose(); this.setState({lactatingOpen: open}) } }
+              setValue={this.setLactatingValue}
+              listMode="SCROLLVIEW"
+              zIndex={1}
+              style={styles.dropdown}
+            />
+            </>
+            }
+
             <View style={styles.buttonView}>
               <Button label="Submit Changes" onPress={this.updateFireStorePetDetails} style="secondary"/>
             </View>
+
+          </View>
         </View>
       </ScrollView>
     )
@@ -938,6 +525,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     paddingTop: 10,
+    paddingHorizontal: 8
   },
   cardText: {
     flexDirection: "row",
@@ -946,51 +534,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  dropdown: {
+    marginVertical: 3
+  },
   headerBackgroundImage: {
     paddingBottom: 20,
     paddingTop: 45,
   },
-  headerContainer: {},
   headerColumn: {
-    backgroundColor: 'transparent',
-    ...Platform.select({
-      ios: {
-        alignItems: 'center',
-        elevation: 1,
-        marginTop: -1,
-      },
-      android: {
-        alignItems: 'center',
-      },
-    }),
+    backgroundColor: Theme.palette.transparent,
+    alignItems: "center"
   },
   input: {
-    backgroundColor: "#FAFAFA",
-    width: width - 70,
-    right:0,
+    height: 30,
+    margin: 2,
+    textAlign: 'left'
   },
   inputContainer: {
-    height: 40,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
+    marginVertical: 3,
   },
   navContent: {
-    marginTop: Platform.OS === "ios" ? 0 : 20,
     height: 57,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  scroll: {
-    backgroundColor: '#FFF',
-  },
-  submitButton:{
-    backgroundColor: '#9dffb0',
-    alignSelf: 'center',
-    padding: 10,
-  },
   userImage: {
-    borderColor: '#FFF',
+    borderColor: Theme.palette.white,
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
@@ -1001,6 +573,19 @@ const styles = StyleSheet.create({
     flexDirection:"row", 
     justifyContent:"center", 
     marginTop: 15, 
-    marginBottom: 35
+    marginBottom: 25
+  },
+  editText: {
+    alignSelf: "center",
+    color: Theme.palette.black,
+    fontSize: 20,
+  },
+  textContainer: {
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: Theme.palette.black,
+    borderRadius: 8,
+    marginVertical: 3
   },
 })
