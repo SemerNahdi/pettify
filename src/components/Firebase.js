@@ -174,6 +174,16 @@ export default class Firebase {
                 "Wounds in the mouth"
             ]
         })
+        Firebase.firestore.collection("diseases").doc("Psittacosis").set({
+            symptoms: [
+                "Green diarrhea",
+                "Eye discharge",
+                "Nasal discharge",
+                "Difficulty eating",
+                "Respiratory problems such as wheezing",
+                "Paralysis of limbs and wings"
+            ]
+        })         
         //End of diseases data injection
 
         //Start of diseaseDetails data injection 
@@ -485,6 +495,22 @@ export default class Firebase {
                 "Consult your veterinarian immediately and report the bite to local animal control authorities.",
                 "Even if your dog, cat or ferret has a current vaccination, he/she should be revaccinated immediately, kept under the owner’s control, and observed for a period as specified by state law or local ordinance. Animals with expired vaccinations will need to be evaluated on a case-by-case basis.",
                 "Dogs, cats and ferrets that have never been vaccinated and are exposed to a rabid animal may need to be euthanatized in accordance with regulations or placed in strict isolation for six months.",
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Psittacosis").set({
+            description: [
+                "ADDME"
+            ],
+            prevention: [
+                "ADDME"
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "ADDME"
+            ],
+            treatments: [
+                "ADDME"
             ]
         })
         //End of diseaseDetails data injection 
