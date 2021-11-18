@@ -183,6 +183,15 @@ export default class Firebase {
                 "Respiratory problems such as wheezing",
                 "Paralysis of limbs and wings"
             ]
+        })
+        Firebase.firestore.collection("diseases").doc("Air sac mites").set({
+            symptoms: [
+                "Weakness",
+                "Discharge from the beak",
+                "Nasal discharge",
+                "Dirty feathers and dangling wings",
+                "Respiratory problems such as wheezing",
+            ]
         })         
         //End of diseases data injection
 
