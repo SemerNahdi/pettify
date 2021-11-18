@@ -17,7 +17,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {Text, Theme} from "../../components";
+import {Text, Button, Theme} from "../../components";
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -592,7 +592,7 @@ export default class EditScreen extends React.Component {
       <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
         <View style={styles.container}>
           {this.renderHeader()}
-          <Card containerStyle={styles.cardContainer}>
+          <View style={styles.cardContainer}>
             <Text type="header3" style={styles.cardText}> Edit Information </Text>
             <View style={styles.inputContainer}>
               <Text style={{
@@ -679,13 +679,12 @@ export default class EditScreen extends React.Component {
                 <FontAwesome5 name="venus" size={30} color="#e75480" /> 
               </TouchableOpacity>
               }
-  
+
               <View/>
               <View/>
               <View/>
               <View/>
               <View/>
-  
             </View>
 
             <View style={styles.inputContainer}>
@@ -716,11 +715,9 @@ export default class EditScreen extends React.Component {
                 <FontAwesome5 name="birthday-cake" size={30} color="#ffd800" />
               </TouchableOpacity>
               }
-  
               <View/>
               <View/>
               <View/>
-  
             </View>
 
 
@@ -756,7 +753,6 @@ export default class EditScreen extends React.Component {
               <View/>
               <View/>
               <View/>
-
             </View>
 
             <View style={styles.inputContainer}>
@@ -832,13 +828,11 @@ export default class EditScreen extends React.Component {
                 <FontAwesome5 name="tree" size={30} color="#0dbf0d" /> 
               </TouchableOpacity>
               }
-  
               <View/>
               <View/>
               <View/>
               <View/>
               <View/>
-  
             </View>
 
             <View style={styles.inputContainer}>
@@ -856,13 +850,12 @@ export default class EditScreen extends React.Component {
                 <FontAwesome5 name="ban" size={30} color="#c93335" /> 
               </TouchableOpacity>
               }
-  
+
               <View/>
               <View/>
               <View/>
               <View/>
               <View/>
-  
             </View>
 
             <View style={styles.inputContainer}>
@@ -925,27 +918,13 @@ export default class EditScreen extends React.Component {
                 <FontAwesome5 name="wine-bottle" size={30} color="#d1d1d1" />
               </TouchableOpacity>
               }
-
-              <View></View>
+              <View/>
             </View>
 
-          </Card>
-          
-          <View style={{
-            alignItems:"center",
-            paddingTop: 15,
-          }}>
-          <TouchableOpacity
-              style={styles.submitButton}
-              onPress={this.updateFireStorePetDetails}
-            >
-                <Text>
-                  Submit Changes
-                </Text>
-          </TouchableOpacity>
           </View>
-
-          <View style={{height:300}}/>
+            <View style={styles.buttonView}>
+              <Button label="Submit Changes" onPress={this.updateFireStorePetDetails} style="secondary"/>
+            </View>
         </View>
       </ScrollView>
     )
@@ -958,11 +937,6 @@ const styles = StyleSheet.create({
       width: 80,
   },
   cardContainer: {
-    backgroundColor: '#FFF',
-    borderWidth: 0,
-    flex: 1,
-    margin: 0,
-    padding: 0,
     paddingTop: 10,
   },
   cardText: {
@@ -1022,5 +996,11 @@ const styles = StyleSheet.create({
     height: 170,
     marginBottom: 15,
     width: 170,
+  },
+  buttonView: {
+    flexDirection:"row", 
+    justifyContent:"center", 
+    marginTop: 15, 
+    marginBottom: 35
   },
 })

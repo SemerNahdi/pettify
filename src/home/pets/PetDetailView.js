@@ -1,11 +1,9 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
-import React, { Component, useState } from 'react'
-import { Card, Icon, Overlay, Badge } from 'react-native-elements'
+import React, { Component } from 'react'
+import { Icon } from 'react-native-elements'
 import {
   ActivityIndicator,
-  Dimensions,
-  FlatList,
   Image,
   ImageBackground,
   Linking,
@@ -15,16 +13,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {Text, Theme} from "../../components";
+import {Button, Text, Theme} from "../../components";
 
 import Email from './Email'
 import Separator from './Separator'
 import Tel from './Tel'
-import { reduce } from "lodash";
-import darkColors from "react-native-elements/dist/config/colorsDark";
-
-var width = Dimensions.get('window').width; //full width
-var height = Dimensions.get('window').height; //full height
 
 export default class PetDetailView extends Component {
   constructor(props)
@@ -111,24 +104,6 @@ export default class PetDetailView extends Component {
                   avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
                 })
                 break;
-              case "Horse":
-                this.setState({
-                  avatar: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  avatarBackground: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                })
-                break;
-              case "Fish":
-                this.setState({
-                  avatar: "https://i.guim.co.uk/img/media/9c03bd43c119834ece958f3c370dec83146fe04a/0_200_6000_3602/master/6000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=de1abf11d1a7a961d5fea63f5a8bee55",
-                  avatarBackground: "https://i.guim.co.uk/img/media/9c03bd43c119834ece958f3c370dec83146fe04a/0_200_6000_3602/master/6000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=de1abf11d1a7a961d5fea63f5a8bee55"
-                })
-                break;
-              case "Exotic":
-                this.setState({
-                  avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg",
-                  avatarBackground: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg"
-                })
-                break;
               default:
                 this.setState({
                   avatar: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
@@ -208,7 +183,7 @@ export default class PetDetailView extends Component {
     } = this.state
 
     return (
-      <View style={styles.headerContainer}>
+      <View>
         <ImageBackground
           style={styles.headerBackgroundImage}
           blurRadius={10}
@@ -309,13 +284,14 @@ export default class PetDetailView extends Component {
     }
     else {
     return (
-      <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
+      <ScrollView persistentScrollbar={false} >
         <View style={styles.container}>
+
         {this.renderHeader()}
-          <Card containerStyle={styles.cardContainer}>
-            <View style={{
-              paddingBottom: 10,
-            }}>
+
+          <View style={styles.infoContainer}>
+
+            <View style={{paddingBottom: 10}}>
               <Text type="header3" style={styles.cardText}> Pet Information </Text>
               <Text> Age Group: {this.state.age}</Text>
               <Text> Size: {this.state.size}</Text>
@@ -327,53 +303,42 @@ export default class PetDetailView extends Component {
               <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
               <Text> Duration of Lactation: {this.state.lactating}</Text>
             </View>
+
             {Separator()}
+
             <Text type="header3" style={styles.cardText}> Veterinary Contact Information </Text>
             {this.renderTel()}
+
             {Separator()}
+
             {this.renderEmail()}
-          </Card>
-          <View style={styles.labContainer}>
-            
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToTrainingScreen}
-            >
-                <Text>
-                  View Training Videos on {this.state.petDetails.breed}s
-                </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToLabResults}
-            >
-                <Text>
-                  View Lab Results for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToPrescription}
-            >
-                <Text>
-                  View Prescriptions for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
+            {Separator()}
 
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToDiet}
-            >
-                <Text>
-                  View Recommended Diet for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonContainer}>
+                <Button label={"View Training Videos on " + this.state.petDetails.breed + "s"} 
+                        style="secondary" onPress={this.goToTrainingScreen}/>
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button label={"View Lab Documents for " + this.state.petDetails.name} 
+                        style="secondary" onPress={this.goToLabResults}/>
+              </View>
+              
+              <View style={styles.buttonContainer}>
+                <Button label={"View Prescriptions for " + this.state.petDetails.name} 
+                        style="secondary" onPress={this.goToPrescription}/>
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button label={"View Recommended Diet for " + this.state.petDetails.name} 
+                        style="secondary" onPress={this.goToDiet}/>
+              </View>
+            </View>
+
           </View>
 
-          
-          <View style={{height:60}}/>
         </View>
       </ScrollView>
     )
@@ -385,21 +350,24 @@ const styles = StyleSheet.create({
   side: {
       width: 80,
   },
-  cardContainer: {
+  infoContainer: {
     backgroundColor: '#FFF',
-    borderWidth: 0,
     flex: 1,
-    margin: 0,
-    paddingTop: 10,
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection:"row", 
+    justifyContent:"center", 
+    marginBottom: 15
+  },
+  buttonContent: {
+    marginTop: 20,
+    marginBottom: 15
   },
   cardText: {
     flexDirection: "row",
     alignSelf: "center",
-  },
-  overlayContainer: {
-    backgroundColor: '#FFF',
-    width: width - 100,
-    padding: 0,
+    marginTop: 10,
   },
   container: {
     flex: 1,
@@ -412,7 +380,6 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 45,
   },
-  headerContainer: {},
   headerColumn: {
     backgroundColor: 'transparent',
     ...Platform.select({
@@ -426,17 +393,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  labButton:{
-    backgroundColor: '#9dffb0',
-    alignSelf: 'center',
-    padding: 10,
-    marginTop: 20
-  },
-  labContainer: {
-    width: '100%',
-    height: '20%',
-    justifyContent: 'center',
-  },
   navContent: {
     marginTop: Platform.OS === "ios" ? 0 : 20,
     height: 57,
@@ -448,9 +404,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 26,
     paddingRight: 5,
-  },
-  scroll: {
-    backgroundColor: '#FFF',
   },
   telContainer: {
     backgroundColor: '#FFF',
