@@ -190,7 +190,7 @@ export default class Firebase {
                 "Discharge from the beak",
                 "Nasal discharge",
                 "Dirty feathers and dangling wings",
-                "Respiratory problems such as wheezing",
+                "Respiratory problems such as wheezing"
             ]
         })         
         //End of diseases data injection
@@ -507,6 +507,22 @@ export default class Firebase {
             ]
         })
         Firebase.firestore.collection("diseaseDetails").doc("Psittacosis").set({
+            description: [
+                "ADDME"
+            ],
+            prevention: [
+                "ADDME"
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "ADDME"
+            ],
+            treatments: [
+                "ADDME"
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Air sac mites").set({
             description: [
                 "ADDME"
             ],
