@@ -1,40 +1,9 @@
 // @flow
 import * as React from "react";
 import {StyleSheet, View, Platform} from "react-native";
-
 import {AnimatedView} from "../components";
 
-import type {BaseProps} from "../components/Types";
-
-type NoProps = {};
-type VisibleState = {
-    visible: boolean
-};
-
-// eslint-disable-next-line react/prefer-stateless-function, react/no-multi-comp
-class Phone extends React.Component<BaseProps> {
-    render(): React.Node {
-        return (
-            <AnimatedView style={styles.phone} />
-        );
-    }
-}
-
-// eslint-disable-next-line react/prefer-stateless-function, react/no-multi-comp
-class Mac extends React.Component<BaseProps> {
-    render(): React.Node {
-        return (
-            <AnimatedView delay={200} style={styles.screenContainer}>
-                <View style={styles.screen} />
-                <View style={styles.foot} />
-                <View style={styles.base} />
-            </AnimatedView>
-        );
-    }
-}
-
-// eslint-disable-next-line react/no-multi-comp
-export default class Connect extends React.Component<NoProps, VisibleState> {
+export default class Connect extends React.Component {
 
     state = {
         visible: true
@@ -55,8 +24,12 @@ export default class Connect extends React.Component<NoProps, VisibleState> {
         }
         return (
             <View style={styles.container}>
-                <Phone />
-                <Mac />
+                <AnimatedView style={styles.phone} />
+                <AnimatedView delay={200} style={styles.screenContainer}>
+                    <View style={styles.screen} />
+                    <View style={styles.foot} />
+                    <View style={styles.base} />
+                </AnimatedView>
             </View>
         );
     }
@@ -68,7 +41,7 @@ const styles = StyleSheet.create({
         height: 134
     },
     phone: {
-        borderRadius: Platform.OS === "ios" ? 4 : undefined,
+        borderRadius: 4,
         width: 54,
         height: 94,
         backgroundColor: "#E0F5FF",
@@ -94,7 +67,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     screen: {
-        borderRadius: Platform.OS === "ios" ? 6 : undefined,
+        borderRadius: 6,
         width: 151,
         height: 108,
         backgroundColor: "#E0F5FF",

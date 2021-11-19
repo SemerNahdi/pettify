@@ -1,16 +1,9 @@
-// @flow
 import * as React from "react";
 import {StyleSheet, Dimensions, View} from "react-native";
 import Constants from "expo-constants";
 import {Text, Theme} from "../components";
 
-type SlideProps = {
-    title: string,
-    description: string,
-    icon: React.Element<*>
-};
-
-export default class Slide extends React.PureComponent<SlideProps> {
+export default class Slide extends React.PureComponent {
 
     render(): React.Node {
         const {title, description, icon} = this.props;

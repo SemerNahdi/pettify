@@ -1,13 +1,13 @@
 // @flow
 import * as React from "react";
 import { StyleSheet} from "react-native";
-import {Button as NBButton, Text, Spinner} from "native-base";
+import {Button as NBButton, Text, Spinner, View} from "native-base";
 
 import {Theme} from "./Theme";
 
 export default class Button extends React.Component<> {
     render(): React.Node {
-        const {label, full, disabled, transparent, onPress, style, loading, textColor} = this.props;
+        const {label, full, disabled, transparent, onPress, style, loading, textColor, hidden} = this.props;
         var appliedStyle
         var primary = false
 
@@ -47,6 +47,12 @@ export default class Button extends React.Component<> {
             appliedStyle = styles.base
         }
 
+        if(hidden)
+        {
+            return (
+                <View/>
+            )
+        }
         return (
             <NBButton
                 title={label}
