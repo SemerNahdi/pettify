@@ -42,8 +42,13 @@ export default class AddPets extends React.Component {
         this.setState({species: species})
     }
     
-      updateSex(sex) {
+    updateSex(sex) {
         this.setState({sex: sex})   
+        if(sex === "Male")
+        {
+            this.setState({pregnancy: "Not Pregnant"})
+            this.setState({lactating: "Non Lactating"})
+        }
     }
 
     setAgeValue = (callback) => {
@@ -68,8 +73,13 @@ export default class AddPets extends React.Component {
         this.setState({classification: classification})
     } 
     
-      updateSpayNeuter_Status(spayNeuter_Status) {
+    updateSpayNeuter_Status(spayNeuter_Status) {
         this.setState({spayNeuter_Status: spayNeuter_Status})
+        if(spayNeuter_Status === "Spayed/Neutered")
+        {
+            this.setState({pregnancy: "Not Pregnant"})
+            this.setState({lactating: "Non Lactating"})
+        }
     }
 
     setPregnancyValue = (callback) => {
@@ -289,11 +299,7 @@ export default class AddPets extends React.Component {
                         zIndex={2}
                         style={styles.dropdown}
                     />
-                    </>
-                    }
 
-                    {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" && 
-                    <>
                     <Text>Duration of Lactation:</Text>
                     <DropDownPicker 
                         placeholder="Select duration of lactation"
