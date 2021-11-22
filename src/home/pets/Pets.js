@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Firebase from "../../components/Firebase";
 import { NavHeaderWithButton, Theme } from "../../components";
 import autobind from 'autobind-decorator';
+import { ImageBackground } from "react-native";
 
 export default class Pets extends Component {
   @autobind
@@ -101,7 +102,8 @@ export default class Pets extends Component {
         )
     }
     return (
-      <View style={[styles.container]}>
+       <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
+
       <NavHeaderWithButton title="Pets" buttonIcon="plus" buttonFn={this.buttonFn} back={vet} backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
           <FlatList
             data={this.state.items}
@@ -109,7 +111,8 @@ export default class Pets extends Component {
             keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
             renderItem={this._renderItem}//render each item
           />
-        </View>
+
+      </ImageBackground>
       )
   }
 };
