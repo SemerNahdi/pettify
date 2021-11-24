@@ -1,8 +1,10 @@
 import React, { Component , createRef} from 'react';
-import { StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, FlatList, SafeAreaView, Dimensions } from 'react-native';
 import type { ScreenParams } from "../../components/Types";
-import { NavHeader } from "../../../components";
+import { NavHeader, RefreshIndicator } from "../../../components";
 import PlayYouTube from "./PlayYouTube";
+
+var height = Dimensions.get('window').height;
 
 const API_KEY = "AIzaSyDRwHH_1BDlU_1_t_UJe2S2757JPTnLvfQ";
 
@@ -51,13 +53,12 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
             <View>
                 <NavHeader title="Training Videos" back {...{navigation}}/>
                 <SafeAreaView>
-                
-                <View style={{
-                    paddingTop: "40%",
-                    justifyContent:"center",
-                }}>
-                    <ActivityIndicator size="large" />
-                </View>
+                    <View style={{
+                        paddingTop: height/2,
+                        justifyContent:"center",
+                    }}>
+                        <RefreshIndicator refreshing />
+                    </View>
                 </SafeAreaView>
             </View>
             )

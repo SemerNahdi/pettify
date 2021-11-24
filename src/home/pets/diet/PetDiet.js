@@ -54,6 +54,7 @@ export default class PetDiet extends Component<> {
     }
  
     this.arrayToString();
+    var date = new Date().toISOString();
 
     //Add pet to firestore
     Firebase.firestore
@@ -62,7 +63,8 @@ export default class PetDiet extends Component<> {
     .collection("pets")
     .doc(pet_uid)
     .collection("diet")
-    .add({
+    .doc(date)
+    .set({
       date: new Date(),
       diet: this.state.dietToString,
       dietDetails: this.state.dietDetails
@@ -88,6 +90,7 @@ export default class PetDiet extends Component<> {
 
     this.arrayToString();
  
+    var date = new Date().toISOString();
     //Add pet to firestore
     Firebase.firestore
     .collection("users")
@@ -95,7 +98,8 @@ export default class PetDiet extends Component<> {
     .collection("pets")
     .doc(pet_uid)
     .collection("dietU")
-    .add({
+    .doc(date)
+    .set({
       date: new Date(),
       diet: this.state.dietToString,
       dietDetails: this.state.dietDetails
@@ -133,7 +137,7 @@ export default class PetDiet extends Component<> {
     })
     .then(() => {
       this.setState({
-        existentDiet: [...this.state.existentDiet]
+        existentDiet: [...this.state.existentDiet.reverse()]
       })
     })
   }
@@ -156,6 +160,11 @@ export default class PetDiet extends Component<> {
           dietDetails: doc.data().dietDetails,
           date: new Date(doc.data().date.seconds*1000).toString()
         })
+      })
+    })
+    .then(() => {
+      this.setState({
+        existentDietU: [...this.state.existentDietU.reverse()]
       })
     });
   }

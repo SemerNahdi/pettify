@@ -50,7 +50,7 @@ export default class Password extends React.Component {
                     email: email,
                     address: displayAddress,
                     role: "p",
-                    pic: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
+                    pic: Theme.links.defaultProfile,
                 }
             )
             .then(() => {

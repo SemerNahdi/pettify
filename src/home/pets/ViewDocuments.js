@@ -51,8 +51,9 @@ export default class ViewDocuments extends Component<> {
     uploadDocument = async (path, documentName) => {
         const response = await fetch(path);
         const blob = await response.blob();
+        var date = new Date().toISOString();
  
-        var ref = Firebase.storage.ref().child("labResults/" + uid + "/" + documentName);
+        var ref = Firebase.storage.ref().child("labResults/" + documentName + date);
         let task = ref.put(blob);
         let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
  
@@ -69,7 +70,7 @@ export default class ViewDocuments extends Component<> {
         .then(() => {
             task.then(() => {
                 //Add new file to the local array, the user field, and Firebase Storage
-                ref.getDownloadURL().then(function (pdf) {
+                ref.getDownloadURL().then((pdf) => {
                     labResultFiles.push(pdf);
  
                     Firebase.firestore
@@ -78,10 +79,8 @@ export default class ViewDocuments extends Component<> {
                         .collection("pets")
                         .doc(pet_uid)
                         .update({ labResults: labResultFiles })
-                }
-                    , function (error) {
-                        console.log(error);
-                    });
+                        .then(() => {this.fillArrayWithFiles()})
+                });
             })
             .catch((e) => {
                 console.log('uploading document error => ', e);
