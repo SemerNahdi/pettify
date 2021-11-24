@@ -1,16 +1,9 @@
-// @flow
 import * as React from "react";
 import {StyleSheet, View, Platform} from "react-native";
 import {Theme} from "../components";
 import {AnimatedView, simpleInterpolation, directInterpolation} from "../components/Animations";
 
-type NoProps = {};
-
-type ShareState = {
-    visible: boolean
-};
-
-export default class Share extends React.Component<NoProps, ShareState> {
+export default class Share extends React.Component {
 
     state = {
         visible: false
@@ -52,16 +45,15 @@ export default class Share extends React.Component<NoProps, ShareState> {
     }
 }
 
-const backgroundColor = "#E0F5FF";
 const shadowColor = "#9DFFB0";
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row"
     },
     picture: {
-        backgroundColor,
+        backgroundColor: Theme.palette.secondary,
         borderColor: Theme.palette.white,
-        borderRadius: Platform.OS === "ios" ? 7 : 0
+        borderRadius: 7
     },
     frontPicture: {
         width: 105,

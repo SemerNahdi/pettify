@@ -297,10 +297,10 @@ export default class PetDetailView extends Component {
             <Text> Living Space: {this.state.classification}</Text>
             <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
             {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
-            <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
-            }
-            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" &&
-            <Text> Duration of Lactation: {this.state.lactating}</Text>
+            <>
+              <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
+              <Text> Duration of Lactation: {this.state.lactating}</Text>
+            </>
             }
           </View>
 
