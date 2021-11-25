@@ -508,34 +508,34 @@ export default class Firebase {
         })
         Firebase.firestore.collection("diseaseDetails").doc("Psittacosis").set({
             description: [
-                "ADDME"
+                "Psittacosis is a bacterial infection. Also known as parrot fever or avian chlamydiosis, it is usually transferred via another bird's droppings, feathers, or eggs. Some birds are asymptomatic, which contributes to the disease's spread. The disease can be transmitted to humans, but it is treatable for both birds and their owners."
             ],
             prevention: [
-                "ADDME"
+                "Make sure to regularly clean your birds' cages. If you have multiple birds in a cage, make sure they have enough space to avoid being cramped. It's a good idea to test any new birds for psittacosis, even if they have no symptoms. Use caution while handling any birds you suspect are sick."
             ],
             stageOne: [],
             stageTwo: [],
             symptoms: [
-                "ADDME"
+                "Notable symptoms of psittacosis in birds include difficulty eating and breathing, or greenish-yellow diarrhea. In addition, infected birds may have unusual nasal or optical secretions, or even partial paralysis."
             ],
             treatments: [
-                "ADDME"
+                "Psittacosis can be treated effectively with antibiotics. They can either be administered with the bird's water or via injection."
             ]
         })
         Firebase.firestore.collection("diseaseDetails").doc("Air sac mites").set({
             description: [
-                "ADDME"
+                "One pathogen that can infect birds is sternostoma tracheacolum, the air sac mite. The mites live in and lay their eggs in a bird's respiratory system, before leaving through the nasal cavity to find a new host. Mild cases may be asymptomatic, but the mites are very contagious, and they can be deadly if not caught."
             ],
             prevention: [
-                "ADDME"
+                "Like mosquitos, the air sac mites breed most effectively when in hot, humid weather and near standing water. Therefore, keep your birds in a cool environment that is not too humid, and make sure to clean up standing water immediately. Keep your birds away from wild or sick birds, and make sure their water is clean. If one of your birds is infected or came in contact with an infected bird, make sure to check all of your birds for mites, even if they are not showing symptoms."
             ],
             stageOne: [],
             stageTwo: [],
             symptoms: [
-                "ADDME"
+                "As the mites infect the bird's lungs and trachea, the most common symptoms are if your bird has difficulty breathing or produces a strange clicking noise. Another sign could be weak legs or wings. The mites may also cause unusual secretions from the beak or nasal cavity."
             ],
             treatments: [
-                "ADDME"
+                "The usual treatment for air sac mites is special insecticide. Make sure to only treat your bird according to your veterinarian's guidance. In addition to these treatments being toxic to the bird, the dosage is critical to ensure the mites are not killed too slowly or too quickly. An overly strong treatment could cause the mites to block your bird's trachea, causing suffocation. As your bird recuperates, make sure to sanitize its water and living environment daily, and try to keep your bird comfortable. Avoid letting your bird fly or exerting too much energy."
             ]
         })
         //End of diseaseDetails data injection 
