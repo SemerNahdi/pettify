@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Firebase from "../../components/Firebase";
 import { NavHeaderWithButton, Theme, NavHeader } from "../../components";
 import autobind from 'autobind-decorator';
-
+import { ImageBackground } from "react-native";
 export default class Patients extends Component {
 
   @autobind
@@ -94,8 +94,7 @@ export default class Patients extends Component {
     else if(this.state.role == "a")
     {
       return (
-        <View style={[styles.container]}>
-        
+        <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
         <NavHeaderWithButton title="Users" buttonFn={this.buttonFn} buttonIcon="plus" />
             <FlatList
               data={this.state.items}
@@ -103,12 +102,12 @@ export default class Patients extends Component {
               keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
               renderItem={this._renderItem}//render each item
             />
-          </View>
+          </ImageBackground>
         )
     }
     else{
       return (
-        <View style={[styles.container]}>
+        <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
           <NavHeader title="Users"{...{ navigation }}/>
             <FlatList
               data={this.state.items}
@@ -116,7 +115,7 @@ export default class Patients extends Component {
               keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
               renderItem={this._renderItem}//render each item
             />
-          </View>
+          </ImageBackground>
       )
     } 
   }

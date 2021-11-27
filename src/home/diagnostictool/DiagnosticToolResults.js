@@ -4,7 +4,7 @@ import DiagnosisItem from './DiagnosisItem';
 import _ from 'lodash';
 import Firebase from "../../components/Firebase";
 import { NavHeader, Text } from "../../components";
-
+import { ImageBackground } from "react-native";
 export default class DiagnosticToolResults extends Component {
 
   constructor(props){
@@ -52,7 +52,7 @@ export default class DiagnosticToolResults extends Component {
         )
     }
     return (
-      <View style={[styles.container]}>
+      <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
       <NavHeader title="Diagnosed Diseases" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
         
           <FlatList
@@ -62,7 +62,7 @@ export default class DiagnosticToolResults extends Component {
             renderItem={this._renderItem}//render each item
           />
           {(this.state.items).length < 1 && <Text style={styles.noItemsMessage}>No diseases found. Please contact your veterinarian.</Text>}
-        </View>
+        </ImageBackground>
       )
   }
 };

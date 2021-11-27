@@ -8,9 +8,10 @@ import {
   Image,
 } from "react-native";
 import Constants from "expo-constants";
-import { Content } from "native-base";
+import { Content, Right } from "native-base";
  
 import { Firebase, Text, Container, Theme, NavHeaderWithButton } from "../../components";
+import { ImageBackground } from "react-native";
 
 export default class ProfileComp extends React.Component {
  
@@ -54,35 +55,29 @@ export default class ProfileComp extends React.Component {
     const { navigation } = this.props;
     prof = this.state.profile;
     return (
-      <>
+      <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
       <NavHeaderWithButton title="Profile" buttonFn={this.settings} buttonIcon="settings" />
-      <Container gutter={1} style={styles.container}>
-        <Content scrollEnabled={false}>
-          <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
+          <View style={styles.contentcontainer}>
           <Image
                 source={{ uri: this.state.picture }}
                 style={styles.avatar}
-            />
-          </View>
+                />   
           <View>
             <View style={styles.informationContainer}>
-              <Text style={styles.header}>Name</Text>
+              <Text style={styles.header}>Name:</Text>
               <Text style={styles.information}>{prof.name}</Text>
             </View>   
           </View>
-          <View style={styles.separator}/>
           <View style={styles.informationContainer}>
-            <Text style={styles.header}>Email</Text>
+            <Text style={styles.header}>Email:</Text>
             <Text style={styles.information}>{prof.email}</Text>
           </View>
-          <View style={styles.separator}/>
           <View style={styles.informationContainer}>
-            <Text style={styles.header}>Address</Text>
+            <Text style={styles.header}>Address:</Text>
             <Text style={styles.information}>{prof.address}</Text>
           </View>
-        </Content>
-      </Container>
-      </>
+          </View>
+      </ImageBackground>
     );
   }
 }
@@ -99,39 +94,42 @@ const styles = StyleSheet.create({
     borderRadius: 85,
     height: 120,
     width: 120,
-    marginBottom: 20,
+    marginBottom: 10,
     alignSelf: "center"
-  },
-  separator: {
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
-    alignSelf: 'flex-start',
-    width: '100%',
-    marginLeft: 80,
-    marginBottom: 4,
-    marginTop: 4,
   },
   header: {
     color: Theme.palette.black,
-    width: 75,
+    width: width-250,
     fontSize: 16,
-    lineHeight: 16,
-    textAlign: 'left',
+    lineHeight: 20,
   },
   information: {
     color: Theme.palette.black,
+    width: width-250,
     fontSize: 16,
     lineHeight: 16,
-    textAlign: 'left',
   },
   informationContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'flex-start',
-      alignSelf: 'flex-start',
-      marginLeft: 8,
-      marginTop: 8,
-      marginBottom: 8,
+    paddingRight:20,
+    paddingLeft:30,
+    paddingBottom: 10,
+    paddingTop: 10,
+    flex: 0,
+    margin: 15,
+    flexDirection: 'row',    
+    backgroundColor:Theme.palette.white,
+    opacity:1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: .2,
+    shadowRadius: .5,
+    borderRadius: 5,
+    borderWidth: .3,
+    borderColor: Theme.palette.transparent,
+    alignItems: "center",
+    justifyContent: "center",
   },
+  contentcontainer: {
+    paddingTop: 40,
+  }
 });
  

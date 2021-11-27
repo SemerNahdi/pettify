@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions, SectionList, TextInput, SafeAreaView } from 'react-native';
+import { ImageBackground, View, StyleSheet, ScrollView, Dimensions, SectionList, TextInput, SafeAreaView } from 'react-native';
 import { Theme, NavHeader, Text, Container, Button } from "../../../components";
 import Firebase from "../../../components/Firebase";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -136,6 +136,7 @@ export default class PetPrescription extends Component<> {
   render() {
     const { items, prescription } = this.state;
     return (
+      <ImageBackground source={require('../../../../assets/pattern.png')} style={styles.container}>
       <ScrollView style={styles.container}>
         <NavHeader title="Prescriptions" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
 
@@ -152,7 +153,7 @@ export default class PetPrescription extends Component<> {
               setValue={this.setPrescriptionValue}
               listMode="SCROLLVIEW"
               style={styles.input}
-            />
+              />
 
             <TextInput
               style={styles.input}
@@ -162,7 +163,7 @@ export default class PetPrescription extends Component<> {
               onChangeText={text => this.setDose(text)}
               multiline={false}
               value={this.state.dose}
-            />
+              />
 
             <TextInput
               style={styles.input}
@@ -173,7 +174,7 @@ export default class PetPrescription extends Component<> {
               onChangeText={text => this.setQuantity(text)}
               multiline={false}
               value={this.state.qty}
-            />
+              />
 
             <TextInput
               style={styles.bigInput}
@@ -185,10 +186,10 @@ export default class PetPrescription extends Component<> {
               onChangeText={text => this.setInstruction(text)}
               multiline={true}
               value={this.state.instructions}
-            />
+              />
 
             <View style={styles.buttonView}>
-              <Button label="Submit Prescription" onPress={this.savePrescriptionToFireStore} style="secondary"/>
+              <Button label="Submit Prescription" onPress={this.savePrescriptionToFireStore} style="primary"/>
             </View>
           </Container>
         </View>}
@@ -214,6 +215,7 @@ export default class PetPrescription extends Component<> {
             </View>
         </View>
       </ScrollView>
+      </ImageBackground>
     )
   }
 }
@@ -229,47 +231,45 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   submitButton:{
-    borderColor: '#808080',
+    borderColor: Theme.palette.primary,
     borderWidth: 1,
     borderRadius: 10,
-    backgroundColor: '#9dffb0',
+    backgroundColor: Theme.palette.primary,
     alignSelf: 'center',
     padding: 10,
   },
   prescriptionHistoryContainer:{
-    backgroundColor: '#fff',
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#e0e0e0'
+    backgroundColor: Theme.palette.transparent,
   },
   prescriptionInputContainer:{
-    backgroundColor: '#fff',
+    backgroundColor: Theme.palette.transparent,
     paddingBottom: 20,
   },
   input: {
-    borderColor: '#808080',
+    borderColor: Theme.palette.black,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: Theme.palette.white,
     marginBottom:13
   },
   bigInput: {
-    borderColor: '#808080',
+    borderColor: Theme.palette.black,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: Theme.palette.white,
     height: 100,
     marginBottom: 20
   },
   item: {
+    margin:15,
     borderWidth: 1,
     borderRadius: 10,
-    backgroundColor: '#9dffb0',
-    borderColor: '#808080',
+    backgroundColor: Theme.palette.white,
+    borderColor: Theme.palette.black,
     fontSize: 15,
-    padding: 5,
+    padding: 10,
   },
   buttonView: {
     flexDirection: "row",

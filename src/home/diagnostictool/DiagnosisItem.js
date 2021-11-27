@@ -20,6 +20,7 @@ export default class ListItem extends Component {
     let diagnosisColor = Theme.palette.black;
 
     return (
+      <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
       <TouchableOpacity
         style={[
           {
@@ -98,6 +99,7 @@ export default class ListItem extends Component {
           </View>
         </View>
       </TouchableOpacity>
+      </ImageBackground>
     );
   }
 }

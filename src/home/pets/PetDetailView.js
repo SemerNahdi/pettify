@@ -194,14 +194,14 @@ export default class PetDetailView extends Component {
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goBackToPets}>
                   <View>
-                      <Icon name="chevron-left" size={50} color={Theme.palette.white} />
+                      <Icon name="chevron-left" size={40} color={Theme.palette.black} />
                   </View>
               </TouchableOpacity>
             </View>
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goToEditScreen}>
                   <View>
-                      <Icon type="font-awesome-5" name="edit" size={40} color={Theme.palette.white} />
+                      <Icon type="font-awesome-5" name="edit" size={20} color={Theme.palette.black} />
                   </View>
               </TouchableOpacity>
             </View>
@@ -317,23 +317,23 @@ export default class PetDetailView extends Component {
 
           <View style={styles.buttonContent}>
             <View style={styles.buttonContainer}>
-              <Button label={"View Training Videos on " + this.state.breed + "s"} 
-                      style="secondary" onPress={this.goToTrainingScreen}/>
+              <Button label={"View Training Videos on " + this.state.breed + "'s"} 
+                      style="primary" onPress={this.goToTrainingScreen}/>
             </View>
 
             <View style={styles.buttonContainer}>
               <Button label={"View Lab Documents for " + this.state.name} 
-                      style="secondary" onPress={this.goToLabResults}/>
+                      style="primary" onPress={this.goToLabResults}/>
             </View>
             
             <View style={styles.buttonContainer}>
               <Button label={"View Prescriptions for " + this.state.name} 
-                      style="secondary" onPress={this.goToPrescription}/>
+                      style="primary" onPress={this.goToPrescription}/>
             </View>
 
             <View style={styles.buttonContainer}>
               <Button label={"View Recommended Diet for " + this.state.name} 
-                      style="secondary" onPress={this.goToDiet}/>
+                      style="primary" onPress={this.goToDiet}/>
             </View>
           </View>
 
