@@ -193,6 +193,18 @@ export default class Firebase {
                 "Respiratory problems such as wheezing"
             ]
         })         
+         Firebase.firestore.collection("diseases").doc("Fatty liver disease").set({
+            symptoms: [
+                "Drowsiness",
+                "Dirty feathers and dangling wings",
+                "Green diarrhea",
+                "Anorexia",
+                "Depression"
+                "Respiratory problems such as wheezing"
+                "Ataxia (loss of balance)"
+                "Loose diarrhea and watery stools"
+            ]
+        }) 
         //End of diseases data injection
 
         //Start of diseaseDetails data injection 
@@ -536,6 +548,22 @@ export default class Firebase {
             ],
             treatments: [
                 "The usual treatment for air sac mites is special insecticide. Make sure to only treat your bird according to your veterinarian's guidance. In addition to these treatments being toxic to the bird, the dosage is critical to ensure the mites are not killed too slowly or too quickly. An overly strong treatment could cause the mites to block your bird's trachea, causing suffocation. As your bird recuperates, make sure to sanitize its water and living environment daily, and try to keep your bird comfortable. Avoid letting your bird fly or exerting too much energy."
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Fatty liver disease").set({
+            description: [
+                "Malnutrition in birds is common, and is especially common in birds fed only with seeds. If a bird has a diet high in fat, the fat can be deposited in the liver, which can disrupt the liver's functionality. This fatty liver disease can leave the bird vulnerable to other diseases or even kill the bird on its own."
+            ],
+            prevention: [
+                "As fatty liver disease is a result of obesity and malnutrition, it can be prevented by feeding your birds a balanced diet, such as pellets, flowers, fruits and vegetables. Make sure your birds are active, with enough space to move comfortably. Remove uneaten food about 30 minutes after serving to prevent overeating. Weighing your bird regularly can catch weight gain before any severe effects."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "As fatty liver disease is caused by obesity, you should keep track of your bird's weight. More noticeable symptoms include changes in behavior, jaundice (yellowed skin), and black spots on the toes or beak caused by blood clotting. However, by the time these symptoms develop, it is more likely that your bird is at a dangerous weight level. If you see these symptoms, you should see a veterinarian."
+            ],
+            treatments: [
+                "You should follow a veterinarian's advice, as procedures such as tube feeding may be necessary. Other common treatments include laxatives or vitamin supplements. However, in almost all cases a change to the bird's diet will be prescribed, which may be adjusted by your vet as your bird recovers."
             ]
         })
         //End of diseaseDetails data injection 
