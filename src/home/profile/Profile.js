@@ -99,9 +99,10 @@ const styles = StyleSheet.create({
   },
   header: {
     color: Theme.palette.black,
-    width: width-250,
+    width: width-360,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 16,
+    alignSelf:"center"
   },
   information: {
     color: Theme.palette.black,
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   informationContainer: {
     paddingRight:20,
-    paddingLeft:30,
+    paddingLeft:10,
     paddingBottom: 10,
     paddingTop: 10,
     flex: 0,
@@ -125,8 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: .3,
     borderColor: Theme.palette.transparent,
-    alignItems: "center",
-    justifyContent: "center",
+   
   },
   contentcontainer: {
     paddingTop: 40,
