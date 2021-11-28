@@ -71,7 +71,7 @@ export default class Patients extends Component {
         index={item.id}
         uid={item.uid}
         name={item.name}
-        pic={item.pic ? item.pic : item.picture.uri}
+        pic={item.pic}
         email={item.email}
         {...{navigation}}
       />)

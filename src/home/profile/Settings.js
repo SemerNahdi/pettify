@@ -1,4 +1,3 @@
-// @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
 import { Alert, StyleSheet, View, TouchableWithoutFeedback, Image, Dimensions } from "react-native";
@@ -39,7 +38,7 @@ export default class Settings extends React.Component {
         profile = navigation.state.params.profile;
 
         this.state.name = profile.name;
-        this.state.pic = profile.pic ? profile.pic : profile.picture.uri;
+        this.state.pic = profile.pic;
         this.state.address = profile.address;
 
         Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -238,7 +237,7 @@ export default class Settings extends React.Component {
                         justifyContent:"center",
                     }}>
                         <RefreshIndicator refreshing />
-          </View>
+                    </View>
                 </View>
             );
         } 
