@@ -199,10 +199,21 @@ export default class Firebase {
                 "Dirty feathers and dangling wings",
                 "Green diarrhea",
                 "Anorexia",
-                "Depression"
-                "Respiratory problems such as wheezing"
-                "Ataxia (loss of balance)"
+                "Depression",
+                "Respiratory problems such as wheezing",
+                "Ataxia (loss of balance)",
                 "Loose diarrhea and watery stools"
+            ]
+        }) 
+        Firebase.firestore.collection("diseases").doc("Gout").set({
+            symptoms: [
+                "Green diarrhea",
+                "Depression",
+                "Dirty feathers and dangling wings",
+                "Ataxia (loss of balance)",
+                "Loose diarrhea and watery stools",
+                "Increased urination (polyuria)",
+                "Swelling of the soles of the feet and joints"
             ]
         }) 
         //End of diseases data injection
@@ -564,6 +575,22 @@ export default class Firebase {
             ],
             treatments: [
                 "You should follow a veterinarian's advice, as procedures such as tube feeding may be necessary. Other common treatments include laxatives or vitamin supplements. However, in almost all cases a change to the bird's diet will be prescribed, which may be adjusted by your vet as your bird recovers."
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Gout").set({
+            description: [
+                "Gout is a disease caused by kidney failure. A bird with gout cannot properly remove uric acid, and it is instead deposited in tissues or joints. The uric acid forms crystals which can cause pain and sometimes permanent damage."
+            ],
+            prevention: [
+                "The easiest way to prevent gout is with a well-rounded diet. Monitor your bird so you can catch warning signs early and treat gout before it progresses."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "The earliest warning signs of gout for a bird include swollen or stiff leg or wing joints, especially if the bird often shifts its weight around. The bird may be unable to perch or fly, instead preferring to remain on the floor of its cage."
+            ],
+            treatments: [
+                "There are both medications and surgical procedures to help birds suffering from gout, but neither can prevent some of the lasting effects. Your veterinarian will likely recommend a special diet for your bird while it recovers, which you should hold it to."
             ]
         })
         //End of diseaseDetails data injection 
