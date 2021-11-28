@@ -105,10 +105,9 @@ export default class Settings extends React.Component {
         const { name, pic, address, email } = this.state;
         const user = Firebase.auth.currentUser;
 
-        this.setState({ loading: true });
-
         try {
             if (name !== originalProfile.name) {
+                this.setState({ loading: true });
                 await Firebase.firestore.collection("users").doc(user.uid).update({ name })
                 .then(async() => {
                     await this.savefn();
@@ -117,6 +116,7 @@ export default class Settings extends React.Component {
                 });
             }
             if (address !== originalProfile.address) {
+                this.setState({ loading: true });
                 await Firebase.firestore.collection("users").doc(user.uid).update({ address })
                 .then(async() => {
                     await this.savefn();
@@ -125,6 +125,7 @@ export default class Settings extends React.Component {
                 });
             }
             if (email !== originalProfile.email) {
+                this.setState({ loading: true });
                 Firebase.firestore.collection("users").doc(user.uid).update({ email })
                 .then(async () => {
                     user.updateEmail(email).catch((error) => {
@@ -139,6 +140,7 @@ export default class Settings extends React.Component {
                 let imageName = pic.split("/").pop();
                 const response = await fetch(pic);
                 const blob = await response.blob();
+                this.setState({ loading: true });
 
                 await Firebase.storage.ref().child("profilePictures/" + imageName).put(blob)
                 .then(() => {
