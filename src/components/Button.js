@@ -1,13 +1,13 @@
 // @flow
 import * as React from "react";
 import { StyleSheet} from "react-native";
-import {Button as NBButton, Text, Spinner} from "native-base";
+import {Button as NBButton, Text, Spinner, View} from "native-base";
 
 import {Theme} from "./Theme";
 
 export default class Button extends React.Component<> {
     render(): React.Node {
-        const {label, full, disabled, transparent, onPress, style, loading, textColor} = this.props;
+        const {label, full, disabled, transparent, onPress, style, loading, textColor, hidden} = this.props;
         var appliedStyle
         var primary = false
 
@@ -15,6 +15,10 @@ export default class Button extends React.Component<> {
         {
             appliedStyle = styles.primary
             primary = true
+        }
+        else if(style === "secondary")
+        {
+            appliedStyle = styles.secondary
         }
         else if(style === "diagnosis")
         {
@@ -30,11 +34,25 @@ export default class Button extends React.Component<> {
             appliedStyle = styles.defaultButton
             primary = true
         }
+        else if(style === "unpressed")
+        {
+            appliedStyle = styles.unpressed
+        }
+        else if(style === "pressed")
+        {
+            appliedStyle = styles.pressed
+        }
         else
         {
             appliedStyle = styles.base
         }
 
+        if(hidden)
+        {
+            return (
+                <View/>
+            )
+        }
         return (
             <NBButton
                 title={label}
@@ -84,6 +102,21 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 5
     },
+    secondary: {
+        backgroundColor: Theme.palette.secondary,
+        shadowColor: "rgba(85, 85, 85, 0.29)",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5
+    },
     defaultButton: {
         backgroundColor: Theme.palette.primary,
         shadowColor: "rgba(85, 85, 85, 0.29)",
@@ -113,6 +146,28 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 10,
         paddingHorizontal: 5
+    },
+    pressed: {
+        backgroundColor: Theme.palette.primary,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 5,
+        width: "40%"
+    },
+    unpressed: {
+        backgroundColor: Theme.palette.washedBlue,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 5,
+        width: "40%"
     },
     diagnosisButton: {
         backgroundColor: Theme.palette.primary,

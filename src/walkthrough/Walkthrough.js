@@ -1,4 +1,3 @@
-// @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, StyleSheet, SafeAreaView, StatusBar, Platform} from "react-native";
@@ -6,21 +5,9 @@ import Swiper from "react-native-swiper";
 import Slide from "./Slide";
 import Connect from "./Connect";
 import Share from "./Share";
-import Select from "./Select";
 import {Button, Theme} from "../components";
-import type {ScreenProps} from "../components/Types";
 
-type WalkthroughState = {
-    disabled: boolean
-};
-
-var someNavigation;
-
-let connect: Connect;
-let share: Share;
-let select: Select;
-
-export default class Walkthrough extends React.Component<ScreenProps<>, WalkthroughState> {
+export default class Walkthrough extends React.Component {
 
     onIndexChanged = (index: number) => {
         this.slides.filter((slide, i) => index !== i).forEach(slide => slide.hide());
@@ -31,49 +18,21 @@ export default class Walkthrough extends React.Component<ScreenProps<>, Walkthro
         {
             title: "Review",
             description: "Access your pet's medical information and lab results to monitor their health.",
-            icon: <Connect ref={ref => (ref ? connect = ref : undefined)} />,
-            show: () => connect.show(),
-            hide: () => connect.hide()
+            icon: <Connect ref={ref => (this.Connect = ref)}/>,
+            show: () => Connect.show,
+            hide: () => Connect.hide
         },
         {
             title: "Share",
             description: "Share pictures of your adorable pet on your personalized profile page.",
-            icon: <Share ref={ref => (ref ? share = ref : undefined)} />,
-            show: () => share.show(),
-            hide: () => share.hide()
-        },
-        {
-            title: "Add Your Pet",
-            description: "Don't worry! You will be able to edit and add more of your pets later on.",
-            icon: <Select ref={ref => (ref ? select = ref : undefined)} navigateHome={() => this.props.navigation.navigate("Home")}/>,
-            show: () => select.show(),
-            hide: () => select.hide()
+            icon: <Share ref={ref => (this.Share = ref)}/>,
+            show: () => Share.show,
+            hide: () => Share.hide
         }
     ];
-    
-    state = {
-        disabled: false
-    };
-
-    componentDidMount() {
-        StatusBar.setBarStyle("light-content");
-        if (Platform.OS === "android") {
-            StatusBar.setBackgroundColor("#0059FF");
-        }
-    }
 
     home() {
-        const {navigation} = this.props;
-        const {disabled} = this.state;
-        if (disabled) {
-            return;
-        }
-        this.setState({ disabled: true });
-        StatusBar.setBarStyle("dark-content");
-        if (Platform.OS === "android") {
-            StatusBar.setBackgroundColor("white");
-        }
-        navigation.navigate("Home");
+        this.props.navigation.navigate("Home");
     }
 
     @autobind
@@ -85,7 +44,7 @@ export default class Walkthrough extends React.Component<ScreenProps<>, Walkthro
         
         return (
             <SafeAreaView style={styles.footer}>
-                <Button label="Back" onPress={back} white disabled={isFirst} style="primary" />
+                <Button label="Back" onPress={back} white hidden={isFirst} style="primary" />
                 <Button label={isLast ? "Start" : "Next"} onPress={next} white style="primary" />
             </SafeAreaView>
         );

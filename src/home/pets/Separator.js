@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     borderColor: '#EDEDED',
-    borderWidth: 0.8,
+    borderWidth: 1,
     flex: 8,
     flexDirection: 'row',
   },

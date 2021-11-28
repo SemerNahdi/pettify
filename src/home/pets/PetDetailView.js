@@ -1,40 +1,30 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
-import React, { Component, useState } from 'react'
-import { Card, Icon, Overlay, Badge } from 'react-native-elements'
+import React, { Component } from 'react'
+import { Icon } from 'react-native-elements'
 import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
   Image,
   ImageBackground,
   Linking,
-  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native'
-import {Text, Theme} from "../../components";
+import {Button, RefreshIndicator, Text, Theme} from "../../components";
 
 import Email from './Email'
 import Separator from './Separator'
 import Tel from './Tel'
-import { reduce } from "lodash";
-import darkColors from "react-native-elements/dist/config/colorsDark";
 
-var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 export default class PetDetailView extends Component {
   constructor(props)
   {
     super(props);
-
-    this.avatar = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
-    this.avatarBackground = "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg";
-    this.name = "Gina Mahdi"
-    this.address = {"city": "Miami", "country": "Florida"};
+    
     this.tels = [
       { "id": 1, "name": "Office", "number": "+1 (305)-928-2134" },
       { "id": 2, "name": "Work", "number": "+1 (305)-435-9887" }
@@ -44,16 +34,23 @@ export default class PetDetailView extends Component {
       { "id": 2, "name": "Work", "email": "customersupport@petcare.com" }
     ];
     this.state = {
-      petDetails: "",
       loading: true,
-      imagePath: require("../../../assets/PetCare.png"),
-      isLoading: false,
-      status: '',
       avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
       avatarBackground: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg", 
-      name: "Gina Mahdi",
+      name: null,
+      breed: null,
+      weight: null,
+      yearsOwned: null,
+      species: null,
+      sex: null,
+      age: null,
+      size: null,
+      activity: null,
+      classification: null,
+      spayNeuter_Status: null,
+      pregnancy: null,
+      lactating: null,
       petBiology: {"species": "Miami", "breed": "Florida"},
-      setOverlay: false,
     };
       
     navigation = this.props.navigation;
@@ -74,25 +71,26 @@ export default class PetDetailView extends Component {
     .get()
     .then(doc => {
         this.setState({
-          petDetails: doc.data(), 
-          name: doc.data().name,
-          age: doc.data().age,
-          yearsOwned: doc.data().yearsOwned,
-          weight: doc.data().weight,
-          activity: doc.data().activity,
-          size: doc.data().size,
-          pregnancy: doc.data().pregnancy,
-          lactating: doc.data().lactating,
-          classification: doc.data().classification,
-          spayNeuter_Status: doc.data().spayNeuter_Status, 
-          petBiology: {"species" : doc.data().species, "breed" : doc.data().breed},
           avatar: doc.data().pic,
           avatarBackground: doc.data().pic,
+          name: doc.data().name,
+          breed: doc.data().breed,
+          weight: doc.data().weight,
+          yearsOwned: doc.data().yearsOwned,
+          species: doc.data().species,
+          sex: doc.data().sex,
+          age: doc.data().age,
+          size: doc.data().size,
+          activity: doc.data().activity,
+          classification: doc.data().classification,
+          spayNeuter_Status: doc.data().spayNeuter_Status, 
+          pregnancy: doc.data().pregnancy,
+          lactating: doc.data().lactating,
         });
 
         if(doc.data().pic == "null")
         {
-          switch (this.state.petDetails.species) {
+          switch (this.state.species) {
               case "Cat":
                 this.setState({
                   avatar: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
@@ -109,24 +107,6 @@ export default class PetDetailView extends Component {
                 this.setState({
                   avatar: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
                   avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
-                })
-                break;
-              case "Horse":
-                this.setState({
-                  avatar: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  avatarBackground: "https://images.pexels.com/photos/2123375/pexels-photo-2123375.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                })
-                break;
-              case "Fish":
-                this.setState({
-                  avatar: "https://i.guim.co.uk/img/media/9c03bd43c119834ece958f3c370dec83146fe04a/0_200_6000_3602/master/6000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=de1abf11d1a7a961d5fea63f5a8bee55",
-                  avatarBackground: "https://i.guim.co.uk/img/media/9c03bd43c119834ece958f3c370dec83146fe04a/0_200_6000_3602/master/6000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=de1abf11d1a7a961d5fea63f5a8bee55"
-                })
-                break;
-              case "Exotic":
-                this.setState({
-                  avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg",
-                  avatarBackground: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Male_Green_Iguana_Belize.jpg/220px-Male_Green_Iguana_Belize.jpg"
                 })
                 break;
               default:
@@ -146,11 +126,6 @@ export default class PetDetailView extends Component {
   }
 
   @autobind
-  toggleOverlay() {
-    this.setState({"setOverlay":!this.state.setOverlay});
-  }
-
-  @autobind
   goBackToPets() {
     this.props.navigation.goBack();
   }
@@ -162,7 +137,7 @@ export default class PetDetailView extends Component {
 
   @autobind
   goToTrainingScreen() {
-    const { breed, species } = this.state.petBiology;
+    const { breed, species } = this.state;
     navigation.navigate("TrainingScreen", {breed, species});
   }
 
@@ -204,11 +179,12 @@ export default class PetDetailView extends Component {
       avatar,
       avatarBackground,
       name,
-      petBiology: { species, breed },
+      species, 
+      breed
     } = this.state
 
     return (
-      <View style={styles.headerContainer}>
+      <View>
         <ImageBackground
           style={styles.headerBackgroundImage}
           blurRadius={10}
@@ -218,39 +194,35 @@ export default class PetDetailView extends Component {
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goBackToPets}>
                   <View>
-                      <Icon name="chevron-left" size={50} color="white" />
+                      <Icon name="chevron-left" size={50} color={Theme.palette.white} />
                   </View>
               </TouchableOpacity>
             </View>
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goToEditScreen}>
                   <View>
-                      <Icon type="font-awesome-5" name="edit" size={40} color="white" />
+                      <Icon type="font-awesome-5" name="edit" size={40} color={Theme.palette.white} />
                   </View>
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.headerColumn}>
             <Image
-              style={styles.userImage}
+              style={styles.petImage}
               source={{uri: avatar}}
             />
-            <Text style={styles.userNameText}>{name}</Text>
-            <View style={styles.userAddressRow}>
+            <Text style={styles.petNameText}>{name}</Text>
+            <View style={styles.petSpeciesRow}>
               <View>
                 <Icon
                   name="paw"
-                  underlayColor="transparent"
                   type="font-awesome-5"
-                  iconStyle={styles.placeIcon}
-                  onPress={this.toggleOverlay}
+                  iconStyle={styles.pawIcon}
                 />
               </View>
-              <View style={styles.userCityRow}>
-                <Text style={styles.userCityText}>
-                  {species}, {breed}
-                </Text>
-              </View>
+              <Text style={styles.petSpeciesText}>
+                {species}, {breed}
+              </Text>
             </View>
           </View>
         </ImageBackground>
@@ -297,84 +269,76 @@ export default class PetDetailView extends Component {
     if(this.state.loading)
     {
         return(
-        <ScrollView style={[styles.container]}>
+        <ScrollView>
           <View style={{
-              paddingTop: "40%",
+              paddingTop: height/2,
               justifyContent:"center",
           }}>
-              <ActivityIndicator size="large" />
+              <RefreshIndicator refreshing />
           </View>
         </ScrollView>
         )
     }
     else {
     return (
-      <ScrollView contentContainerStyle={styles.scroll} persistentScrollbar={false} >
-        <View style={styles.container}>
+      <ScrollView persistentScrollbar={false} >
+
         {this.renderHeader()}
-          <Card containerStyle={styles.cardContainer}>
-            <View style={{
-              paddingBottom: 10,
-            }}>
-              <Text type="header3" style={styles.cardText}> Pet Information </Text>
-              <Text> Age Group: {this.state.age}</Text>
-              <Text> Size: {this.state.size}</Text>
-              <Text> Weight (kg): {this.state.weight}</Text>
-              <Text> Level of Activty: {this.state.activity}</Text>
-              <Text> Years Owned: {this.state.yearsOwned}</Text>
-              <Text> Living Space: {this.state.classification}</Text>
-              <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
+
+        <View style={styles.infoContainer}>
+
+          <View style={{paddingBottom: 10}}>
+            <Text type="header3" style={styles.petText}> Pet Information </Text>
+            <Text> Age Group: {this.state.age}</Text>
+            <Text> Size: {this.state.size}</Text>
+            <Text> Weight (kg): {this.state.weight}</Text>
+            <Text> Level of Activty: {this.state.activity}</Text>
+            <Text> Years Owned: {this.state.yearsOwned}</Text>
+            <Text> Living Space: {this.state.classification}</Text>
+            <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
+            <>
               <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
               <Text> Duration of Lactation: {this.state.lactating}</Text>
-            </View>
-            {Separator()}
-            <Text type="header3" style={styles.cardText}> Veterinary Contact Information </Text>
-            {this.renderTel()}
-            {Separator()}
-            {this.renderEmail()}
-          </Card>
-          <View style={styles.labContainer}>
-            
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToTrainingScreen}
-            >
-                <Text>
-                  View Training Videos on {this.state.petDetails.breed}s
-                </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToLabResults}
-            >
-                <Text>
-                  View Lab Results for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToPrescription}
-            >
-                <Text>
-                  View Prescriptions for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.labButton}
-              onPress={this.goToDiet}
-            >
-                <Text>
-                  View Recommended Diet for {this.state.petDetails.name}
-                </Text>
-            </TouchableOpacity>
+            </>
+            }
           </View>
 
-          
-          <View style={{height:60}}/>
+          {Separator()}
+
+          <Text type="header3" style={styles.petText}> Veterinary Contact Information </Text>
+          {this.renderTel()}
+
+          {Separator()}
+
+          {this.renderEmail()}
+
+          {Separator()}
+
+          <View style={styles.buttonContent}>
+            <View style={styles.buttonContainer}>
+              <Button label={"View Training Videos on " + this.state.breed + "s"} 
+                      style="secondary" onPress={this.goToTrainingScreen}/>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <Button label={"View Lab Documents for " + this.state.name} 
+                      style="secondary" onPress={this.goToLabResults}/>
+            </View>
+            
+            <View style={styles.buttonContainer}>
+              <Button label={"View Prescriptions for " + this.state.name} 
+                      style="secondary" onPress={this.goToPrescription}/>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <Button label={"View Recommended Diet for " + this.state.name} 
+                      style="secondary" onPress={this.goToDiet}/>
+            </View>
+          </View>
+
         </View>
+
       </ScrollView>
     )
     }
@@ -385,100 +349,72 @@ const styles = StyleSheet.create({
   side: {
       width: 80,
   },
-  cardContainer: {
-    backgroundColor: '#FFF',
-    borderWidth: 0,
+  infoContainer: {
+    backgroundColor: Theme.palette.white,
     flex: 1,
-    margin: 0,
-    paddingTop: 10,
+    marginHorizontal: 10,
   },
-  cardText: {
+  buttonContainer: {
+    flexDirection:"row", 
+    justifyContent:"center", 
+    marginBottom: 15
+  },
+  buttonContent: {
+    marginTop: 20,
+    marginBottom: 15
+  },
+  petText: {
     flexDirection: "row",
     alignSelf: "center",
-  },
-  overlayContainer: {
-    backgroundColor: '#FFF',
-    width: width - 100,
-    padding: 0,
-  },
-  container: {
-    flex: 1,
+    marginTop: 10,
   },
   emailContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: Theme.palette.white,
     paddingTop: 30,
   },
   headerBackgroundImage: {
     paddingBottom: 20,
     paddingTop: 45,
   },
-  headerContainer: {},
   headerColumn: {
-    backgroundColor: 'transparent',
-    ...Platform.select({
-      ios: {
-        alignItems: 'center',
-        elevation: 1,
-        marginTop: -1,
-      },
-      android: {
-        alignItems: 'center',
-      },
-    }),
-  },
-  labButton:{
-    backgroundColor: '#9dffb0',
-    alignSelf: 'center',
-    padding: 10,
-    marginTop: 20
-  },
-  labContainer: {
-    width: '100%',
-    height: '20%',
-    justifyContent: 'center',
+    backgroundColor: Theme.palette.transparent,
+    alignItems: 'center',
   },
   navContent: {
-    marginTop: Platform.OS === "ios" ? 0 : 20,
     height: 57,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
 },
-  placeIcon: {
-    color: 'white',
+  pawIcon: {
+    color: Theme.palette.white,
     fontSize: 26,
     paddingRight: 5,
   },
-  scroll: {
-    backgroundColor: '#FFF',
-  },
   telContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: Theme.palette.white,
     paddingTop: 30,
   },
-  userAddressRow: {
+  petSpeciesRow: {
     alignItems: 'center',
     flexDirection: 'row',
   },
-  userCityRow: {
-    backgroundColor: 'transparent',
-  },
-  userCityText: {
-    color: '#A5A5A5',
+  petSpeciesText: {
+    color: Theme.palette.washedBlue,
     fontSize: 15,
     fontWeight: '600',
     textAlign: 'center',
   },
-  userImage: {
-    borderColor: '#FFF',
+  petImage: {
+    borderColor: Theme.palette.white,
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
     marginBottom: 15,
     width: 170,
   },
-  userNameText: {
-    color: '#FFF',
+  petNameText: {
+    color: Theme.palette.white,
     fontSize: 22,
     fontWeight: 'bold',
     paddingBottom: 8,

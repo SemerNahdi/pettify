@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, Animated, Dimensions, Keyboard, UIManager, ScrollView } from "react-native";
+import { StyleSheet, TextInput, Animated, Dimensions, Keyboard, UIManager, ScrollView, TouchableOpacity, View } from "react-native";
 import { Text, Theme, NavHeaderWithButton, Container } from "../../components";
 import { FontAwesome5 } from '@expo/vector-icons';
 import Firebase from "../../components/Firebase";
@@ -16,23 +16,14 @@ export default class AddPets extends React.Component {
             weight: null,
             yearsOwned: null, 
             species: null,
-            speciesOpen: false,
             sex: null,
-            sexOpen: false,
             age: null,
-            ageOpen: false,
             size: null,
-            sizeOpen: false,
             activity: null,
-            activityOpen: false,
             classification: null,
-            classificationOpen: false,
             spayNeuter_Status: null,
-            spayNeuter_StatusOpen: false,
             pregnancy: null,
-            pregnancyOpen: false,
             lactating: null,
-            lactatingOpen: false,
         };
 
         navigation = this.props.navigation;
@@ -40,27 +31,24 @@ export default class AddPets extends React.Component {
     }
 
     setAllClose = () => {
-        this.setState({speciesOpen: false})
-        this.setState({sexOpen: false})
         this.setState({ageOpen: false})
         this.setState({sizeOpen: false})
         this.setState({activityOpen: false})
-        this.setState({classificationOpen: false})
-        this.setState({spayNeuter_StatusOpen: false})
         this.setState({pregnancyOpen: false})
         this.setState({lactatingOpen: false})
     }
 
-    setSpeciesValue = (callback) => {
-        this.setState( item => ({
-            species: callback(item.label)
-        }))
+    updateSpecies(species) {
+        this.setState({species: species})
     }
-
-    setSexValue = (callback) => {
-        this.setState( item => ({
-            sex: callback(item.label)
-        }))
+    
+    updateSex(sex) {
+        this.setState({sex: sex})   
+        if(sex === "Male")
+        {
+            this.setState({pregnancy: "Not Pregnant"})
+            this.setState({lactating: "Non Lactating"})
+        }
     }
 
     setAgeValue = (callback) => {
@@ -81,16 +69,17 @@ export default class AddPets extends React.Component {
         }))
     }
 
-    setClassificationValue = (callback) => {
-        this.setState( item => ({
-            classification: callback(item.label)
-        }))
-    }
-
-    setSpayNeuter_StatusValue = (callback) => {
-        this.setState( item => ({
-            spayNeuter_Status: callback(item.label)
-        }))
+    updateClassification(classification) {
+        this.setState({classification: classification})
+    } 
+    
+    updateSpayNeuter_Status(spayNeuter_Status) {
+        this.setState({spayNeuter_Status: spayNeuter_Status})
+        if(spayNeuter_Status === "Spayed/Neutered")
+        {
+            this.setState({pregnancy: "Not Pregnant"})
+            this.setState({lactating: "Non Lactating"})
+        }
     }
 
     setPregnancyValue = (callback) => {
@@ -165,68 +154,79 @@ export default class AddPets extends React.Component {
         const { shift } = this.state;
 
         return (
-            <ScrollView style={styles.scroll} persistentScrollbar={false} >  
+            <ScrollView persistentScrollbar={false} >  
                 <NavHeaderWithButton title="Add Pet" buttonIcon="check" buttonFn={this.addPetToFireStore} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
+                <View style={styles.form}>
+                    <Text>Name:</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            placeholder="Enter Name"
+                            placeholderTextColor={Theme.palette.black}
+                            style={styles.input}
+                            onChangeText={this.handleName}
+                            returnKeyType = 'done'
+                        /> 
+                    </View>
 
-                <Text>Name:</Text>
+                    <Text>Breed:</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            placeholder="Enter Breed"
+                            placeholderTextColor={Theme.palette.black}
+                            style={styles.input}
+                            onChangeText={this.handleBreed}
+                            returnKeyType = 'done'
+                        />
+                    </View>
 
-                <TextInput
-                    style={styles.input}
-                    onChangeText={this.handleName}
-                    returnKeyType = 'done'
-                /> 
+                    <Text>Weight (kg):</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            placeholder="Enter Weight"
+                            placeholderTextColor={Theme.palette.black}
+                            style={styles.input}
+                            onChangeText={this.handleWeight}
+                            keyboardType="numeric"
+                            returnKeyType = 'done'
+                        />
+                    </View>
 
-                <Text>Breed:</Text>
+                    <Text>Years Owned:</Text>
+                    <View style={styles.textContainer}>
+                        <TextInput
+                            placeholder="Enter Years Owned"
+                            placeholderTextColor={Theme.palette.black}
+                            style={styles.input}
+                            onChangeText={this.handleYearsOwned}
+                            keyboardType="numeric"
+                            returnKeyType = 'done'
+                        />
+                    </View>
 
-                <TextInput
-                    style={styles.input}
-                    onChangeText={this.handleBreed}
-                    returnKeyType = 'done'
-                />
+                    <Text>Species:</Text>
+                    <View style={styles.inputContainer}>
+                        <TouchableOpacity onPress={() => this.updateSpecies("Dog")}>
+                            <FontAwesome5 name="dog" size={30} color={this.state.species == "Dog" ? Theme.palette.dogBlue : Theme.palette.washedBlue} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.updateSpecies("Cat")}>
+                            <FontAwesome5 name="cat" size={30} color={this.state.species == "Cat" ? Theme.palette.catOrange : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.updateSpecies("Bird")}>
+                            <FontAwesome5 name="dove" size={30} color={this.state.species == "Bird" ? Theme.palette.birdRed : Theme.palette.washedBlue} />
+                        </TouchableOpacity>
+                    </View>
+                    
+                    <Text>Sex:</Text>
+                    <View style={styles.inputContainer}>
+                        <TouchableOpacity onPress={() => this.updateSex("Male")}>
+                            <FontAwesome5 name="mars" size={30} color={this.state.sex == "Male" ? Theme.palette.maleBlue : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.updateSex("Female")}>
+                            <FontAwesome5 name="venus" size={30} color={this.state.sex == "Female" ? Theme.palette.femalePink : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                    </View>
 
-                <Text>Weight (kg):</Text>
-
-                <TextInput
-                    style={styles.input}
-                    onChangeText={this.handleWeight}
-                    keyboardType="numeric"
-                    returnKeyType = 'done'
-                />
-
-                <Text>Years Owned:</Text>
-
-                <TextInput
-                    style={styles.input}
-                    onChangeText={this.handleYearsOwned}
-                    keyboardType="numeric"
-                    returnKeyType = 'done'
-                />
-
-                <Container style={styles.container}>
-                    <DropDownPicker 
-                        placeholder="Select a species"
-                        value={this.state.species}
-                        items={[{label: 'Dog', value: 'Dog'}, {label: 'Cat', value: 'Cat'}, {label: 'Bird', value: 'Bird'}]}
-                        open={this.state.speciesOpen}
-                        setOpen={(open) => { this.setAllClose(); this.setState({speciesOpen: open}) } }
-                        setValue={this.setSpeciesValue}
-                        listMode="SCROLLVIEW"
-                        zIndex={9}
-                        style={styles.dropdown}
-                    />
-
-                    <DropDownPicker 
-                        placeholder="Select sex"
-                        value={this.state.sex}
-                        items={[{label: 'Male', value: 'Male'}, {label: 'Female', value: 'Female'}]}
-                        open={this.state.sexOpen}
-                        setOpen={(open) => { this.setAllClose(); this.setState({sexOpen: open}) } }
-                        setValue={this.setSexValue}
-                        listMode="SCROLLVIEW"
-                        zIndex={8}
-                        style={styles.dropdown}
-                    />
-
+                    <Text>Age:</Text>
                     <DropDownPicker 
                         placeholder="Select age group"
                         value={this.state.age}
@@ -235,10 +235,11 @@ export default class AddPets extends React.Component {
                         setOpen={(open) => { this.setAllClose(); this.setState({ageOpen: open}) } }
                         setValue={this.setAgeValue}
                         listMode="SCROLLVIEW"
-                        zIndex={7}
+                        zIndex={5}
                         style={styles.dropdown}
                     />
 
+                    <Text>Size:</Text>
                     <DropDownPicker 
                         placeholder="Select size"
                         value={this.state.size}
@@ -247,10 +248,11 @@ export default class AddPets extends React.Component {
                         setOpen={(open) => { this.setAllClose(); this.setState({sizeOpen: open}) } }
                         setValue={this.setSizeValue}
                         listMode="SCROLLVIEW"
-                        zIndex={6}
+                        zIndex={4}
                         style={styles.dropdown}
                     />
 
+                    <Text>Activity:</Text>
                     <DropDownPicker 
                         placeholder="Select activity level"
                         value={this.state.activity}
@@ -259,34 +261,33 @@ export default class AddPets extends React.Component {
                         setOpen={(open) => { this.setAllClose(); this.setState({activityOpen: open}) } }
                         setValue={this.setActivityValue}
                         listMode="SCROLLVIEW"
-                        zIndex={5}
-                        style={styles.dropdown}
-                    />
-
-                    <DropDownPicker 
-                        placeholder="Select living space"
-                        value={this.state.classification}
-                        items={[{label: 'Indoor', value: 'Indoor'}, {label: 'Outdoor', value: 'Outdoor'}]}
-                        open={this.state.classificationOpen}
-                        setOpen={(open) => { this.setAllClose(); this.setState({classificationOpen: open}) } }
-                        setValue={this.setClassificationValue}
-                        listMode="SCROLLVIEW"
-                        zIndex={4}
-                        style={styles.dropdown}
-                    />
-
-                    <DropDownPicker 
-                        placeholder="Select Spayed/Neutered status"
-                        value={this.state.spayNeuter_Status}
-                        items={[{label: 'Intact', value: 'Intact'}, {label: 'Spayed/Neutered', value: 'Spayed/Neutered'}]}
-                        open={this.state.spayNeuter_StatusOpen}
-                        setOpen={(open) => { this.setAllClose(); this.setState({spayNeuter_StatusOpen: open}) } }
-                        setValue={this.setSpayNeuter_StatusValue}
-                        listMode="SCROLLVIEW"
                         zIndex={3}
                         style={styles.dropdown}
                     />
 
+                    <Text>Living Space:</Text>
+                    <View style={styles.inputContainer}>
+                        <TouchableOpacity onPress={() => this.updateClassification("Indoors")}>
+                            <FontAwesome5 name="home" size={30} color={this.state.classification == "Indoors" ? Theme.palette.skyBlue : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.updateClassification("Outdoors")}>
+                            <FontAwesome5 name="tree" size={30} color={this.state.classification == "Outdoors" ? Theme.palette.leafGreen : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                    </View>
+
+                    <Text>Spayed/Neutered Status:</Text>
+                    <View style={styles.inputContainer}>
+                        <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Spayed/Neutered")}>
+                            <FontAwesome5 name="check" size={30} color={this.state.spayNeuter_Status == "Spayed/Neutered" ? Theme.palette.success : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.updateSpayNeuter_Status("Intact")}>
+                            <FontAwesome5 name="ban" size={30} color={this.state.spayNeuter_Status == "Intact" ? Theme.palette.danger : Theme.palette.washedBlue} /> 
+                        </TouchableOpacity>
+                    </View>
+
+                    {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
+                    <>
+                    <Text>Duration of Pregnancy:</Text>
                     <DropDownPicker 
                         placeholder="Select duration of pregnancy"
                         value={this.state.pregnancy}
@@ -299,6 +300,7 @@ export default class AddPets extends React.Component {
                         style={styles.dropdown}
                     />
 
+                    <Text>Duration of Lactation:</Text>
                     <DropDownPicker 
                         placeholder="Select duration of lactation"
                         value={this.state.lactating}
@@ -310,7 +312,10 @@ export default class AddPets extends React.Component {
                         zIndex={1}
                         style={styles.dropdown}
                     />
-                </Container>
+                    </>
+                    }
+
+                </View>
             </ScrollView>
         );
     }
@@ -319,18 +324,28 @@ export default class AddPets extends React.Component {
 const styles = StyleSheet.create({
     input: {
         height: 30,
-        margin: 6,
-        borderWidth: 1,
-        paddingTop: 0,
+        margin: 2,
         textAlign: 'left'
     },  
-    scroll: {
-        backgroundColor: '#FFF',
-    },
-    container: {
-        margin: 6,
+    form: {
+        paddingHorizontal: 8,
+        paddingTop: 5,
+        marginBottom: 45
     },
     dropdown: {
-        marginBottom: 12,
-    }
+        marginVertical: 3,
+    },
+    textContainer: {
+      paddingVertical: 7,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: Theme.palette.black,
+      borderRadius: 8,
+      marginVertical: 3
+    },
+  inputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginVertical: 3
+  },
 });

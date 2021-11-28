@@ -1,50 +1,4 @@
-// @flow
-type Typography = {
-    fontFamily: string,
-    fontSize: number,
-    lineHeight: number
-};
-
-type Color = string;
-
-type Theme = {
-    palette: {
-        primary: Color,
-        info: Color,
-        secondary: Color,
-        success: Color,
-        danger: Color,
-        warning: Color,
-        sidebar: Color,
-        lightGray: Color,
-        borderColor: Color,
-        white: Color,
-        black: Color
-    },
-    typography: {
-        color: string,
-        bold: string,
-        semibold: string,
-        normal: string,
-        light: string,
-        header1: Typography,
-        header2: Typography,
-        header3: Typography,
-        large: Typography,
-        regular: Typography,
-        small: Typography,
-        micro: Typography
-    },
-    spacing: {
-        tiny: number,
-        small: number,
-        base: number,
-        large: number,
-        xLarge: number
-    }
-};
-
-const theme: Theme = {
+const theme = {
     palette: {
         primary: "#81f1f7",
         info: "#00A699",
@@ -55,8 +9,17 @@ const theme: Theme = {
         sidebar: "#484848",
         lightGray: "#BFBFBF",
         borderColor: "#F5F5F5",
-        white: "#FFFFFA",
-        black: "#555555"
+        white: "#FFFFFF",
+        black: "#000000",
+        transparent: "#FFFFFF00",
+        washedBlue: "#B6C5C6",
+        leafGreen: "#0dbf0d",
+        skyBlue: "#71b6f7",
+        maleBlue: "#009dff",
+        femalePink: "#e75480",
+        dogBlue: "#0080ff",
+        catOrange: "#ffb347",
+        birdRed: "#c93335",
     },
     typography: {
         color: "#555555",
