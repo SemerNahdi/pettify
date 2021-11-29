@@ -71,7 +71,7 @@ export default class Settings extends React.Component {
                     },
                     {
                         text: "OK",
-                        onPress: password => {
+                        onPress: (password) => {
                             const user = Firebase.auth.currentUser;
                             const credential = firebase.auth.EmailAuthProvider.credential(
                                 user.email, 
@@ -186,10 +186,14 @@ export default class Settings extends React.Component {
     }
 
     @autobind
-    async deleteUser(): Promise<void> {
-        Alert.alert(
-            "Delete Account",
-            "Are you sure you want to delete your account? You cannot undo this action.",
+    async deleteUser() {
+        var title = this.state.passwordFailure ? "Incorrect password" : "Enter password";
+        var message = this.state.passwordFailure ?
+            "Entered password is incorrect. Please try again":
+            "Enter your password to delete your account"
+        Alert.prompt(
+            title,
+            message,
             [
                 {
                     text: "Cancel",
@@ -197,90 +201,102 @@ export default class Settings extends React.Component {
                 {
                     text: "Delete",
                     style: "destructive",
-                    onPress: async () => {
+                    onPress: async (password) => {
+
                         const user = Firebase.auth.currentUser;
-                        var defaultPic = Theme.links.defaultProfile;
-                        
-                        await Firebase.firestore.collection("users").doc(user.uid).collection("pets").get()
-                        .then(pets => {
-                            pets.forEach(async (pet) => {
+                        const credential = firebase.auth.EmailAuthProvider.credential(
+                            user.email,
+                            password
+                        );
+                        user.reauthenticateWithCredential(credential).then(async () => {
+                            var defaultPic = Theme.links.defaultProfile;
+                            
+                            await Firebase.firestore.collection("users").doc(user.uid).collection("pets").get()
+                            .then(pets => {
+                                pets.forEach(async (pet) => {
 
-                                var ref = Firebase.firestore.collection("users").doc(user.uid).collection("pets").doc(pet.id);
-                                var petpic = pet.data().pic;
+                                    var ref = Firebase.firestore.collection("users").doc(user.uid).collection("pets").doc(pet.id);
+                                    var petpic = pet.data().pic;
 
-                                if(petpic != "null")
-                                {
-                                    var imageName = petpic.substring(petpic.indexOf("petPictures%2F") + 14, petpic.indexOf("?alt=media"))
-                                    Firebase.storage.ref().child("petPictures/" + imageName).delete();
-                                }
-
-                                //check for lab results
-                                if(pet.data().labResults)
-                                {
-                                    pet.data().labResults.forEach((pdf) => 
+                                    if(petpic != "null")
                                     {
-                                        var pdfName = pdf.substring(pdf.indexOf("labResults%2F") + 13, pdf.indexOf("?alt=media"));
-                                        Firebase.storage.ref().child("labResults/" + pdfName ).delete().catch((error) => {console.log(error)});
-                                    })
-                                }
+                                        var imageName = petpic.substring(petpic.indexOf("petPictures%2F") + 14, petpic.indexOf("?alt=media"))
+                                        Firebase.storage.ref().child("petPictures/" + imageName).delete();
+                                    }
 
-                                //check for prescriptions
-                                await ref.collection("prescriptions").get()
-                                .then((docs) => 
-                                {
-                                    docs.forEach((data) => 
+                                    //check for lab results
+                                    if(pet.data().labResults)
                                     {
-                                        ref.collection("prescriptions").doc(data.id).delete();
+                                        pet.data().labResults.forEach((pdf) => 
+                                        {
+                                            var pdfName = pdf.substring(pdf.indexOf("labResults%2F") + 13, pdf.indexOf("?alt=media"));
+                                            Firebase.storage.ref().child("labResults/" + pdfName ).delete().catch((error) => {console.log(error)});
+                                        })
+                                    }
+
+                                    //check for prescriptions
+                                    await ref.collection("prescriptions").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("prescriptions").doc(data.id).delete();
+                                        })
                                     })
+
+                                    //check for diet
+                                    await ref.collection("diet").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("diet").doc(data.id).delete();
+                                        })
+                                    })
+
+                                    //check for dietU
+                                    await ref.collection("dietU").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("dietU").doc(data.id).delete();
+                                        })
+                                    })
+
+                                    //delete pet
+                                    ref.delete().catch((error) => {
+                                        console.error("Error deleting pet: ", error);
+                                    });
                                 })
-
-                                //check for diet
-                                await ref.collection("diet").get()
-                                .then((docs) => 
-                                {
-                                    docs.forEach((data) => 
-                                    {
-                                        ref.collection("diet").doc(data.id).delete();
-                                    })
-                                })
-
-                                //check for dietU
-                                await ref.collection("dietU").get()
-                                .then((docs) => 
-                                {
-                                    docs.forEach((data) => 
-                                    {
-                                        ref.collection("dietU").doc(data.id).delete();
-                                    })
-                                })
-
-                                //delete pet
-                                ref.delete().catch((error) => {
-                                    console.error("Error deleting pet: ", error);
-                                });
                             })
-                        })
 
-                        const pic = profile.pic
+                            const pic = profile.pic
 
-                        if(pic != defaultPic)
-                        {
-                            var imageName = pic.substring(pic.indexOf("profilePictures%2F") + 18, pic.indexOf("?alt=media"))
-                            Firebase.storage.ref().child("profilePictures/" + imageName).delete();
-                        }
-                    
-                        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
-                            user.delete().catch((error) => {
-                                console.error("Error deleting account: ", error);
+                            if(pic != defaultPic)
+                            {
+                                var imageName = pic.substring(pic.indexOf("profilePictures%2F") + 18, pic.indexOf("?alt=media"))
+                                Firebase.storage.ref().child("profilePictures/" + imageName).delete();
+                            }
+                        
+                            Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
+                                user.delete().catch((error) => {
+                                    console.error("Error deleting account: ", error);
+                                });
+                            }).catch((error) => {
+                                console.error("Error removing document: ", error);
                             });
-                        }).catch((error) => {
-                            console.error("Error removing document: ", error);
-                        });
 
-                        this.props.navigation.navigate("Welcome");
+                            this.props.navigation.navigate("Welcome");  
+                        })
+                        .catch((error) => {
+                            this.setState({ passwordFailure: true });
+                            this.passwordDialog();
+                        })
                     },
                 },
-            ]
+            ],
+            "secure-text"
         );
     }
 

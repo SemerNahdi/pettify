@@ -51,8 +51,12 @@ export default class ViewDocuments extends Component<> {
     uploadDocument = async (path, documentName) => {
         const response = await fetch(path);
         const blob = await response.blob();
-        var date = new Date().toISOString();
- 
+        var date = new Date().toISOString().replaceAll(":", "-");
+
+        /**this is one point of failure, if pdf name has special characters that may not translate well in Firebase
+        then it can cause some issues when deleting but otherwise there should be no issues
+        maybe state that pdf name must be something simple with no special characters */
+        
         var ref = Firebase.storage.ref().child("labResults/" + documentName + date);
         let task = ref.put(blob);
         let docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
