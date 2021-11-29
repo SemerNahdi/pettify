@@ -20,13 +20,13 @@ export default class ListItem extends Component {
     let diagnosisColor = Theme.palette.black;
 
     return (
-      <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
       <TouchableOpacity
         style={[
           {
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: 15
           }
         ]}
         onPress={this.goToDiagnosisDetailView}
@@ -36,70 +36,38 @@ export default class ListItem extends Component {
             paddingBottom: 15,
             paddingTop: 15,
             flex: 1,
-            width,
+            width: width - 50,
             flexDirection: 'row',
-            borderBottomWidth: 1,
-            borderColor: 'white'
+            backgroundColor: "white",
+            borderRadius: 10,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: .2,
+            shadowRadius: .5,
+            alignItems: "center"
           }}
         >
           <View
+            resizeMode="contain"
             style={{
-              alignSelf: 'center',
-              justifyContent: 'center'
+              height: 50,
+              width: 50,
+              margin: 8,
+              borderRadius: 25,
+            }}>
+            <FontAwesome5 name={diagnosisIcon} size={40} color={diagnosisColor} />
+          </View>
+
+          <Text
+            style={{
+              fontWeight: '600',
+              fontSize: 32,
+              color: diagnosisColor
             }}
           >
-            {pic == null && (
-              <View
-                resizeMode="contain"
-                style={{
-                  height: 50,
-                  width: 50,
-                  margin: 8,
-                  borderRadius: 25,
-                }}>
-                <FontAwesome5 name={diagnosisIcon} size={40} color={diagnosisColor} />
-              </View>
-            )}
-            {pic != null && (
-              <Image
-                source={{ uri: pic }}
-                resizeMode="contain"
-                style={{
-                  height: 50,
-                  width: 50,
-                  margin: 8,
-                  borderRadius: 15,
-                }}
-              />
-            )}
-          </View>
-          <View
-            style={{
-              alignSelf: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: 210
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: '600',
-                  fontSize: 32,
-                  color: diagnosisColor
-                }}
-              >
-                {name}
-              </Text>
-            </View>
-          </View>
+            {name}
+          </Text>
         </View>
       </TouchableOpacity>
-      </ImageBackground>
     );
   }
 }

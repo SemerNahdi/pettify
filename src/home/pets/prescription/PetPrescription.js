@@ -200,21 +200,26 @@ export default class PetPrescription extends Component<> {
           <View style={{paddingTop:10},{paddingBottom:10}}>
             <Text type="header3"> Prescriptions History </Text>
           </View>
-            <View style={{paddingBottom: 10}}>
-              {
-                this.state.existentPrescriptions.map((element, k) => {
-                  return (
-                    <View style={styles.item} key={k}>
-                      <Text> Prescription: {element.prescription}</Text>
-                      <Text> Dose: {element.dose}</Text>
-                      <Text> Quantity: {element.qty}</Text>
-                      <Text> Instructions: {element.instructions}</Text>
-                      <Text> Date: {element.date}</Text>
-                    </View>
-                  )
-                })
-              }
-            </View>
+            {
+              this.state.existentPrescriptions.length === 0 && (
+                <View style={styles.centerText}>
+                  <Text type="large"> No Diets to show </Text>
+                </View>
+              )
+            }
+            {
+              this.state.existentPrescriptions.map((element, k) => {
+                return (
+                  <View style={styles.item} key={k}>
+                    <Text> Prescription: {element.prescription}</Text>
+                    <Text> Dose: {element.dose}</Text>
+                    <Text> Quantity: {element.qty}</Text>
+                    <Text> Instructions: {element.instructions}</Text>
+                    <Text> Date: {element.date}</Text>
+                  </View>
+                )
+              })
+            }
         </View>
       </ScrollView>
       </ImageBackground>
@@ -276,5 +281,10 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "row",
     justifyContent: "center"
+  },
+  centerText:{
+    flexDirection:"row",
+    justifyContent:"center",
+    paddingBottom: 10
   }
 });

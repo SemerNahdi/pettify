@@ -379,8 +379,11 @@ const styles = StyleSheet.create({
   },
   dietContainer: {
     padding:5,
-    marginTop:2,
-    marginBottom:3
+    backgroundColor: Theme.palette.white,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 5
+
   },
   textContainer: {
     paddingVertical: 7,
@@ -389,12 +392,13 @@ const styles = StyleSheet.create({
     borderColor: Theme.palette.black,
     borderRadius: 8,
     marginVertical: 7,
-    marginHorizontal: 7
+    marginHorizontal: 7,
+    backgroundColor: Theme.palette.white
   },
   input: {
     height: 70,
     margin: 2,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   dietHeading: {
     height: 20,
