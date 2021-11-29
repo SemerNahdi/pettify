@@ -35,8 +35,8 @@ export default class PetDetailView extends Component {
     ];
     this.state = {
       loading: true,
-      avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
-      avatarBackground: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg", 
+      avatar: Theme.links.defaultImage,
+      avatarBackground: Theme.links.defaultImage, 
       name: null,
       breed: null,
       weight: null,
@@ -93,26 +93,26 @@ export default class PetDetailView extends Component {
           switch (this.state.species) {
               case "Cat":
                 this.setState({
-                  avatar: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
-                  avatarBackground: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"
+                  avatar: Theme.links.defaultCat,
+                  avatarBackground: Theme.links.defaultCat
                 })
                 break;
               case "Dog":
                 this.setState({
-                  avatar: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-                  avatarBackground: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg"
+                  avatar: Theme.links.defaultDog,
+                  avatarBackground: Theme.links.defaultDog
                 })
                 break;
               case "Bird":
                 this.setState({
-                  avatar: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
-                  avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
+                  avatar: Theme.links.defaultBird,
+                  avatarBackground: Theme.links.defaultBird
                 })
                 break;
               default:
                 this.setState({
-                  avatar: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
-                  avatarBackground: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
+                  avatar: Theme.links.defaultPet,
+                  avatarBackground: Theme.links.defaultImage
                 })
                 break;
             }
@@ -268,16 +268,16 @@ export default class PetDetailView extends Component {
   render():React.Node {
     if(this.state.loading)
     {
-        return(
+      return(
         <ScrollView>
           <View style={{
-              paddingTop: height/2,
-              justifyContent:"center",
+            paddingTop: height/2,
+            justifyContent:"center",
           }}>
-              <RefreshIndicator refreshing />
+            <RefreshIndicator refreshing />
           </View>
         </ScrollView>
-        )
+      )
     }
     else {
     return (
@@ -297,10 +297,10 @@ export default class PetDetailView extends Component {
             <Text> Living Space: {this.state.classification}</Text>
             <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
             {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
-            <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
-            }
-            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" &&
-            <Text> Duration of Lactation: {this.state.lactating}</Text>
+            <>
+              <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
+              <Text> Duration of Lactation: {this.state.lactating}</Text>
+            </>
             }
           </View>
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator, Dimensions} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView, Dimensions, ImageBackground} from 'react-native';
 import DiagnosisItem from './DiagnosisItem';
 import _ from 'lodash';
 import Firebase from "../../components/Firebase";
-import { NavHeader, Text } from "../../components";
-import { ImageBackground } from "react-native";
+import { NavHeader, Text, RefreshIndicator } from "../../components";
+
+var height = Dimensions.get('window').height;
+
 export default class DiagnosticToolResults extends Component {
 
   constructor(props){
@@ -40,16 +42,16 @@ export default class DiagnosticToolResults extends Component {
 
     if(this.state.loading)
     {
-        return(
+      return(
         <SafeAreaView style={[styles.container]}>
-        <View style={{
-            paddingTop: "40%",
+          <View style={{
+            paddingTop: height/2,
             justifyContent:"center",
-        }}>
-            <ActivityIndicator size="large" />
-        </View>
+          }}>
+            <RefreshIndicator refreshing />
+          </View>
         </SafeAreaView>
-        )
+      )
     }
     return (
       <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
@@ -66,8 +68,6 @@ export default class DiagnosticToolResults extends Component {
       )
   }
 };
-
-const {height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {

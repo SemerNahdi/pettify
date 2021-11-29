@@ -1,15 +1,10 @@
-// @flow
 import * as React from "react";
-import {StyleSheet, View, Linking} from "react-native";
-
+import {StyleSheet, View, Linking, Dimensions} from "react-native";
 import {Text, Button, Theme, RefreshIndicator} from "../../components";
 
-type Props = {};
-type State = {
-    canOpen: boolean | null
-};
+var height = Dimensions.get("window").height;
 
-export default class EnableCameraRollPermission extends React.Component<Props, State> {
+export default class EnableCameraRollPermission extends React.Component {
 
     state = {
         canOpen: null
@@ -25,7 +20,12 @@ export default class EnableCameraRollPermission extends React.Component<Props, S
         if (canOpen === null) {
             return (
                 <View style={styles.container}>
-                    <RefreshIndicator refreshing />
+                    <View style={{
+                        paddingTop: height/2,
+                        justifyContent:"center",
+                    }}>
+                        <RefreshIndicator refreshing />
+                    </View>
                 </View>
             );
         }

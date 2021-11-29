@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView, Dimensions, ImageBackground} from 'react-native';
 import PatientItem from './PatientItem'
 import _ from 'lodash';
 import Firebase from "../../components/Firebase";
-import { NavHeaderWithButton, Theme, NavHeader } from "../../components";
+import { NavHeaderWithButton, Theme, NavHeader, RefreshIndicator } from "../../components";
 import autobind from 'autobind-decorator';
-import { ImageBackground } from "react-native";
+
+var height = Dimensions.get('window').height;
+
 export default class Patients extends Component {
 
   @autobind
@@ -68,7 +70,7 @@ export default class Patients extends Component {
         index={item.id}
         uid={item.uid}
         name={item.name}
-        pic={item.pic ? item.pic : item.picture.uri}
+        pic={item.pic}
         email={item.email}
         {...{navigation}}
       />)
@@ -80,16 +82,16 @@ export default class Patients extends Component {
   render() {
     if(this.state.loading)
     {
-        return(
+      return(
         <SafeAreaView style={styles.container}>
           <View style={{
-              paddingTop: "40%",
-              justifyContent:"center",
-              }}>
-              <ActivityIndicator size="large" />
+            paddingTop: height/2,
+            justifyContent:"center",
+          }}>
+            <RefreshIndicator refreshing />
           </View>
         </SafeAreaView>
-        )
+      )
     }       
     else if(this.state.role == "a")
     {

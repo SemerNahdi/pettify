@@ -28,8 +28,8 @@ export default class EditScreen extends React.Component {
 
     this.state = {
       loading: true,
-      avatar: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
-      avatarBackground: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg", 
+      avatar: Theme.links.defaultImage,
+      avatarBackground: Theme.links.defaultImage, 
       name: null,
       breed: null,
       weight: null,
@@ -85,26 +85,26 @@ export default class EditScreen extends React.Component {
           switch (this.state.species) {
             case "Cat":
               this.setState({
-                avatar: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
-                avatarBackground: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"
+                avatar: Theme.links.defaultCat,
+                avatarBackground: Theme.links.defaultCat
               })
               break;
             case "Dog":
               this.setState({
-                avatar: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-                avatarBackground: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg"
+                avatar: Theme.links.defaultDog,
+                avatarBackground: Theme.links.defaultDog
               })
               break;
             case "Bird":
               this.setState({
-                avatar: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
-                avatarBackground: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"
+                avatar: Theme.links.defaultBird,
+                avatarBackground: Theme.links.defaultBird
               })
               break;
             default:
               this.setState({
-                avatar: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
-                avatarBackground: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"
+                avatar: Theme.links.defaultPet,
+                avatarBackground: Theme.links.defaultPet
               })
               break;
           }
@@ -150,7 +150,17 @@ export default class EditScreen extends React.Component {
       const response = await fetch(path);
       const blob = await response.blob();
 
-      Firebase.storage.ref().child("petPictures/" + imageName).put(blob)
+      await Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).get()
+      .then((pet) => {
+        var pic = pet.data().pic;
+        if(pic != "null")
+        {
+          var imageName = pic.substring(pic.indexOf("petPictures%2F") + 14, pic.indexOf("?alt=media"))
+          Firebase.storage.ref().child("petPictures/" + imageName).delete();
+        }
+      })
+
+      await Firebase.storage.ref().child("petPictures/" + imageName).put(blob)
       .then(() => {
         Firebase.storage.ref().child("petPictures/" + imageName).getDownloadURL()
         .then((pic) => {
@@ -195,20 +205,69 @@ export default class EditScreen extends React.Component {
   }
 
   @autobind
-  deletingPet()
+  async deletingPet()
   {
-    Firebase.firestore
-      .collection("users")
-      .doc(uid)
-      .collection("pets")
-      .doc(pet_uid)
-      .delete()
-      .then( () => {
-        navigation.state.params.onGoBack();
-        navigation.navigate("Pets");
-      }).catch((error) => {
-          console.error("Error removing document: ", error);
-      });
+    var ref = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
+
+    await ref.get().then(async (pet) => 
+    {
+      //check for petPictures
+      var pic = pet.data().pic;
+      if(pic != "null")
+      {
+        var imageName = pic.substring(pic.indexOf("petPictures%2F") + 14, pic.indexOf("?alt=media"))
+        Firebase.storage.ref().child("petPictures/" + imageName).delete();
+      }
+
+      //check for lab results
+      if(pet.data().labResults)
+      {
+        pet.data().labResults.forEach((pdf) => 
+        {
+          var pdfName = pdf.substring(pdf.indexOf("labResults%2F") + 13, pdf.indexOf("?alt=media"));
+          Firebase.storage.ref().child("labResults/" + pdfName ).delete().catch((error) => {console.log(error)});
+        })
+      }
+
+      //check for prescriptions
+      await ref.collection("prescriptions").get()
+      .then((docs) => 
+      {
+        docs.forEach((data) => 
+        {
+          ref.collection("prescriptions").doc(data.id).delete();
+        })
+      })
+
+      //check for diet
+      await ref.collection("diet").get()
+      .then((docs) => 
+      {
+        docs.forEach((data) => 
+        {
+          ref.collection("diet").doc(data.id).delete();
+        })
+      })
+
+      //check for dietU
+      await ref.collection("dietU").get()
+      .then((docs) => 
+      {
+        docs.forEach((data) => 
+        {
+          ref.collection("dietU").doc(data.id).delete();
+        })
+      })
+
+    });
+    
+    ref.delete()
+    .then( () => {
+      navigation.state.params.onGoBack();
+      navigation.navigate("Pets");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
   }
 
   setAllClose = () => {
@@ -224,7 +283,12 @@ export default class EditScreen extends React.Component {
   }
 
   updateSex(sex) {
-    this.setState({sex: sex})   
+    this.setState({sex: sex})
+    if(sex === "Male")
+    {
+      this.setState({pregnancy: "Not Pregnant"})
+      this.setState({lactating: "Non Lactating"})
+    }
   }
 
   setAgeValue = (callback) => {
@@ -251,6 +315,11 @@ export default class EditScreen extends React.Component {
 
   updateSpayNeuter_Status(spayNeuter_Status) {
     this.setState({spayNeuter_Status: spayNeuter_Status})
+    if(spayNeuter_Status === "Spayed/Neutered")
+    {
+      this.setState({pregnancy: "Not Pregnant"})
+      this.setState({lactating: "Non Lactating"})
+    }
   }
 
   setPregnancyValue = (callback) => {
@@ -330,16 +399,16 @@ export default class EditScreen extends React.Component {
   render():React.Node {
     if(this.state.loading)
     {
-        return(
+      return(
         <ScrollView>
           <View style={{
-              paddingTop: height/2,
-              justifyContent:"center",
+            paddingTop: height/2,
+            justifyContent:"center",
           }}>
-              <RefreshIndicator refreshing />
+            <RefreshIndicator refreshing />
           </View>
         </ScrollView>
-        )
+      )
     }
     else {
     return (
@@ -487,11 +556,7 @@ export default class EditScreen extends React.Component {
               zIndex={2}
               style={styles.dropdown}
             />
-            </>
-            }
 
-            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && this.state.pregnancy !== null && this.state.pregnancy !== "Not Pregnant" && 
-            <>
             <Text>Duration of Lactation:</Text>
             <DropDownPicker 
               placeholder="Select duration of lactation"

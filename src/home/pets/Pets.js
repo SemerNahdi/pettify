@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView, Dimensions} from 'react-native';
 import PetItem from './PetItem';
 import _ from 'lodash';
 import Firebase from "../../components/Firebase";
-import { NavHeaderWithButton, Theme } from "../../components";
+import { NavHeaderWithButton, Theme, RefreshIndicator } from "../../components";
 import autobind from 'autobind-decorator';
 import { ImageBackground } from "react-native";
+
+var height = Dimensions.get('window').height;
 
 export default class Pets extends Component {
   @autobind
@@ -90,16 +92,16 @@ export default class Pets extends Component {
   render() {
     if(this.state.loading)
     {
-        return(
+      return(
         <SafeAreaView style={[styles.container]}>
-        <View style={{
-            paddingTop: "40%",
+          <View style={{
+            paddingTop: height/2,
             justifyContent:"center",
-        }}>
-            <ActivityIndicator size="large" />
-        </View>
+          }}>
+            <RefreshIndicator refreshing />
+          </View>
         </SafeAreaView>
-        )
+      )
     }
     return (
        <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
