@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, FlatList, SafeAreaView, Dimensions} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView, Dimensions, ImageBackground} from 'react-native';
 import PatientItem from './PatientItem'
 import _ from 'lodash';
 import Firebase from "../../components/Firebase";
 import { NavHeaderWithButton, Theme, NavHeader, RefreshIndicator } from "../../components";
 import autobind from 'autobind-decorator';
-
 
 var height = Dimensions.get('window').height;
 
@@ -39,7 +38,7 @@ export default class Patients extends Component {
 
     Firebase.firestore
     .collection("users")
-    //.where("role", "==", "p")
+    .where("role", "==", "p")
     .get()
     .then(docs => {
 
@@ -53,13 +52,17 @@ export default class Patients extends Component {
         ///this is sort alphabetically
         var n = allUsers.length;
         for (var k = 0; k < n-1; k++)
+        {
           for (var l = 0; l < n-k-1; l++)
+          {
             if (allUsers[l].name > allUsers[l+1].name)
             {
                 var temp = allUsers[l];
                 allUsers[l] = allUsers[l+1];
                 allUsers[l+1] = temp;
             }
+          }
+        }
         
         this.setState({items:allUsers, loading:false})
     })
@@ -97,8 +100,7 @@ export default class Patients extends Component {
     else if(this.state.role == "a")
     {
       return (
-        <View style={[styles.container]}>
-        
+        <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
         <NavHeaderWithButton title="Users" buttonFn={this.buttonFn} buttonIcon="plus" />
             <FlatList
               data={this.state.items}
@@ -106,12 +108,12 @@ export default class Patients extends Component {
               keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
               renderItem={this._renderItem}//render each item
             />
-          </View>
+          </ImageBackground>
         )
     }
     else{
       return (
-        <View style={[styles.container]}>
+        <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
           <NavHeader title="Users"{...{ navigation }}/>
             <FlatList
               data={this.state.items}
@@ -119,7 +121,7 @@ export default class Patients extends Component {
               keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
               renderItem={this._renderItem}//render each item
             />
-          </View>
+          </ImageBackground>
       )
     } 
   }

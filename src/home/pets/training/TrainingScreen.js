@@ -1,8 +1,9 @@
 import React, { Component , createRef} from 'react';
 import { StyleSheet, View, FlatList, SafeAreaView, Dimensions } from 'react-native';
 import type { ScreenParams } from "../../components/Types";
-import { NavHeader, RefreshIndicator } from "../../../components";
+import { NavHeader, Theme, RefreshIndicator } from "../../../components";
 import PlayYouTube from "./PlayYouTube";
+import { ImageBackground } from 'react-native';
 
 var height = Dimensions.get('window').height;
 
@@ -64,30 +65,25 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
             )
         }
         return(
-            <View>
-                
-                <NavHeader title="Training Videos" back backFn={() => this.props.navigation.goBack()} {...{navigation}}/>
+            <ImageBackground source={require('../../../../assets/pattern.png')} style={styles.container}>
+            <NavHeader title="Training Videos" back backFn={() => this.props.navigation.goBack()} {...{navigation}}/>
                 <SafeAreaView>
                     {/* <PlayYouTube videoId={this.state.videos[2].videoId}/> */}
                     <FlatList 
                         data={this.state.videos}
                         keyExtractor={(item, index) => item.key.toString()}
                         contentContainerStyle={{
-                            padding: 10,
-                            height: 1650,
+                            padding: 20,
+                            height: 1450,
                         }}
                         renderItem={({item, index}) => {
-                            return <View 
-                            style={{
-                                padding: 20,
+                            return <View style={{
+                                padding: 15,
+                                paddingbottom:30,
                                 marginBottom: 20,
-                                backgroundColor: "rgba(255,255,255,0.8)",
-                                borderRadius: 16,
-                                shadowColor: "black",
-                                shadowOffset: {
-                                    width:0,
-                                    height: 10
-                                },
+                                backgroundColor: Theme.palette.white,
+                                borderRadius: 10,
+                                shadowColor: "black", 
                                 shadowOpacity: .4,
                                 shadowRadius: 20,
                             }}>
@@ -96,9 +92,14 @@ export default class TrainingScreen extends React.Component<ScreenParams<{ breed
                         }}
                     />
                 </SafeAreaView>
-            </View>
+            </ImageBackground>
         )
     }
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+    backgroundColor: "white",
+    flex: 1,
+  },
+})

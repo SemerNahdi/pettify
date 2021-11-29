@@ -194,14 +194,14 @@ export default class PetDetailView extends Component {
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goBackToPets}>
                   <View>
-                      <Icon name="chevron-left" size={50} color={Theme.palette.white} />
+                      <Icon name="chevron-left" size={40} color={Theme.palette.black} />
                   </View>
               </TouchableOpacity>
             </View>
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goToEditScreen}>
                   <View>
-                      <Icon type="font-awesome-5" name="edit" size={40} color={Theme.palette.white} />
+                      <Icon type="font-awesome-5" name="edit" size={20} color={Theme.palette.black} />
                   </View>
               </TouchableOpacity>
             </View>
@@ -317,7 +317,7 @@ export default class PetDetailView extends Component {
 
           <View style={styles.buttonContent}>
             <View style={styles.buttonContainer}>
-              <Button label={"View Training Videos on " + this.state.breed + "s"} 
+              <Button label={"View Training Videos on " + this.state.breed + "'s"} 
                       style="secondary" onPress={this.goToTrainingScreen}/>
             </View>
 

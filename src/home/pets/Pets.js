@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Firebase from "../../components/Firebase";
 import { NavHeaderWithButton, Theme, RefreshIndicator } from "../../components";
 import autobind from 'autobind-decorator';
+import { ImageBackground } from "react-native";
 
 var height = Dimensions.get('window').height;
 
@@ -39,13 +40,31 @@ export default class Pets extends Component {
         var i = 0;
         docs.forEach(doc => {
             currentUsersPets.push(doc.data());
+            
+            if(currentUsersPets[i].pic == "null")
+            {
+              if(currentUsersPets[i].species == "Dog")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultDog
+              }
+              else if(currentUsersPets[i].species == "Cat")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultCat
+              }
+              else if(currentUsersPets[i].species == "Bird")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultBird
+              }
+            }
             currentUsersPets[i].id = i;
             currentUsersPets[i++].pet_uid = doc.id;
         })
 
         var n = currentUsersPets.length;
         for (var k = 0; k < n-1; k++)
+        {
           for (var l = 0; l < n-k-1; l++)
+          {
             if (currentUsersPets[l].name > currentUsersPets[l+1].name)
             {
                 // swap currentUsersPets[l+1] and currentUsersPets[l]
@@ -53,7 +72,8 @@ export default class Pets extends Component {
                 currentUsersPets[l] = currentUsersPets[l+1];
                 currentUsersPets[l+1] = temp;
             }
-
+          }
+        }
         this.setState({items:currentUsersPets, loading:false})
     })
   }
@@ -103,7 +123,8 @@ export default class Pets extends Component {
       )
     }
     return (
-      <View style={[styles.container]}>
+       <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
+
       <NavHeaderWithButton title="Pets" buttonIcon="plus" buttonFn={this.buttonFn} back={vet} backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
           <FlatList
             data={this.state.items}
@@ -111,7 +132,8 @@ export default class Pets extends Component {
             keyExtractor={this._keyExtractor}//map your keys to whatever unique ids the have (mine is a "id" prop)
             renderItem={this._renderItem}//render each item
           />
-        </View>
+
+      </ImageBackground>
       )
   }
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { ImageBackground, View, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { Theme, NavHeader, Text, Button } from "../../../components";
 import Separator from "../Separator"
 import Firebase from "../../../components/Firebase";
@@ -187,8 +187,9 @@ export default class PetDiet extends Component<> {
  
   render() {
     return (
+      <ImageBackground source={require('../../../../assets/pattern.png')} style={styles.container}>
+      <NavHeader title="Diet" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
       <ScrollView style={styles.container}>
-        <NavHeader title="Diet" back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
       
         <View style= {styles.dietHeading}>
           <Text style={styles.groupHeader}> {"Proteins:"} </Text>
@@ -357,6 +358,7 @@ export default class PetDiet extends Component<> {
             })
           }
       </ScrollView>
+      </ImageBackground>
     )
   }
 }
@@ -377,8 +379,11 @@ const styles = StyleSheet.create({
   },
   dietContainer: {
     padding:5,
-    marginTop:2,
-    marginBottom:3
+    backgroundColor: Theme.palette.white,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 5
+
   },
   textContainer: {
     paddingVertical: 7,
@@ -387,12 +392,13 @@ const styles = StyleSheet.create({
     borderColor: Theme.palette.black,
     borderRadius: 8,
     marginVertical: 7,
-    marginHorizontal: 7
+    marginHorizontal: 7,
+    backgroundColor: Theme.palette.white
   },
   input: {
     height: 70,
     margin: 2,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   dietHeading: {
     height: 20,

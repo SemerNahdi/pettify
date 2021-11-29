@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Dimensions, ScrollView, ImageBackground } from 'react-native';
 import Firebase from "../../components/Firebase";
 import { Text, NavHeaderWithButton, Theme, Button } from "../../components";
 import * as DocumentPicker from 'expo-document-picker';
@@ -140,13 +140,13 @@ export default class ViewDocuments extends Component<> {
         const { navigation } = this.props;
  
         return (
-            <View style={styles.container}>
+            <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
                 <NavHeaderWithButton title="Lab Results" buttonIcon="plus" buttonFn={this.chooseFile} back backFn={() => this.props.navigation.goBack()} {...{ navigation }}/>
                 
                 <ScrollView>
                     {this.renderPdfViewer()}
                 </ScrollView>
-            </View>
+            </ImageBackground>
         )
     }
 }

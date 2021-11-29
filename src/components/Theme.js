@@ -20,6 +20,7 @@ const theme = {
         dogBlue: "#0080ff",
         catOrange: "#ffb347",
         birdRed: "#c93335",
+        darkgray: "#6F7378",
     },
     typography: {
         color: "#555555",

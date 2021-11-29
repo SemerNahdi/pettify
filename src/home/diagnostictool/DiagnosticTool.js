@@ -2,7 +2,7 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
-
+import { ImageBackground } from "react-native";
 import {Theme, Button, NavHeader} from "../../components";
 import MultiSelectDropdown from "./MultiSelectDropdown";
 
@@ -75,7 +75,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
     const { navigation } = this.props;
     
     return (
-      <View style={styles.container}>
+      <ImageBackground source={require('../../../assets/pattern.png')} style={styles.container}>
         <NavHeader title="Diagnostic Tool" {...{ navigation }} />
         <View style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
@@ -109,7 +109,7 @@ export default class DiagnosticTool extends React.Component<DropdownIsVisibleSta
         <View style={styles.multiSelectContainer}>
           <MultiSelectDropdown navigation={this.props.navigation} ref={ref => (this._multiselectdropdown = ref)} />
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   petImage: {
     padding: 10,
-    color: Theme.palette.white
+    color: Theme.palette.darkgray,
   },
   petImage2: {
     padding: 10,
