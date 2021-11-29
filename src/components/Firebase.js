@@ -55,6 +55,15 @@ export default class Firebase {
         //End of default admin creation
 
         //Start of diseases data injection
+        Firebase.firestore.collection("diseases").doc("Air sac mites").set({
+            symptoms: [
+                "Dirty feathers and dangling wings",
+                "Discharge from the beak",
+                "Nasal discharge",
+                "Respiratory problems such as wheezing",
+                "Weakness",
+            ]
+        }) 
         Firebase.firestore.collection("diseases").doc("Canine Distemper").set({
             symptoms: [
                 "Anorexia",
@@ -101,6 +110,18 @@ export default class Firebase {
                 "Sneezing"
             ]
         })
+        Firebase.firestore.collection("diseases").doc("Fatty liver disease").set({
+           symptoms: [
+               "Anorexia",
+               "Ataxia (loss of balance)",
+               "Depression",
+               "Dirty feathers and dangling wings",
+               "Drowsiness",
+               "Green diarrhea",
+               "Loose diarrhea and watery stools",
+               "Respiratory problems such as wheezing"
+           ]
+       }) 
         Firebase.firestore.collection("diseases").doc("Feline Calicivirus Infection").set({
             symptoms: [
                 "Decreased appetite",
@@ -139,6 +160,17 @@ export default class Firebase {
                 "Very severe gastrointestinal symptoms"
             ]
         })
+        Firebase.firestore.collection("diseases").doc("Gout").set({
+            symptoms: [
+                "Ataxia (loss of balance)",
+                "Depression",
+                "Dirty feathers and dangling wings",
+                "Green diarrhea",
+                "Increased urination (polyuria)",
+                "Loose diarrhea and watery stools",
+                "Swelling of the soles of the feet and joints"
+            ]
+        }) 
         Firebase.firestore.collection("diseases").doc("Leptospirosis").set({
             symptoms: [
                 "Blood in the urine",
@@ -162,6 +194,16 @@ export default class Firebase {
                 "Sneezing"
             ]
         })
+        Firebase.firestore.collection("diseases").doc("Psittacosis").set({
+            symptoms: [
+                "Difficulty eating",
+                "Eye discharge",
+                "Green diarrhea",
+                "Nasal discharge",
+                "Paralysis of limbs and wings",
+                "Respiratory problems such as wheezing"
+            ]
+        })
         Firebase.firestore.collection("diseases").doc("Rabies").set({
             symptoms: [
                 "Convulsions",
@@ -178,6 +220,22 @@ export default class Firebase {
         //End of diseases data injection
 
         //Start of diseaseDetails data injection 
+        Firebase.firestore.collection("diseaseDetails").doc("Air sac mites").set({
+            description: [
+                "One pathogen that can infect birds is sternostoma tracheacolum, the air sac mite. The mites live in and lay their eggs in a bird's respiratory system, before leaving through the nasal cavity to find a new host. Mild cases may be asymptomatic, but the mites are very contagious, and they can be deadly if not caught."
+            ],
+            prevention: [
+                "Like mosquitos, the air sac mites breed most effectively when in hot, humid weather and near standing water. Therefore, keep your birds in a cool environment that is not too humid, and make sure to clean up standing water immediately. Keep your birds away from wild or sick birds, and make sure their water is clean. If one of your birds is infected or came in contact with an infected bird, make sure to check all of your birds for mites, even if they are not showing symptoms."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "As the mites infect the bird's lungs and trachea, the most common symptoms are if your bird has difficulty breathing or produces a strange clicking noise. Another sign could be weak legs or wings. The mites may also cause unusual secretions from the beak or nasal cavity."
+            ],
+            treatments: [
+                "The usual treatment for air sac mites is special insecticide. Make sure to only treat your bird according to your veterinarian's guidance. In addition to these treatments being toxic to the bird, the dosage is critical to ensure the mites are not killed too slowly or too quickly. An overly strong treatment could cause the mites to block your bird's trachea, causing suffocation. As your bird recuperates, make sure to sanitize its water and living environment daily, and try to keep your bird comfortable. Avoid letting your bird fly or exerting too much energy."
+            ]
+        })
         Firebase.firestore.collection("diseaseDetails").doc("Canine Distemper").set({
             description: [
                 "Canine distemper should sound familiar to you if your dog is up-to-date on his vaccinations. Veterinarians consider the distemper vaccine to be a core vaccination, along with the parvovirus, canine adenovirus, and rabies vaccines. ",
@@ -330,6 +388,22 @@ export default class Firebase {
                 "Acyclovir, an oral antiviral medication may be used in severe or poorly responsive cases. Because of its potential toxicity in cats, only cats with a confirmed herpesvirus infection should receive this medication, and it should be started at a low dose. With this medication, it is necessary to monitor the patient’s blood through complete blood count (CBC) testing every two to three weeks.",
             ]
         })
+        Firebase.firestore.collection("diseaseDetails").doc("Fatty liver disease").set({
+            description: [
+                "Malnutrition in birds is common, and is especially common in birds fed only with seeds. If a bird has a diet high in fat, the fat can be deposited in the liver, which can disrupt the liver's functionality. This fatty liver disease can leave the bird vulnerable to other diseases or even kill the bird on its own."
+            ],
+            prevention: [
+                "As fatty liver disease is a result of obesity and malnutrition, it can be prevented by feeding your birds a balanced diet, such as pellets, flowers, fruits and vegetables. Make sure your birds are active, with enough space to move comfortably. Remove uneaten food about 30 minutes after serving to prevent overeating. Weighing your bird regularly can catch weight gain before any severe effects."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "As fatty liver disease is caused by obesity, you should keep track of your bird's weight. More noticeable symptoms include changes in behavior, jaundice (yellowed skin), and black spots on the toes or beak caused by blood clotting. However, by the time these symptoms develop, it is more likely that your bird is at a dangerous weight level. If you see these symptoms, you should see a veterinarian."
+            ],
+            treatments: [
+                "You should follow a veterinarian's advice, as procedures such as tube feeding may be necessary. Other common treatments include laxatives or vitamin supplements. However, in almost all cases a change to the bird's diet will be prescribed, which may be adjusted by your vet as your bird recovers."
+            ]
+        })
         Firebase.firestore.collection("diseaseDetails").doc("Feline Calicivirus Infection").set({
             description: [
                 "Feline calicivirus is a virus that is an important cause of upper respiratory infections and oral disease in cats. This virus infects cats throughout the world and can cause disease in both domestic and exotic cat species.",
@@ -411,6 +485,22 @@ export default class Firebase {
                 "Dehydration and shock are life-threatening components of FPL and intravenous fluid therapy and intensive nursing care is critical. If the cat receives aggressive supportive care through the initial stages of illness, prognosis for a full recovery is good.",
             ]
         })
+        Firebase.firestore.collection("diseaseDetails").doc("Gout").set({
+            description: [
+                "Gout is a disease caused by kidney failure. A bird with gout cannot properly remove uric acid, and it is instead deposited in tissues or joints. The uric acid forms crystals which can cause pain and sometimes permanent damage."
+            ],
+            prevention: [
+                "The easiest way to prevent gout is with a well-rounded diet. Monitor your bird so you can catch warning signs early and treat gout before it progresses."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "The earliest warning signs of gout for a bird include swollen or stiff leg or wing joints, especially if the bird often shifts its weight around. The bird may be unable to perch or fly, instead preferring to remain on the floor of its cage."
+            ],
+            treatments: [
+                "There are both medications and surgical procedures to help birds suffering from gout, but neither can prevent some of the lasting effects. Your veterinarian will likely recommend a special diet for your bird while it recovers, which you should hold it to."
+            ]
+        })
         Firebase.firestore.collection("diseaseDetails").doc("Leptospirosis").set({
             description: [
                 "Leptospirosis is a disease caused by infection with Leptospira bacteria. These bacteria can be found worldwide in soil and water. There are many strains of Leptospira bacteria that can cause disease. Leptospirosis is a zoonotic disease, which means it can be spread from animals to people. Infection in people can cause flu-like symptoms and can cause liver or kidney disease.",
@@ -459,6 +549,22 @@ export default class Firebase {
                 "As with any disease caused by a virus, treatment is largely supportive. Good animal care practices and nutrition assist dogs in mounting an effective immune response.",
                 "Dogs with canine influenza should be isolated to prevent transmission of the virus to other dogs or, in the case of H3N2, cats.",
                 "The course of treatment depends on the pet's condition, including the presence or absence of a secondary bacterial infection, pneumonia, dehydration, or other medical issues (e.g., pregnancy, pre-existing respiratory disease, compromised immune system, etc.). The veterinarian might prescribe medications, such as an antibiotic (to fight secondary infections) and/or a nonsteroidal anti-inflammatory (to reduce fever, swelling and pain). Dehydrated pets may need fluid therapy to restore and maintain hydration.  Other medications, or even hospitalization, may also be necessary for more severe cases.",
+            ]
+        })
+        Firebase.firestore.collection("diseaseDetails").doc("Psittacosis").set({
+            description: [
+                "Psittacosis is a bacterial infection. Also known as parrot fever or avian chlamydiosis, it is usually transferred via another bird's droppings, feathers, or eggs. Some birds are asymptomatic, which contributes to the disease's spread. The disease can be transmitted to humans, but it is treatable for both birds and their owners."
+            ],
+            prevention: [
+                "Make sure to regularly clean your birds' cages. If you have multiple birds in a cage, make sure they have enough space to avoid being cramped. It's a good idea to test any new birds for psittacosis, even if they have no symptoms. Use caution while handling any birds you suspect are sick."
+            ],
+            stageOne: [],
+            stageTwo: [],
+            symptoms: [
+                "Notable symptoms of psittacosis in birds include difficulty eating and breathing, or greenish-yellow diarrhea. In addition, infected birds may have unusual nasal or optical secretions, or even partial paralysis."
+            ],
+            treatments: [
+                "Psittacosis can be treated effectively with antibiotics. They can either be administered with the bird's water or via injection."
             ]
         })
         Firebase.firestore.collection("diseaseDetails").doc("Rabies").set({
