@@ -72,7 +72,7 @@ export default class PetPrescription extends Component<> {
     }
 
     var docRef = Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid);
-    
+    var date = new Date().toISOString();
     //Add pet to firestore
     docRef
     .get()
@@ -81,7 +81,8 @@ export default class PetPrescription extends Component<> {
       if (doc.exists) {
         docRef
         .collection("prescriptions")
-        .add({
+        .doc(date)
+        .set({
           prescription: this.state.prescription,
           dose: this.state.dose,
           date: new Date(),
@@ -130,6 +131,7 @@ export default class PetPrescription extends Component<> {
       })
       .then((res) => {
         this.setState({ loading: false})
+        this.setState({existentPrescriptions: [...this.state.existentPrescriptions.reverse()]})
       });      
   }
 

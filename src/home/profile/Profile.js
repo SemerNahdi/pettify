@@ -1,4 +1,3 @@
-// @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {
@@ -18,8 +17,6 @@ export default class ProfileComp extends React.Component {
     super(props);
     this.state = {
       profile: [],
-      //picture is only needed until all users have a pic field in Firease database
-      picture: "temp"
     };
     this.retrieveProfile();
   }
@@ -28,19 +25,7 @@ export default class ProfileComp extends React.Component {
     const user = Firebase.auth.currentUser;
     Firebase.firestore.collection("users").doc(user.uid).get().then(docs => {
       prof = docs.data();
-      // For users that don't have email in firestore, can be removed later
-      if (prof.email == null) {
-        Firebase.firestore.collection("users").doc(user.uid).update({email: user.email});
-        prof.email = user.email;
-      }
       this.setState({profile: prof});
-      //this is also only temporary until all profiles have a pic field 
-      this.setState({picture: prof.pic ? prof.pic : prof.picture.uri})
-      //this will slowly give everyone a pic field with the same picture they already have
-      if(prof.picture && !prof.pic)
-      {
-        Firebase.firestore.collection("users").doc(user.uid).update({pic : prof.picture.uri})
-      }
     });
   }
 
@@ -60,7 +45,7 @@ export default class ProfileComp extends React.Component {
         <Content scrollEnabled={false}>
           <View style={{borderBottomColor: 'lightgray', borderBottomWidth: 1, marginBottom: 12}}>
           <Image
-                source={{ uri: this.state.picture }}
+                source={{ uri: prof.pic }}
                 style={styles.avatar}
             />
           </View>

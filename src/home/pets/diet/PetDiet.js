@@ -54,6 +54,7 @@ export default class PetDiet extends Component<> {
     }
  
     this.arrayToString();
+    var date = new Date().toISOString();
 
     //Add pet to firestore
     Firebase.firestore
@@ -62,7 +63,8 @@ export default class PetDiet extends Component<> {
     .collection("pets")
     .doc(pet_uid)
     .collection("diet")
-    .add({
+    .doc(date)
+    .set({
       date: new Date(),
       diet: this.state.dietToString,
       dietDetails: this.state.dietDetails
@@ -88,6 +90,7 @@ export default class PetDiet extends Component<> {
 
     this.arrayToString();
  
+    var date = new Date().toISOString();
     //Add pet to firestore
     Firebase.firestore
     .collection("users")
@@ -95,7 +98,8 @@ export default class PetDiet extends Component<> {
     .collection("pets")
     .doc(pet_uid)
     .collection("dietU")
-    .add({
+    .doc(date)
+    .set({
       date: new Date(),
       diet: this.state.dietToString,
       dietDetails: this.state.dietDetails
@@ -133,7 +137,7 @@ export default class PetDiet extends Component<> {
     })
     .then(() => {
       this.setState({
-        existentDiet: [...this.state.existentDiet]
+        existentDiet: [...this.state.existentDiet.reverse()]
       })
     })
   }
@@ -156,6 +160,11 @@ export default class PetDiet extends Component<> {
           dietDetails: doc.data().dietDetails,
           date: new Date(doc.data().date.seconds*1000).toString()
         })
+      })
+    })
+    .then(() => {
+      this.setState({
+        existentDietU: [...this.state.existentDietU.reverse()]
       })
     });
   }
@@ -282,14 +291,17 @@ export default class PetDiet extends Component<> {
           <Button label="Crustaceans" onPress={() => this.onItemSelect("Crustaceans")} style={this.state.selectedDiet.indexOf("Crustaceans") > -1 ? "pressed" : "unpressed"} />
           <Button label="Green Tea Extract" onPress={() => this.onItemSelect("Green Tea Extract")} style={this.state.selectedDiet.indexOf("Green Tea Extract") > -1 ? "pressed" : "unpressed"} />
         </View>
-        
-        <TextInput
-          style={styles.bigInput}
-          placeholder="Diet Details"
-          onChangeText={text => this.setDietDetails(text)}
-          multiline={true}
-          value={this.state.dietDetails}
-        />  
+
+        <View style={styles.textContainer}>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => this.setDietDetails(text)}
+            returnKeyType = 'done'
+            multiline={true}
+            placeholder="Diet Details"
+            value = {this.state.dietDetails}
+          /> 
+        </View>
  
         {this.state.role == 'v' &&
           <View style={styles.submitContainer}>
@@ -368,15 +380,19 @@ const styles = StyleSheet.create({
     marginTop:2,
     marginBottom:3
   },
-  bigInput: {
-    height: 70,
-    marginLeft: 5,
-    margin: 15,
+  textContainer: {
+    paddingVertical: 7,
+    paddingHorizontal: 10,
     borderWidth: 1,
-    textAlign: 'left',
-    backgroundColor: Theme.palette.secondary,
-    borderColor: Theme.palette.lightGray,
-    borderRadius: 7
+    borderColor: Theme.palette.black,
+    borderRadius: 8,
+    marginVertical: 7,
+    marginHorizontal: 7
+  },
+  input: {
+    height: 70,
+    margin: 2,
+    textAlign: 'left'
   },
   dietHeading: {
     height: 20,

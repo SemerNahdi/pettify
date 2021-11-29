@@ -1,16 +1,18 @@
 import Firebase from "../../components/Firebase";
 import React, { Component } from 'react'
 import type { ScreenParams } from "../../components/Types";
-import { NavHeader } from "../../components";
+import { NavHeader, RefreshIndicator } from "../../components";
 import { Card } from 'react-native-elements'
 import {
-  ActivityIndicator,
   FlatList,
   ScrollView,
   StyleSheet,
   View,
+  Dimensions
 } from 'react-native'
 import {Text, Theme} from "../../components";
+
+var height = Dimensions.get('window').height;
 
 export default class DiagnosisDetailView extends Component {
   constructor(props)
@@ -73,10 +75,10 @@ export default class DiagnosisDetailView extends Component {
       return(
         <ScrollView style={[styles.container]}>
           <View style={{
-            paddingTop: "40%",
+            paddingTop: height/2,
             justifyContent:"center",
           }}>
-          <ActivityIndicator size="large" />
+            <RefreshIndicator refreshing />
           </View>
         </ScrollView>
       )

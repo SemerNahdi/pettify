@@ -69,6 +69,14 @@ const theme = {
         base: 24,
         large: 48,
         xLarge: 64
+    },
+    links: {
+        defaultImage: "https://i.pinimg.com/originals/bc/78/4f/bc784f866bb59587b2c7364d47735a25.jpg",
+        defaultProfile: "https://firebasestorage.googleapis.com/v0/b/react-native-ting.appspot.com/o/fiber%2Fprofile%2FJ0k2SZiI9V9KoYZK7Enru5e8CbqFxdzjkHCmzd2yZ1dyR22Vcjc0PXDPslhgH1JSEOKMMOnDcubGv8s4ZxA.jpg?alt=media&token=6d5a2309-cf94-4b8e-a405-65f8c5c6c87c",
+        defaultPet: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+        defaultDog: "https://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
+        defaultCat: "https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg",
+        defaultBird: "https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png",
     }
 };
 

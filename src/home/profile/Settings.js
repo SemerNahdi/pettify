@@ -1,7 +1,6 @@
-// @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import { Alert, StyleSheet, View, TouchableWithoutFeedback, Image, SafeAreaView, ActivityIndicator,  } from "react-native";
+import { Alert, StyleSheet, View, TouchableWithoutFeedback, Image, Dimensions, SafeAreaView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Content } from "native-base";
 import { Feather as Icon } from "@expo/vector-icons";
@@ -22,6 +21,8 @@ import {
 
 import EnableCameraRollPermission from "./EnableCameraRollPermission";
 
+var height = Dimensions.get("window").height;
+
 export default class Settings extends React.Component {
 
     constructor(props){
@@ -41,7 +42,7 @@ export default class Settings extends React.Component {
         profile = navigation.state.params.profile;
 
         this.state.name = profile.name;
-        this.state.pic = profile.pic ? profile.pic : profile.picture.uri;
+        this.state.pic = profile.pic;
         this.state.address = profile.address;
         this.state.email = profile.email;
 
@@ -70,7 +71,7 @@ export default class Settings extends React.Component {
                     },
                     {
                         text: "OK",
-                        onPress: password => {
+                        onPress: (password) => {
                             const user = Firebase.auth.currentUser;
                             const credential = firebase.auth.EmailAuthProvider.credential(
                                 user.email, 
@@ -137,6 +138,14 @@ export default class Settings extends React.Component {
                 });
             }
             if (pic !== originalProfile.pic) {
+
+                var img = originalProfile.pic
+                if(img != Theme.links.defaultProfile)
+                {
+                    var oldImageName = img.substring(img.indexOf("profilePictures%2F")+ 18, img.indexOf("?alt=media"))
+                    Firebase.storage.ref().child("profilePictures/" + oldImageName).delete();
+                }
+
                 let imageName = pic.split("/").pop();
                 const response = await fetch(pic);
                 const blob = await response.blob();
@@ -177,10 +186,14 @@ export default class Settings extends React.Component {
     }
 
     @autobind
-    async deleteUser(): Promise<void> {
-        Alert.alert(
-            "Delete Account",
-            "Are you sure you want to delete your account? You cannot undo this action.",
+    async deleteUser() {
+        var title = this.state.passwordFailure ? "Incorrect password" : "Enter password";
+        var message = this.state.passwordFailure ?
+            "Entered password is incorrect. Please try again":
+            "Enter your password to delete your account"
+        Alert.prompt(
+            title,
+            message,
             [
                 {
                     text: "Cancel",
@@ -188,19 +201,102 @@ export default class Settings extends React.Component {
                 {
                     text: "Delete",
                     style: "destructive",
-                    onPress: () => {
+                    onPress: async (password) => {
+
                         const user = Firebase.auth.currentUser;
-                        Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
-                            user.delete().catch((error) => {
-                                console.error("Error deleting account: ", error);
+                        const credential = firebase.auth.EmailAuthProvider.credential(
+                            user.email,
+                            password
+                        );
+                        user.reauthenticateWithCredential(credential).then(async () => {
+                            var defaultPic = Theme.links.defaultProfile;
+                            
+                            await Firebase.firestore.collection("users").doc(user.uid).collection("pets").get()
+                            .then(pets => {
+                                pets.forEach(async (pet) => {
+
+                                    var ref = Firebase.firestore.collection("users").doc(user.uid).collection("pets").doc(pet.id);
+                                    var petpic = pet.data().pic;
+
+                                    if(petpic != "null")
+                                    {
+                                        var imageName = petpic.substring(petpic.indexOf("petPictures%2F") + 14, petpic.indexOf("?alt=media"))
+                                        Firebase.storage.ref().child("petPictures/" + imageName).delete();
+                                    }
+
+                                    //check for lab results
+                                    if(pet.data().labResults)
+                                    {
+                                        pet.data().labResults.forEach((pdf) => 
+                                        {
+                                            var pdfName = pdf.substring(pdf.indexOf("labResults%2F") + 13, pdf.indexOf("?alt=media"));
+                                            Firebase.storage.ref().child("labResults/" + pdfName ).delete().catch((error) => {console.log(error)});
+                                        })
+                                    }
+
+                                    //check for prescriptions
+                                    await ref.collection("prescriptions").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("prescriptions").doc(data.id).delete();
+                                        })
+                                    })
+
+                                    //check for diet
+                                    await ref.collection("diet").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("diet").doc(data.id).delete();
+                                        })
+                                    })
+
+                                    //check for dietU
+                                    await ref.collection("dietU").get()
+                                    .then((docs) => 
+                                    {
+                                        docs.forEach((data) => 
+                                        {
+                                            ref.collection("dietU").doc(data.id).delete();
+                                        })
+                                    })
+
+                                    //delete pet
+                                    ref.delete().catch((error) => {
+                                        console.error("Error deleting pet: ", error);
+                                    });
+                                })
+                            })
+
+                            const pic = profile.pic
+
+                            if(pic != defaultPic)
+                            {
+                                var imageName = pic.substring(pic.indexOf("profilePictures%2F") + 18, pic.indexOf("?alt=media"))
+                                Firebase.storage.ref().child("profilePictures/" + imageName).delete();
+                            }
+                        
+                            Firebase.firestore.collection("users").doc(user.uid).delete().then(() => {
+                                user.delete().catch((error) => {
+                                    console.error("Error deleting account: ", error);
+                                });
+                            }).catch((error) => {
+                                console.error("Error removing document: ", error);
                             });
-                        }).catch((error) => {
-                            console.error("Error removing document: ", error);
-                        });
-                        this.props.navigation.navigate("Welcome");
+
+                            this.props.navigation.navigate("Welcome");  
+                        })
+                        .catch((error) => {
+                            this.setState({ passwordFailure: true });
+                            this.passwordDialog();
+                        })
                     },
                 },
-            ]
+            ],
+            "secure-text"
         );
     }
 
@@ -224,7 +320,12 @@ export default class Settings extends React.Component {
         if (this.state.hasCameraRollPermission === null) {
             return (
                 <View style={styles.refreshContainer}>
-                    <RefreshIndicator refreshing />
+                    <View style={{
+                        paddingTop: height/2,
+                        justifyContent:"center",
+                    }}>
+                        <RefreshIndicator refreshing />
+                    </View>
                 </View>
             );
         } 
@@ -233,14 +334,14 @@ export default class Settings extends React.Component {
         }
         else if(loading){
             return(
-            <SafeAreaView style={[styles.container]}>
-            <View style={{
-                paddingTop: "40%",
-                justifyContent:"center",
-            }}>
-                <ActivityIndicator size="large" />
-            </View>
-            </SafeAreaView>
+                <SafeAreaView style={[styles.container]}>
+                    <View style={{
+                        paddingTop: height/2,
+                        justifyContent:"center",
+                    }}>
+                        <RefreshIndicator refreshing />
+                    </View>
+                </SafeAreaView>
             )
         }
         return (
