@@ -38,7 +38,7 @@ export default class Patients extends Component {
 
     Firebase.firestore
     .collection("users")
-    //.where("role", "==", "p")
+    .where("role", "==", "p")
     .get()
     .then(docs => {
 
@@ -52,13 +52,17 @@ export default class Patients extends Component {
         ///this is sort alphabetically
         var n = allUsers.length;
         for (var k = 0; k < n-1; k++)
+        {
           for (var l = 0; l < n-k-1; l++)
+          {
             if (allUsers[l].name > allUsers[l+1].name)
             {
                 var temp = allUsers[l];
                 allUsers[l] = allUsers[l+1];
                 allUsers[l+1] = temp;
             }
+          }
+        }
         
         this.setState({items:allUsers, loading:false})
     })

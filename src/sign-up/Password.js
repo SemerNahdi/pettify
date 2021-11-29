@@ -53,9 +53,6 @@ export default class Password extends React.Component {
                     pic: Theme.links.defaultProfile,
                 }
             )
-            .then(() => {
-                this.props.navigation.navigate("Walkthrough")
-            });
         } catch (e) {
             // eslint-disable-next-line no-alert
             alert(e);

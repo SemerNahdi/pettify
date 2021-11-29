@@ -49,17 +49,14 @@ export default class ProfileComp extends React.Component {
                 />   
           <View>
             <View style={styles.informationContainer}>
-              <Text style={styles.header}>Name:</Text>
-              <Text style={styles.information}>{prof.name}</Text>
+              <Text style={styles.information}>Name:        {prof.name}</Text>
             </View>   
           </View>
           <View style={styles.informationContainer}>
-            <Text style={styles.header}>Email:</Text>
-            <Text style={styles.information}>{prof.email}</Text>
+            <Text style={styles.information}>Email:         {prof.email}</Text>
           </View>
           <View style={styles.informationContainer}>
-            <Text style={styles.header}>Address:</Text>
-            <Text style={styles.information}>{prof.address}</Text>
+            <Text style={styles.information}>Address:    {prof.address}</Text>
           </View>
           </View>
       </ImageBackground>
@@ -82,16 +79,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: "center"
   },
-  header: {
-    color: Theme.palette.black,
-    width: width-360,
-    fontSize: 16,
-    lineHeight: 16,
-    alignSelf:"center"
-  },
   information: {
     color: Theme.palette.black,
-    width: width-250,
     fontSize: 16,
     lineHeight: 16,
   },

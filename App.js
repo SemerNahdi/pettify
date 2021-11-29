@@ -14,7 +14,6 @@ import { Firebase } from "./src/components";
 import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
-import { Walkthrough } from "./src/walkthrough";
 import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login, SignUpVet } from "./src/sign-up";
 import {
     Profile,
@@ -232,8 +231,7 @@ const SignUpNavigator = createStackNavigator(
     {
         SignUp: { screen: SignUpName },
         SignUpEmail: { screen: SignUpEmail },
-        SignUpPassword: { screen: SignUpPassword },
-        Walkthrough: { screen: Walkthrough }
+        SignUpPassword: { screen: SignUpPassword }
     },
     StackNavigatorOptions
 );

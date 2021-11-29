@@ -40,13 +40,31 @@ export default class Pets extends Component {
         var i = 0;
         docs.forEach(doc => {
             currentUsersPets.push(doc.data());
+            
+            if(currentUsersPets[i].pic == "null")
+            {
+              if(currentUsersPets[i].species == "Dog")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultDog
+              }
+              else if(currentUsersPets[i].species == "Cat")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultCat
+              }
+              else if(currentUsersPets[i].species == "Bird")
+              {
+                currentUsersPets[i].pic = Theme.links.defaultBird
+              }
+            }
             currentUsersPets[i].id = i;
             currentUsersPets[i++].pet_uid = doc.id;
         })
 
         var n = currentUsersPets.length;
         for (var k = 0; k < n-1; k++)
+        {
           for (var l = 0; l < n-k-1; l++)
+          {
             if (currentUsersPets[l].name > currentUsersPets[l+1].name)
             {
                 // swap currentUsersPets[l+1] and currentUsersPets[l]
@@ -54,7 +72,8 @@ export default class Pets extends Component {
                 currentUsersPets[l] = currentUsersPets[l+1];
                 currentUsersPets[l+1] = temp;
             }
-
+          }
+        }
         this.setState({items:currentUsersPets, loading:false})
     })
   }

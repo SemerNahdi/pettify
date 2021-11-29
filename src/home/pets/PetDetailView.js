@@ -318,22 +318,22 @@ export default class PetDetailView extends Component {
           <View style={styles.buttonContent}>
             <View style={styles.buttonContainer}>
               <Button label={"View Training Videos on " + this.state.breed + "'s"} 
-                      style="primary" onPress={this.goToTrainingScreen}/>
+                      style="secondary" onPress={this.goToTrainingScreen}/>
             </View>
 
             <View style={styles.buttonContainer}>
               <Button label={"View Lab Documents for " + this.state.name} 
-                      style="primary" onPress={this.goToLabResults}/>
+                      style="secondary" onPress={this.goToLabResults}/>
             </View>
             
             <View style={styles.buttonContainer}>
               <Button label={"View Prescriptions for " + this.state.name} 
-                      style="primary" onPress={this.goToPrescription}/>
+                      style="secondary" onPress={this.goToPrescription}/>
             </View>
 
             <View style={styles.buttonContainer}>
               <Button label={"View Recommended Diet for " + this.state.name} 
-                      style="primary" onPress={this.goToDiet}/>
+                      style="secondary" onPress={this.goToDiet}/>
             </View>
           </View>
 
