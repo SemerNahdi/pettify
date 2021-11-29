@@ -203,7 +203,7 @@ export default class PetPrescription extends Component<> {
             {
               this.state.existentPrescriptions.length === 0 && (
                 <View style={styles.centerText}>
-                  <Text type="large"> No Diets to show </Text>
+                  <Text type="large"> No Prescriptions to show </Text>
                 </View>
               )
             }
