@@ -167,5 +167,8 @@ This project is an iOS based app using React Native that is meant to help facili
    * Diet
    * Profile
    * Diagnosis
+   * Diagnosis Dropdown
+   * Diagnosis Selected Items
    * Diagnosis Results
    * Diagnosis Details
+   * Reset Password
