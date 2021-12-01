@@ -124,7 +124,7 @@ This project is an iOS based app using React Native that is meant to help facili
 
    * Functionality
 
-      - Vet view was implemented so that vets have access to Patients and their Pets so that they can provide perscriptions, diets, and lab documents effectively.
+      - Vet view was implemented so that vets have access to Patients and their Pets so that they can provide prescriptions, diets, and lab documents effectively.
       - Admin account that is the only account type that has the ability to create Vets and still has all the functionality of a Vet account.
       - Data on screen automatically refreshes when data is changed for a Patient or Pet, this makes the app feel responsive and live when using the app. Before to see any changes you had to re-navigate to the screen and in some cases this meant signing out and back into the account.
       - Forgot Password option on Login Screen so that users can reset their password if they lose their information or for new vets to create a secure login.
@@ -156,19 +156,19 @@ This project is an iOS based app using React Native that is meant to help facili
 
 ## Sample Photos of App
 
-   * Welcome
-   * Vet View
-   * Pet View
-   * Add Pet
-   * Pet Detail
-   * Pet Edit
-   * Training Video
-   * Perscription
-   * Diet
-   * Profile
-   * Diagnosis
-   * Diagnosis Dropdown
-   * Diagnosis Selected Items
-   * Diagnosis Results
-   * Diagnosis Details
-   * Reset Password
+   * Welcome <br/> <img src="https://user-images.githubusercontent.com/27313646/144299581-572cc441-f9a2-4777-a37f-fd1b335affa9.PNG" width="300"/>
+   * Vet View <br/> <img src="https://user-images.githubusercontent.com/27313646/144300263-2de045ed-d597-452a-8756-63d379a22bfb.PNG" width="300"/>
+   * Pet View <br/> <img src="https://user-images.githubusercontent.com/27313646/144300550-9264c2e9-4991-4c27-bdde-7aaa3b2b9db1.PNG" width="300"/>
+   * Add Pet <br/> <img src="https://user-images.githubusercontent.com/27313646/144300608-763c5db2-97c2-4527-8175-185e93f74341.PNG" width="300"/>
+   * Pet Detail <br/> <img src="https://user-images.githubusercontent.com/27313646/144300656-3650ce5d-2c02-4bdb-b619-95b638b08206.PNG" width="300"/>
+   * Pet Edit <br/> <img src="https://user-images.githubusercontent.com/27313646/144300741-045199d1-753c-4ee3-b565-b3092df49f12.PNG" width="300"/>
+   * Training Video <br/> <img src="https://user-images.githubusercontent.com/27313646/144300780-cf2802ac-9d12-4769-aa31-036acfc10d2a.PNG" width="300"/>
+   * Prescription <br/> <img src="https://user-images.githubusercontent.com/27313646/144300833-1be3e48a-86cc-4d8e-b6f3-18b360759be1.PNG" width="300"/>
+   * Diet <br/> <img src="https://user-images.githubusercontent.com/27313646/144300889-28d3d3c3-04e4-4c26-ab1e-c31c4a33e6b3.PNG" width="300"/>
+   * Profile <br/> <img src="https://user-images.githubusercontent.com/27313646/144301037-13881967-8396-4243-8c1e-0729425e2c62.PNG" width="300"/>
+   * Diagnosis <br/> <img src="https://user-images.githubusercontent.com/27313646/144301101-a3787140-3d7f-47e8-87c2-1bd252e7f565.PNG" width="300"/>
+   * Diagnosis Dropdown <br/> <img src="https://user-images.githubusercontent.com/27313646/144301154-62efeb64-cae0-4f52-be3b-dfdbe5afe5f9.PNG" width="300"/>
+   * Diagnosis Selected Items <br/> <img src="https://user-images.githubusercontent.com/27313646/144301205-97117beb-663b-4656-a7f2-005188763635.PNG" width="300"/>
+   * Diagnosis Results <br/> <img src="https://user-images.githubusercontent.com/27313646/144301273-1de07cd8-16fd-4bf3-9617-1b3d5dc65bf4.PNG" width="300"/>
+   * Diagnosis Details <br/> <img src="https://user-images.githubusercontent.com/27313646/144301324-aa8dca8e-fe25-41d6-b234-1c2f4a4c8891.PNG" width="300"/>
+   * Reset Password <br/> <img src="https://user-images.githubusercontent.com/27313646/144301931-d375cfef-8a2a-4d43-8354-c4fb6064f453.PNG" width="300"/>
