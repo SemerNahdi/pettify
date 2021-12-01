@@ -114,9 +114,9 @@ This project is an iOS based app using React Native that is meant to help facili
       - The background has been changed to match the theme of the app and its purpose.
       - The look of the touchable pet items has been redesigned to look more appealing and organized. The layout of the pet item is more focused on being readable and contain relevant information.
       - Diagnosis Result items were made to contrast more against the new background pattern.
-      - Diagnosis Tool buttons and labels were changed to react to what pet is selected to improve the user experience. This way the user knows which pet they are trying to diagnose at all times
+      - Diagnosis Tool buttons and labels were changed to react to what pet is selected to improve the user experience. This way the user knows which pet they are trying to diagnose at all times.
       - All dropdowns throughout the app have been changed to a new dropdown that looks and work better than all previous ones so that the user experience is as smooth as possible.
-      - The Diagnosis Tool Dropdown was remade with another package to make it more consistent with the rest of the app dropdowns, the search feature of the dropdown looks better and no longer overlaps with the dropdown toggle,
+      - The Diagnosis Tool Dropdown was remade with another package to make it more consistent with the rest of the app dropdowns, the search feature of the dropdown looks better and no longer overlaps with the dropdown toggle.
       - Pet Diet Screen buttons were redesigned so that they toggle on and off visibly, were before the buttons did not toggle nor did they show if they were selected or not. 
       - Adding Pets and Editing Pet information UI/UX was redesigned and made consistent between them. Text boxes were made to match new and improved dropdowns and buttons were added on simple options.
       
@@ -124,27 +124,29 @@ This project is an iOS based app using React Native that is meant to help facili
 
    * Functionality
 
-      - Vet view was implemented so that vets have access to Patients and their Pets so that they can provide perscriptions, diets, and lab documents effectively
-      - Admin account that is the only account type that has the ability to create Vets and still has all the functionality of a Vet account
-      - Data on screen automatically refreshes when data is changed for a Patient or Pet, this makes the app feel responsive and live when using the app. Before to see any changes you had to re-navigate to the screen and in some cases this meant signing out and back into the account
-      - Forgot Password option on Login Screen so that users can reset their password if they lose their information or for new vets to create a secure login
-      - Additions to Profile and Settings screen were address information can be stored. Both email and deletion of profile needs user password confirmation to proceed
+      - Vet view was implemented so that vets have access to Patients and their Pets so that they can provide perscriptions, diets, and lab documents effectively.
+      - Admin account that is the only account type that has the ability to create Vets and still has all the functionality of a Vet account.
+      - Data on screen automatically refreshes when data is changed for a Patient or Pet, this makes the app feel responsive and live when using the app. Before to see any changes you had to re-navigate to the screen and in some cases this meant signing out and back into the account.
+      - Forgot Password option on Login Screen so that users can reset their password if they lose their information or for new vets to create a secure login.
+      - Additions to Profile and Settings screen were address information can be stored. Both email and deletion of profile needs user password confirmation to proceed.
 
       <br/>
 
    * Database
 
       - Efficiency added so that data stored on Firebase Firestore is more simple and contains more relevant information and less unused information.
-      - Organization added to Firebase Storage where data is stored with no waste in mind. If a profile or pet picture is changed the previous photo file is deleted from the database before the new one is uploaded. This also works for when a pet or profile is deleted, all data tied to the user and all their pets is deleted from all areas of the Firebase database. The main reason for this system is to prevent an overflow or if any unused data in the database
+      - Organization added to Firebase Storage where data is stored with no waste in mind. If a profile or pet picture is changed the previous photo file is deleted from the database before the new one is uploaded. This also works for when a pet or profile is deleted, all data tied to the user and all their pets is deleted from all areas of the Firebase database. The main reason for this system is to prevent an overflow or if any unused data in the database.
       - Data injection is now included in the project itself, all data relating to the diseases is uploaded to the linked Firebase project, as well as a default admin profile is added for ease of use to start creating vets and use the app at full functionality
-      - Additional disease data was added to data injection for Birds, where there was no none before
-      - Pet Diet and Prescription data is now stored chronologically and allows for it to be read in the app in chronological order which now ensures that the data can be looked at correctly with the most relevant data at the top
+      - Additional disease data was added to data injection for Birds, where there was no none before.
+      - Pet Diet and Prescription data is now stored chronologically and allows for it to be read in the app in chronological order which now ensures that the data can be looked at correctly with the most relevant data at the top.
 
       <br/>
 
    * Codebase Improvements
-
-   * Code organization (Removing unused files, removing syntax that is not needed and complicated codebase, re organzing some data structures and how data is loaded and read, removal of excess and unused packages) involves the start of Flow removal,  while it is not 100% sure that all can be removed, it is clear that in most situations it only decreases the readability of code]
+      - Unused files and code were removed in large portions to make the file structure of the project is more clean, readable and easier to navigate.
+      - Files pertaining to certain screens were refactored so that we were easier to read, preform better, and more visually pleasing on the app.
+      - The start of removal of Flow techonology code, Flow is a type setting technology that makes it possible to create object like data strcutres in JavaScript. While Flow is not negative to the compilation of the app, it creates an extra level of complexity when reading code that contains Flow. All code touched so far can be ran without any Flow and thus has begun deprecation for the entire project.
+      - Unnecessary node packages were removed from package.json file and with more optimization of the project more node packages can be removed to increase the simplicity of the project
 
 ## Contact
 
