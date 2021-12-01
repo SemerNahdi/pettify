@@ -146,10 +146,26 @@ This project is an iOS based app using React Native that is meant to help facili
       - Unused files and code were removed in large portions to make the file structure of the project is more clean, readable and easier to navigate.
       - Files pertaining to certain screens were refactored so that we were easier to read, preform better, and more visually pleasing on the app.
       - The start of removal of Flow techonology code, Flow is a type setting technology that makes it possible to create object like data strcutres in JavaScript. While Flow is not negative to the compilation of the app, it creates an extra level of complexity when reading code that contains Flow. All code touched so far can be ran without any Flow and thus has begun deprecation for the entire project.
-      - Unnecessary node packages were removed from package.json file and with more optimization of the project more node packages can be removed to increase the simplicity of the project
+      - Unnecessary node packages were removed from package.json file and with more optimization of the project more node packages can be removed to increase the simplicity of the project.
 
-## Contact
+## Future Desired Features
+   
+   * Further Optimization of the Codebase (including continuation of Flow removal throughout the app, better use of data structures and further improvements to UI/UX).
+   * Forum Board tab feature that allows for Patients to be able to post questions or discussions for Vets to respond to and communicate back and forth.
+   * Map tab feature that can be used for posting lost pets and/or locating nearby shelters and veterinarians.
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+## Sample Photos of App
 
-## Acknowledgements
+   * Welcome
+   * Vet View
+   * Pet View
+   * Add Pet
+   * Pet Detail
+   * Pet Edit
+   * Training Video
+   * Perscription
+   * Diet
+   * Profile
+   * Diagnosis
+   * Diagnosis Results
+   * Diagnosis Details
