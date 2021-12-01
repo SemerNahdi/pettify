@@ -20,6 +20,8 @@ This project is an iOS based app using React Native that is meant to help facili
 
    * [VSCode](https://code.visualstudio.com/) and its built in Terminal was used by most of the team to make changes to the project and install packages
 
+   * [Git](https://git-scm.com) and **GutHub** were used for version control
+
    * This project is mainly tested on iOS and may look and/or preform differently on AndroidOS <br/>
    **(iOS device with ExpoGo app was main source of testing and debugging)**
 
@@ -31,10 +33,13 @@ This project is an iOS based app using React Native that is meant to help facili
    * Due to the previous teams using Flow for type setting and possible debugging, the most popular VSCode extension (Visual Studio IntelliCode, id:visualstudioexptteam.vscodeintellicode) would frequently complain about TypeScript intertwinned with JavaScript. Flow is not a necessary technology and has been slowly removed from the project but not all traces of Flow have been removed, to prevent IntelliCode from constantly complaining about Flow type setting there is a Setting in VSCode that can be disabled to make it easier to navigate and develop called(JavaScript Validate Enable), uncheck this setting to remove the warnings from IntelliCode
 
 ### Setting up Firebase data
-   - Start a Firebase project at your [Firebase Console](https://console.firebase.google.com) and copy the credentails from Project Settings from your Firebase project to src/components/Firebase.js so that the app can communicate with Firebase
 
-   - Make sure the Firebase project make has Authentication through Email/Password as the Sign-in method. 
-   -This is optional for Firestore but to prevent Firebase sending warning that Firestore rules are not strong enough you can set the rules to be as follows with an updated date
+   * Start a Firebase project at your [Firebase Console](https://console.firebase.google.com) and copy the credentails from Project Settings from your Firebase project to src/components/Firebase.js so that the app can communicate with Firebase
+
+   * Make sure the Firebase project make has Authentication through Email/Password as the Sign-in method. 
+
+   * This is optional for Firestore but to prevent Firebase sending warning that Firestore rules are not strong enough you can set the rules to be as follows with an updated date
+
       ```
       rules_version = '2';
       service cloud.firestore {
@@ -47,7 +52,7 @@ This project is an iOS based app using React Native that is meant to help facili
       }
       ```
 
-   - The first time this app is ran on a Firebase project, comment out the data injection code located in src/components/Firebase.js, this code will initialize the disease information data for the pet diagnosis feature. It will also create an admin in Firebase with <br />
+   * The first time this app is ran on a Firebase project, comment out the data injection code located in src/components/Firebase.js, this code will initialize the disease information data for the pet diagnosis feature. It will also create an admin in Firebase with <br />
    default username: "ad.min" <br />
    default password: "temp123" <br />
    and is reccomended that the password is changed before deploying the app publicly. <br />
@@ -56,17 +61,22 @@ This project is an iOS based app using React Native that is meant to help facili
 
       **Be sure to comment this code after running the app for the first time to prevent any issues with Firebase in the future**
 
-   - The admin account is the only account that can create vets, while other admin account can be created
+   * The admin account is the only account that can create vets, while other admin account can be created
    through Firebase it is advised that the amount of admin be kept to a minimums. 
 
 ### Mac
+
    This step is optional for Mac users that want to use the built-in iOS simulator
    and involves using Homebrew to install Watchman for easier use of the emulator **(results may vary)**
+
    * Homebrew
+
       ```sh
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
       ```
+
    * Watchman
+
       ```sh
 
       ```
@@ -97,20 +107,47 @@ This project is an iOS based app using React Native that is meant to help facili
    expo init pet-care
    ```
 
-<!-- GETTING STARTED -->
-## Getting Started
--The main entry point for the App is the App.js file
--We use Expo for development and yarn
+## Accomplishments
+   
+   * UI, UX and Theme
 
-<!-- ROADMAP -->
-## Roadmap
+      - The background has been changed to match the theme of the app and its purpose.
+      - The look of the touchable pet items has been redesigned to look more appealing and organized. The layout of the pet item is more focused on being readable and contain relevant information.
+      - Diagnosis Result items were made to contrast more against the new background pattern.
+      - Diagnosis Tool buttons and labels were changed to react to what pet is selected to improve the user experience. This way the user knows which pet they are trying to diagnose at all times
+      - All dropdowns throughout the app have been changed to a new dropdown that looks and work better than all previous ones so that the user experience is as smooth as possible.
+      - The Diagnosis Tool Dropdown was remade with another package to make it more consistent with the rest of the app dropdowns, the search feature of the dropdown looks better and no longer overlaps with the dropdown toggle,
+      - Pet Diet Screen buttons were redesigned so that they toggle on and off visibly, were before the buttons did not toggle nor did they show if they were selected or not. 
+      - Adding Pets and Editing Pet information UI/UX was redesigned and made consistent between them. Text boxes were made to match new and improved dropdowns and buttons were added on simple options.
+      
+      <br/>
 
-<Whatever we have planned to do on this iteration of the app and what we want the next team to complete>
+   * Functionality
 
-<!-- CONTACT -->
+      - Vet view was implemented so that vets have access to Patients and their Pets so that they can provide perscriptions, diets, and lab documents effectively
+      - Admin account that is the only account type that has the ability to create Vets and still has all the functionality of a Vet account
+      - Data on screen automatically refreshes when data is changed for a Patient or Pet, this makes the app feel responsive and live when using the app. Before to see any changes you had to re-navigate to the screen and in some cases this meant signing out and back into the account
+      - Forgot Password option on Login Screen so that users can reset their password if they lose their information or for new vets to create a secure login
+      - Additions to Profile and Settings screen were address information can be stored. Both email and deletion of profile needs user password confirmation to proceed
+
+      <br/>
+
+   * Database
+
+      - Efficiency added so that data stored on Firebase Firestore is more simple and contains more relevant information and less unused information.
+      - Organization added to Firebase Storage where data is stored with no waste in mind. If a profile or pet picture is changed the previous photo file is deleted from the database before the new one is uploaded. This also works for when a pet or profile is deleted, all data tied to the user and all their pets is deleted from all areas of the Firebase database. The main reason for this system is to prevent an overflow or if any unused data in the database
+      - Data injection is now included in the project itself, all data relating to the diseases is uploaded to the linked Firebase project, as well as a default admin profile is added for ease of use to start creating vets and use the app at full functionality
+      - Additional disease data was added to data injection for Birds, where there was no none before
+      - Pet Diet and Prescription data is now stored chronologically and allows for it to be read in the app in chronological order which now ensures that the data can be looked at correctly with the most relevant data at the top
+
+      <br/>
+
+   * Codebase Improvements
+
+   * Code organization (Removing unused files, removing syntax that is not needed and complicated codebase, re organzing some data structures and how data is loaded and read, removal of excess and unused packages) involves the start of Flow removal,  while it is not 100% sure that all can be removed, it is clear that in most situations it only decreases the readability of code]
+
 ## Contact
 
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
-<!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
