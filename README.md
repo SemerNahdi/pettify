@@ -53,7 +53,7 @@ This project is an iOS based app using React Native that is meant to help facili
       ```
 
    * The first time this app is ran on a Firebase project, comment out the data injection code located in src/components/Firebase.js, this code will initialize the disease information data for the pet diagnosis feature. It will also create an admin in Firebase with <br />
-   default username: "ad.min" <br />
+   default username: "ad@min.com" <br />
    default password: "temp123" <br />
    and is reccomended that the password is changed before deploying the app publicly. <br />
 
@@ -73,12 +73,6 @@ This project is an iOS based app using React Native that is meant to help facili
 
       ```sh
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-      ```
-
-   * Watchman
-
-      ```sh
-
       ```
 
 ## Installation
