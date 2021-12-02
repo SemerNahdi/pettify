@@ -1,54 +1,37 @@
-// @flow
-import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View} from "react-native";
-
-import {Firebase, TextField, Switch, Theme, Text} from "../components";
-import type {NavigationProps} from "../components/Types";
-
-import SignUpStore from "./SignUpStore";
+import {Firebase, TextField, Text, Theme} from "../components";
 import SignUpContainer from "./SignUpContainer";
 
-type PasswordResetState = {
-    email: string
-};
-
-export default class PasswordReset extends React.Component<NavigationProps<*>, PasswordResetState> {
+export default class PasswordReset extends React.Component {
 
     state = {
         email: ""
     };
 
-    @autobind
-    setEmail(email: string) {
+    setEmail = (email) => {
         this.setState({ email });
     }
 
-    @autobind
-    next() {        
+    next = () => {        
         const {email} = this.state;
+
         if (email === "") {
-            // eslint-disable-next-line
             alert("Please provide an email.");
-        } else {
+        } 
+        else {
             const auth = Firebase.auth;
             auth.sendPasswordResetEmail(email)
             .then(() => {
-                // Password reset email sent!
-                // ..
                 this.props.navigation.pop();
-                console.log("Reset password email sent!");
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorMessage);
-                // ..
+                alert(error.message);
             });
         }
     }
 
-    render(): React.Node {
+    render() {
         const {navigation} = this.props;
         return (
             <SignUpContainer 
@@ -61,22 +44,39 @@ export default class PasswordReset extends React.Component<NavigationProps<*>, P
                 <View style={styles.container}>
                     <Text style={styles.text}>Please enter the email address associated with your account</Text>
                 </View>
-                <TextField 
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    contrast
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="go"
-                    onSubmitEditing={this.next}
-                    onChangeText={this.setEmail}
-                />
+                <View style={styles.textContainer}>
+                    <TextField 
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        contrast
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        onSubmitEditing={this.next}
+                        onChangeText={this.setEmail}
+                        style={styles.input}
+                    />
+                </View>
             </SignUpContainer>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    input: {
+        height: 30,
+        margin: 2,
+        textAlign: 'left'
+    },
+    textContainer: {
+        paddingVertical: 7,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.lightGray,
+        borderRadius: 8,
+        marginTop: 8,
+        marginBottom: 20
+    },
     container: {
         flexDirection: 'row',
     },

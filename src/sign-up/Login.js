@@ -1,24 +1,12 @@
-// @flow
-import autobind from "autobind-decorator";
 import * as React from "react";
-import { StyleSheet, TextInput, Text, TouchableOpacity, View, Dimensions} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons";
 import SignUpContainer from "./SignUpContainer";
-
 import {TextField, Firebase, Theme} from "../components";
-import type {NavigationProps} from "../components/Types";
 
-type LoginState = {
-    email: string,
-    password: string,
-    loading: boolean,
-    icon: string,
-    passView: boolean
-};
+export default class Login extends React.Component {
 
-export default class Login extends React.Component<NavigationProps<*>, LoginState> {
-
-    state: LoginState = {
+    state = {
         email: "",
         password: "",
         loading: false,
@@ -26,59 +14,45 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
         passView: true
     };
 
-    password: TextInput;
-
-    @autobind
-    setEmail(email: string) {
+    setEmail = (email) => {
         this.setState({ email });
     }
 
-    @autobind
-    setPassword(password: string) {
+    setPassword = (password) => {
         this.setState({ password });
     }
 
-    @autobind
-    setPasswordRef(input: TextInput) {
+    //refs
+    setPasswordRef = (input) => {
         this.password = input;
     }
 
-    @autobind
-    goToPassword() {
+    //go-tos
+    goToPassword = () => {
         this.password.focus();
     }
 
-    @autobind
-    setIcon(icon: string) {
-        this.setState({ icon });
-    }
-
-    @autobind
-    setPassView(passView: boolean) {
-        this.setState({ passView });
-    }
-
-    @autobind
-    async login(): Promise<void> {
+    login = async () => {
         const {email, password} = this.state;
-        try {
-            if (email === "") {
-                throw new Error("Please provide an email address.");
+        if (email === "") {
+            alert("Please provide an email address.");
+        }
+        else if (password === "") {
+            alert("Please provide a password.");
+        }
+        else{
+            try {
+                this.setState({ loading: true });
+                await Firebase.auth.signInWithEmailAndPassword(email, password);
+            } 
+            catch(error) {
+                alert(error);
+                this.setState({ loading: false });
             }
-            if (password === "") {
-                throw new Error("Please provide a password.");
-            }
-            this.setState({ loading: true });
-            await Firebase.auth.signInWithEmailAndPassword(email, password);
-        } catch (e) {
-            // eslint-disable-next-line no-alert
-            alert(e);
-            this.setState({ loading: false });
         }
     }
 
-    @autobind
-    passwordReset() {
+    passwordReset = () => {
         this.props.navigation.navigate("PasswordReset");
     }
 
@@ -89,11 +63,10 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
         }));
      }
 
-    render(): React.Node {
+    render() {
         const {navigation} = this.props;
-        const {loading} = this.state;
-        const {icon} = this.state;
-        const {passView} = this.state;
+        const {loading, icon, passView} = this.state;
+
         return (
             <SignUpContainer
                 title="Login"
@@ -103,31 +76,35 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
                 first
                 {...{ navigation, loading }}
             >
-                <TextField
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    contrast
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    returnKeyType="next"
-                    onSubmitEditing={this.goToPassword}
-                    onChangeText={this.setEmail}
-                />
-                <View style={{flexDirection:"row"}}>
+                <View style={styles.textContainer}>
                     <TextField
-                        secureTextEntry= {passView}
-                        placeholder="Password"
+                        placeholder="Email"
+                        keyboardType="email-address"
                         contrast
                         autoCapitalize="none"
                         autoCorrect={false}
-                        returnKeyType="go"
-                        textInputRef={this.setPasswordRef}
-                        onSubmitEditing={this.login}
-                        onChangeText={this.setPassword}
-                        style={styles.textInput}
+                        returnKeyType="next"
+                        onSubmitEditing={this.goToPassword}
+                        onChangeText={this.setEmail}
+                        style={styles.input}
                     />
-                
-                    <Icon name= {icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={{paddingTop:13, marginLeft:10}}/>
+                </View>
+                <View style={styles.flexRow}>
+                    <View style={styles.passContainer}>
+                        <TextField
+                            secureTextEntry={passView}
+                            placeholder="Password"
+                            contrast
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            returnKeyType="go"
+                            textInputRef={this.setPasswordRef} 
+                            onSubmitEditing={this.login}
+                            onChangeText={this.setPassword}
+                            style={styles.input}
+                        />
+                    </View>
+                    <Icon name={icon} color= '#00aced' size= {25} onPress= {() => this.onPressEye()} style={styles.icon}/>
                 </View>
                 <View style={styles.container}>
                     <TouchableOpacity onPress={this.passwordReset}>
@@ -140,24 +117,41 @@ export default class Login extends React.Component<NavigationProps<*>, LoginStat
 }
 
 const styles = StyleSheet.create({
-    textInput: {
-        borderColor: Theme.palette.borderColor,
+    input: {
+        height: 30,
+        margin: 2,
+        textAlign: 'left'
+    },
+    textContainer: {
+        paddingVertical: 7,
+        paddingHorizontal: 10,
         borderWidth: 1,
-        borderRadius: 3,
-        ...Theme.typography.regular,
-        color: Theme.typography.color,
-        padding: Theme.spacing.small,
-        marginBottom: Theme.spacing.base,
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.03,
-        shadowRadius: 1,
+        borderColor: Theme.palette.lightGray,
+        borderRadius: 8,
+        marginVertical: 8
+    },
+    passContainer: {
+        paddingVertical: 7,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: Theme.palette.lightGray,
+        borderRadius: 8,
+        marginTop: 8,
+        marginBottom: 15,
         width: "85%"
+    },
+    flexRow: {
+        flexDirection: "row"
+    },
+    icon: {
+        paddingTop:13, 
+        marginLeft:10
     },
     container: {
         flexDirection: 'row',
         height: Theme.spacing.base * 1.2,
         justifyContent: 'center',
+        marginBottom: 5
     },
     text: {
         color: 'gray',

@@ -14,7 +14,7 @@ import { Firebase } from "./src/components";
 import type { ScreenProps } from "./src/components/Types";
 
 import { Welcome } from "./src/welcome";
-import { PasswordReset, SignUpName, SignUpEmail, SignUpPassword, Login, SignUpVet } from "./src/sign-up";
+import { PasswordReset, SignUp, Login, SignUpVet } from "./src/sign-up";
 import {
     Profile,
     HomeTab,
@@ -229,9 +229,7 @@ const VetNavigator = createBottomTabNavigator(
 
 const SignUpNavigator = createStackNavigator(
     {
-        SignUp: { screen: SignUpName },
-        SignUpEmail: { screen: SignUpEmail },
-        SignUpPassword: { screen: SignUpPassword }
+        SignUp: { screen: SignUp },
     },
     StackNavigatorOptions
 );
