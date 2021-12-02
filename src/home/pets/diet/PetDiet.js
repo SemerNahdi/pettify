@@ -329,9 +329,8 @@ export default class PetDiet extends Component<> {
               return(
                 <View key={k} style={styles.dietContainer}>
                   <Text> Diet: {element.diet}</Text>
-                  <Text> Diet Details: {element.dietDetails}</Text>
+                  <Text> Details: {element.dietDetails}</Text>
                   <Text> Date: {element.date}</Text>
-                  <Separator/>
                 </View>
               )
             })
@@ -350,9 +349,8 @@ export default class PetDiet extends Component<> {
               return (
                 <View key={k} style={styles.dietContainer}>
                   <Text> Diet: {element.diet}</Text>
-                  <Text> Diet Details: {element.dietDetails}</Text>
+                  <Text> Details: {element.dietDetails}</Text>
                   <Text> Date: {element.date}</Text>
-                  <Separator/>
                 </View>
               )
             })
@@ -382,7 +380,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.white,
     borderRadius: 10,
     marginHorizontal: 10,
-    marginVertical: 5
+    marginVertical: 4
 
   },
   textContainer: {

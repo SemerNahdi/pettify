@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         padding: Theme.spacing.base,
     },
     innerContainer: {
-        height: height - (Theme.spacing.base * 3),
+        height: height - (Theme.spacing.base * 6),
         justifyContent: "center",
     }
 });

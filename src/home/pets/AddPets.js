@@ -343,9 +343,9 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       marginVertical: 3
     },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginVertical: 3
-  },
+    inputContainer: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        marginVertical: 3
+    },
 });

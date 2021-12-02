@@ -270,7 +270,8 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   item: {
-    margin:15,
+    marginHorizontal:15,
+    marginVertical: 4,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: Theme.palette.white,
