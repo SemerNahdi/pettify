@@ -44,7 +44,7 @@ export default class Login extends React.Component {
             try {
                 this.setState({ loading: true });
                 await Firebase.auth.signInWithEmailAndPassword(email, password);
-            } 
+            }
             catch(error) {
                 alert(error);
                 this.setState({ loading: false });
@@ -98,7 +98,7 @@ export default class Login extends React.Component {
                             autoCapitalize="none"
                             autoCorrect={false}
                             returnKeyType="go"
-                            textInputRef={this.setPasswordRef} 
+                            textInputRef={this.setPasswordRef}
                             onSubmitEditing={this.login}
                             onChangeText={this.setPassword}
                             style={styles.input}
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     icon: {
-        paddingTop:13, 
+        paddingTop:13,
         marginLeft:10
     },
     container: {

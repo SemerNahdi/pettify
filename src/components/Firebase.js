@@ -5,14 +5,15 @@ import "firebase/storage";
 import { Theme } from "./Theme";
 
 const config = {
-    apiKey: "AIzaSyDgjlwvunby9HGz2Ta9U54QrofJygdHITk",
-    authDomain: "pet-care-71816.firebaseapp.com",
-    projectId: "pet-care-71816",
-    storageBucket: "pet-care-71816.appspot.com",
-    messagingSenderId: "42465066973",
-    appId: "1:42465066973:web:9966a68e49db0856950034",
-    measurementId: "G-EZ517186ML",
+    apiKey: "AIzaSyBFDl3OfOqj8lU9vN4ygmDYBD7XJG_xO1I",
+    authDomain: "pettify-af8a3.firebaseapp.com",
+    projectId: "pettify-af8a3",
+    storageBucket: "pettify-af8a3.firebasestorage.app",
+    messagingSenderId: "656499741407",
+    appId: "1:656499741407:android:2fe5ec4c5f65f25dcdcf6a",
+    measurementId: "9892994799",
 };
+
 
 export default class Firebase {
     
@@ -27,7 +28,7 @@ export default class Firebase {
         Firebase.firestore = firebase.firestore();
         Firebase.storage = firebase.storage();
         Firebase.config = config;
-        /*
+ /*
         //Start of default admin creation
         try{
             var adminCreation = firebase.initializeApp(config, "ADMIN");
@@ -594,7 +595,8 @@ export default class Firebase {
                 "Dogs, cats and ferrets that have never been vaccinated and are exposed to a rabid animal may need to be euthanatized in accordance with regulations or placed in strict isolation for six months.",
             ]
         })
-        //End of diseaseDetails data injection 
-        */
+        //End of diseaseDetails data injection
+
+          */
     }
 }

@@ -24,7 +24,7 @@ export default class PetDetailView extends Component {
   constructor(props)
   {
     super(props);
-    
+
     this.tels = [
       { "id": 1, "name": "Office", "number": "+1 (305)-928-2134" },
       { "id": 2, "name": "Work", "number": "+1 (305)-435-9887" }
@@ -36,7 +36,7 @@ export default class PetDetailView extends Component {
     this.state = {
       loading: true,
       avatar: Theme.links.defaultImage,
-      avatarBackground: Theme.links.defaultImage, 
+      avatarBackground: Theme.links.defaultImage,
       name: null,
       breed: null,
       weight: null,
@@ -50,9 +50,10 @@ export default class PetDetailView extends Component {
       spayNeuter_Status: null,
       pregnancy: null,
       lactating: null,
+      feedingTimes:{},
       petBiology: {"species": "Miami", "breed": "Florida"},
     };
-      
+
     navigation = this.props.navigation;
     uid = navigation.state.params.uid;
     pet_uid  = navigation.state.params.pet_uid;
@@ -83,9 +84,10 @@ export default class PetDetailView extends Component {
           size: doc.data().size,
           activity: doc.data().activity,
           classification: doc.data().classification,
-          spayNeuter_Status: doc.data().spayNeuter_Status, 
+          spayNeuter_Status: doc.data().spayNeuter_Status,
           pregnancy: doc.data().pregnancy,
           lactating: doc.data().lactating,
+          feedingTimes: doc.data().feedingTimes || {},
         });
 
         if(doc.data().pic == "null")
@@ -124,6 +126,36 @@ export default class PetDetailView extends Component {
   handleLoading = (bool) => {
     this.setState({loading: bool})
   }
+  renderFeedingTimes() {
+      const { feedingTimes, quantity } = this.state;
+
+      // If no feeding times are available
+      if (!feedingTimes || Object.keys(feedingTimes).length === 0) {
+        return <Text>No feeding times available</Text>;
+      }
+
+      // Sort feeding times by key (timestamp or numeric value) if needed
+      const sortedTimes = Object.keys(feedingTimes).sort((a, b) => a - b);  // Sorting by the keys
+
+      return sortedTimes.map((key, index) => (
+        <View key={index} style={styles.feedingTimeContainer}>
+          <View style={styles.feedingTimeContent}>
+            <Icon
+              name="clock"
+              type="font-awesome"
+              size={20}
+              color={Theme.palette.primary}
+              style={styles.feedingTimeIcon}
+            />
+            <Text style={styles.feedingTimeText}>
+              Feeding Time {index + 1}: {feedingTimes[key]}
+            </Text>
+          </View>
+
+        </View>
+      ));
+    }
+
 
   @autobind
   goBackToPets() {
@@ -155,7 +187,7 @@ export default class PetDetailView extends Component {
   goToDiet() {
     navigation.navigate("PetDiet", { pet_uid, uid });
   }
-  
+
   onPressPlace = () => {
     console.log('place')
   }
@@ -174,12 +206,13 @@ export default class PetDetailView extends Component {
     )
   }
 
+
   renderHeader = () => {
     const {
       avatar,
       avatarBackground,
       name,
-      species, 
+      species,
       breed
     } = this.state
 
@@ -290,19 +323,22 @@ export default class PetDetailView extends Component {
           <View style={{paddingBottom: 10}}>
             <Text type="header3" style={styles.petText}> Pet Information </Text>
             <Text> Age Group: {this.state.age}</Text>
+
             <Text> Size: {this.state.size}</Text>
             <Text> Weight (kg): {this.state.weight}</Text>
             <Text> Level of Activty: {this.state.activity}</Text>
             <Text> Years Owned: {this.state.yearsOwned}</Text>
             <Text> Living Space: {this.state.classification}</Text>
             <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
-            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" && 
+            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
             <>
               <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
               <Text> Duration of Lactation: {this.state.lactating}</Text>
             </>
             }
           </View>
+          <Text type="header3" style={styles.petText}>Feeding Times</Text>
+                        {this.renderFeedingTimes()}
 
           {Separator()}
 
@@ -317,22 +353,22 @@ export default class PetDetailView extends Component {
 
           <View style={styles.buttonContent}>
             <View style={styles.buttonContainer}>
-              <Button label={"View Training Videos on " + this.state.breed + "'s"} 
+              <Button label={"View Training Videos on " + this.state.breed + "'s"}
                       style="secondary" onPress={this.goToTrainingScreen}/>
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button label={"View Lab Documents for " + this.state.name} 
+              <Button label={"View Lab Documents for " + this.state.name}
                       style="secondary" onPress={this.goToLabResults}/>
             </View>
-            
+
             <View style={styles.buttonContainer}>
-              <Button label={"View Prescriptions for " + this.state.name} 
+              <Button label={"View Prescriptions for " + this.state.name}
                       style="secondary" onPress={this.goToPrescription}/>
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button label={"View Recommended Diet for " + this.state.name} 
+              <Button label={"View Recommended Diet for " + this.state.name}
                       style="secondary" onPress={this.goToDiet}/>
             </View>
           </View>
@@ -355,8 +391,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonContainer: {
-    flexDirection:"row", 
-    justifyContent:"center", 
+    flexDirection:"row",
+    justifyContent:"center",
     marginBottom: 15
   },
   buttonContent: {

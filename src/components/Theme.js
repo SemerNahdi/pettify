@@ -1,29 +1,29 @@
 const theme = {
     palette: {
-        primary: "#81f1f7",
-        info: "#00A699",
-        secondary: "#9dffb0",
-        success: "#5cb85c",
-        danger: "#d93900",
-        warning: "#FFF563",
-        sidebar: "#484848",
-        lightGray: "#BFBFBF",
-        borderColor: "#F5F5F5",
+        primary: "#d9e7eb", // Pastel version of #81f1f7
+        info: "#A4D6D2", // Pastel version of #00A699
+        secondary: "#c2f1e4", // Pastel version of #9dffb0
+        success: "#b2e0b2", // Pastel version of #5cb85c
+        danger: "#f5b2a3", // Pastel version of #d93900
+        warning: "#FFF9D1", // Pastel version of #FFF563
+        sidebar: "#2c2c2c", // Darker gray for a chic look
+        lightGray: "#D3D3D3", // Softer gray for a chic aesthetic
+        borderColor: "#E0E0E0", // Light gray for borders
         white: "#FFFFFF",
         black: "#000000",
         transparent: "#FFFFFF00",
-        washedBlue: "#B6C5C6",
-        leafGreen: "#0dbf0d",
-        skyBlue: "#71b6f7",
-        maleBlue: "#009dff",
-        femalePink: "#e75480",
-        dogBlue: "#0080ff",
-        catOrange: "#ffb347",
-        birdRed: "#c93335",
-        darkgray: "#6F7378",
+        washedBlue: "#D9E1E2", // Pastel version of #B6C5C6
+        leafGreen: "#A8E0A8", // Pastel version of #0dbf0d
+        skyBlue: "#A6C6E7", // Pastel version of #71b6f7
+        maleBlue: "#A3C6E8", // Pastel version of #009dff
+        femalePink: "#F2A6B8", // Pastel version of #e75480
+        dogBlue: "#A2C2E8", // Pastel version of #0080ff
+        catOrange: "#FFC5A3", // Pastel version of #ffb347
+        birdRed: "#F3B2B2", // Pastel version of #c93335
+        darkgray: "#B0B3B8", // Softer dark gray for a chic aesthetic
     },
     typography: {
-        color: "#555555",
+        color: "#333333", // Darker gray for typography
         bold: "SFProText-Bold",
         semibold: "SFProText-Semibold",
         normal: "SFProText-Medium",
