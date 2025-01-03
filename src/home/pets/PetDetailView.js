@@ -50,7 +50,8 @@ export default class PetDetailView extends Component {
       spayNeuter_Status: null,
       pregnancy: null,
       lactating: null,
-      feedingTimes:{},
+      feedingTimes:[],
+      feedingLogs:[],
       petBiology: {"species": "Miami", "breed": "Florida"},
     };
 
@@ -87,7 +88,8 @@ export default class PetDetailView extends Component {
           spayNeuter_Status: doc.data().spayNeuter_Status,
           pregnancy: doc.data().pregnancy,
           lactating: doc.data().lactating,
-          feedingTimes: doc.data().feedingTimes || {},
+          feedingTimes: doc.data().feedingTimes || [],
+          feedingLogs : doc.data().feedingLogs ,
         });
 
         if(doc.data().pic == "null")
@@ -120,6 +122,7 @@ export default class PetDetailView extends Component {
             }
           }
           this.setState({loading: false})
+
     })
   }
 
@@ -127,35 +130,55 @@ export default class PetDetailView extends Component {
     this.setState({loading: bool})
   }
   renderFeedingTimes() {
-      const { feedingTimes, quantity } = this.state;
+      const { feedingTimes } = this.state;
 
       // If no feeding times are available
-      if (!feedingTimes || Object.keys(feedingTimes).length === 0) {
+      if (!feedingTimes || feedingTimes.length === 0) {
         return <Text>No feeding times available</Text>;
       }
+        return feedingTimes.map((feedingTime, index) => (
+          <View key={index} style={styles.feedingTimeContainer}>
+            <View style={styles.feedingTimeCard}>
 
-      // Sort feeding times by key (timestamp or numeric value) if needed
-      const sortedTimes = Object.keys(feedingTimes).sort((a, b) => a - b);  // Sorting by the keys
-
-      return sortedTimes.map((key, index) => (
-        <View key={index} style={styles.feedingTimeContainer}>
-          <View style={styles.feedingTimeContent}>
-            <Icon
-              name="clock"
-              type="font-awesome"
-              size={20}
-              color={Theme.palette.primary}
-              style={styles.feedingTimeIcon}
-            />
-            <Text style={styles.feedingTimeText}>
-              Feeding Time {index + 1}: {feedingTimes[key]}
-            </Text>
+              <View style={styles.feedingTimeDetails}>
+                <Text style={styles.feedingTimeLabel}>Feeding Time {index + 1}</Text>
+                <Text style={styles.feedingTimeText}>
+                  <Text style={styles.feedingTimeSubText}>Time:</Text> {feedingTime.feedingTime}
+                </Text>
+                <Text style={styles.feedingTimeText}>
+                  <Text style={styles.feedingTimeSubText}>Quantity:</Text> {feedingTime.quantity}
+                </Text>
+              </View>
+            </View>
           </View>
+        ));
+    }
+renderFeedingLogs() {
+    const { feedingLogs } = this.state;
 
-        </View>
-      ));
+    // If no feeding logs are available
+    if (!feedingLogs || feedingLogs.length === 0) {
+        return <Text>No feeding logs available</Text>;
     }
 
+    // Map over the feeding logs and render them
+    return feedingLogs.map((log, index) => (
+        <View key={index} style={styles.feedingLogContainer}>
+            <View style={styles.feedingLogCard}>
+                <Text style={styles.feedingLogDate}>Date: {log.date}</Text>
+                <Text style={styles.feedingLogDetails}>
+                    <Text style={styles.feedingLogLabel}>Time:</Text> {log.feedingTime}
+                </Text>
+                <Text style={styles.feedingLogDetails}>
+                    <Text style={styles.feedingLogLabel}>Quantity:</Text> {log.quantity}
+                </Text>
+                <Text style={styles.feedingLogDetails}>
+                    <Text style={styles.feedingLogLabel}>Ate:</Text> {log.ate ? 'Yes' : 'No'}
+                </Text>
+            </View>
+        </View>
+    ));
+}
 
   @autobind
   goBackToPets() {
@@ -340,7 +363,12 @@ export default class PetDetailView extends Component {
           <Text type="header3" style={styles.petText}>Feeding Times</Text>
                         {this.renderFeedingTimes()}
 
+{Separator()}
+
+<Text type="header3" style={styles.petText}>Feeding Logs</Text>
+{this.renderFeedingLogs()}
           {Separator()}
+
 
           <Text type="header3" style={styles.petText}> Veterinary Contact Information </Text>
           {this.renderTel()}
@@ -456,4 +484,68 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     textAlign: 'center',
   },
+  feedingTimeContainer: {
+      marginBottom: 15, // Adds spacing between each feeding time entry
+    },
+    feedingTimeCard: {
+      flexDirection: 'row', // Aligning icon and details horizontally
+      backgroundColor: '#fff', // White background
+      borderWidth: 1, // Black border
+      borderColor: '#000', // Black border color
+      borderRadius: 10, // Rounded corners
+      padding: 10, // Padding inside the card
+      shadowColor: '#000', // Shadow for depth
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 3, // Elevation for Android
+      alignItems: 'center', // Center items vertically
+    },
+    feedingTimeIcon: {
+      marginRight: 15, // Space between icon and text
+      color: '#000', // Black icon color
+    },
+    feedingTimeDetails: {
+      flex: 1, // Take up the remaining space
+    },
+    feedingTimeLabel: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#000', // Black text
+      marginBottom: 5,
+    },
+    feedingTimeText: {
+      fontSize: 14,
+      color: '#000', // Black text
+    },
+    feedingTimeSubText: {
+      fontWeight: 'bold', // Make "Time" and "Quantity" bold
+      color: '#000', // Black text
+    },feedingLogContainer: {
+          marginVertical: 10,
+          padding: 10,
+          borderRadius: 10,
+          backgroundColor: '#f9f9f9',
+          shadowColor: '#000',
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          shadowOffset: { width: 0, height: 2 },
+          elevation: 2,
+      },
+      feedingLogCard: {
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+      },
+      feedingLogDate: {
+          fontWeight: 'bold',
+          fontSize: 16,
+          marginBottom: 5,
+      },
+      feedingLogDetails: {
+          fontSize: 14,
+          marginBottom: 2,
+      },
+      feedingLogLabel: {
+          fontWeight: 'bold',
+      },
+
 })

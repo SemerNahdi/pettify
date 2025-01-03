@@ -42,7 +42,7 @@ export default class EditScreen extends React.Component {
       spayNeuter_Status: null,
       pregnancy: null,
       lactating: null,
-      feedingTimes: {},
+      feedingTimes: [],
       feedingTime: null,
       quantity: null,
     };
@@ -80,7 +80,7 @@ export default class EditScreen extends React.Component {
           spayNeuter_Status: doc.data().spayNeuter_Status,
           pregnancy: doc.data().pregnancy,
           lactating: doc.data().lactating,
-          feedingTimes: doc.data().feedingTimes || {},
+          feedingTimes: doc.data().feedingTimes || [],
         });
 
         if (doc.data().pic == "null") {
@@ -134,6 +134,7 @@ export default class EditScreen extends React.Component {
         navigation.state.params.onGoBack();
         navigation.goBack();
       });
+
   }
 
   chooseFile = async () => {
@@ -269,38 +270,39 @@ export default class EditScreen extends React.Component {
   }
 
   handleAddFeedingTime = () => {
-    const { quantity, feedingTime } = this.state;
+      const { quantity, feedingTime } = this.state;
 
-    // Basic validation to check if both fields are filled
-    if (quantity && feedingTime) {
-      // Check if the feeding time format is correct (HH:mm)
-      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-      if (!timeRegex.test(feedingTime)) {
-        alert("Please enter the time in HH:mm format.");
-        return;
+      // Basic validation to check if both fields are filled
+      if (quantity && feedingTime) {
+        // Check if the feeding time format is correct (HH:mm)
+        const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!timeRegex.test(feedingTime)) {
+          alert("Please enter the time in HH:mm format.");
+          return;
+        }
+
+        // Add the feeding time to the state as an object with quantity and feedingTime
+        this.setState(prevState => ({
+          feedingTimes: [
+            ...prevState.feedingTimes,
+            { quantity, feedingTime } // Store both quantity and feedingTime
+          ],
+          feedingTime: '',  // Clear the feeding time input field
+          quantity: '',     // Clear the quantity input field
+        }));
+      } else {
+        alert('Please enter both Quantity and Feeding Time');
       }
-
-      // Add the feeding time to the state with quantity as the key
-      this.setState(prevState => ({
-        feedingTimes: {
-          ...prevState.feedingTimes,
-          [quantity]: feedingTime,  // Store the time with quantity as the key
-        },
-        feedingTime: '',  // Clear the feeding time input field
-        quantity: '',     // Clear the quantity input field
-      }));
-    } else {
-      alert('Please enter both Quantity and Feeding Time');
-    }
   };
 
-  handleRemoveFeedingTime = (quantity) => {
-    this.setState(prevState => {
-      const feedingTimes = { ...prevState.feedingTimes }; // Make a copy of the feedingTimes object
-      delete feedingTimes[quantity];  // Remove the key (quantity)
-      return { feedingTimes };
-    });
+  handleRemoveFeedingTime = (index) => {
+      this.setState(prevState => {
+          const feedingTimes = [...prevState.feedingTimes]; // Make a copy of the feedingTimes array
+          feedingTimes.splice(index, 1); // Remove the item at the specified index
+          return { feedingTimes };
+      });
   };
+
 
 
   updateSpecies(species) {
@@ -587,15 +589,15 @@ export default class EditScreen extends React.Component {
               </View>
 
               <Text>Feeding Times:</Text>
-              {Object.keys(this.state.feedingTimes).map((quantity) => (
-                <View key={quantity} style={styles.feedingTimeContainer}>
+              {this.state.feedingTimes.map((item, index) => (
+                <View key={index} style={styles.feedingTimeContainer}>
                   <View style={styles.inputContainerfeed}>
                     {/* Label for Quantity */}
                     <Text style={styles.label}>Quantity:</Text>
                     <TextInput
                       style={styles.inputFieldfeed}
-                      value={quantity}
-                      onChangeText={(text) => this.handleQuantityChange(quantity, text)}
+                      value={item.quantity}
+                      onChangeText={(text) => this.handleQuantityChange(index, text)} // Update feedingTimes based on index
                       placeholder="Enter quantity"
                       keyboardType="numeric"
                     />
@@ -604,20 +606,20 @@ export default class EditScreen extends React.Component {
                     <Text style={styles.label}>Time:</Text>
                     <TextInput
                       style={styles.inputFieldfeed}
-                      value={this.state.feedingTimes[quantity]}
-                      onChangeText={(text) => this.handleFeedingTimeChange(quantity, text)}
+                      value={item.feedingTime}
+                      onChangeText={(text) => this.handleFeedingTimeChange(index, text)} // Update feedingTimes based on index
                       placeholder="Enter time"
                     />
                   </View>
 
                   {/* Trash Button */}
-                  <TouchableOpacity onPress={() => this.handleRemoveFeedingTime(quantity)}>
+                  <TouchableOpacity onPress={() => this.handleRemoveFeedingTime(index)}>
                     <FontAwesome5 name="trash" size={20} color={Theme.palette.danger} />
                   </TouchableOpacity>
                 </View>
               ))}
 
-              <Text>scheduling feeding time </Text>
+              <Text>Scheduling Feeding Time:</Text>
               {/* Quantity Input */}
               <View style={styles.textContainer}>
                 <TextInput
@@ -646,12 +648,13 @@ export default class EditScreen extends React.Component {
               {/* Add Feeding Time Button */}
               <TouchableOpacity
                 onPress={() => {
-                  this.handleAddFeedingTime(this.state.quantity, this.state.feedingTime); // Call the method with quantity and feeding time
+                  this.handleAddFeedingTime(); // Call the method without quantity and feeding time arguments
                 }}
                 style={styles.addButton}
               >
                 <Text>Add Feeding Time</Text>
               </TouchableOpacity>
+
 
               {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
                 <>

@@ -196,6 +196,7 @@ const PatientsNavigator = createStackNavigator(
         ViewDocuments: { screen: ViewDocuments },
         PetPrescription: { screen: PetPrescription },
         PetDiet: { screen: PetDiet }
+
     },
     StackNavigatorOptions
 );
