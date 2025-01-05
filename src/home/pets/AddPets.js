@@ -59,14 +59,14 @@ export default class AddPets extends React.Component {
             }
 
             // Add the feeding time to the state with quantity as the key
-             this.setState(prevState => ({
-                        feedingTimes: [
-                            ...prevState.feedingTimes,
-                            { quantity, feedingTime } // Store both quantity and feedingTime
-                        ],
-                        feedingTime: '',  // Clear the feeding time input field
-                        quantity: '',     // Clear the quantity input field
-                    }));
+            this.setState(prevState => ({
+                feedingTimes: [
+                    ...prevState.feedingTimes,
+                    { quantity, feedingTime } // Store both quantity and feedingTime
+                ],
+                feedingTime: '',  // Clear the feeding time input field
+                quantity: '',     // Clear the quantity input field
+            }));
         } else {
             alert('Please enter both Quantity and Feeding Time');
         }
@@ -150,73 +150,73 @@ export default class AddPets extends React.Component {
         this.setState({ yearsOwned: text });
     }
 
-   addPetToFireStore = () => {
-       const pet_uid = this.guidGenerator();
-       const pic = "null";
-       const { species, breed, name, age, yearsOwned, sex, activity, weight,
-           classification, spayNeuter_Status, pregnancy, lactating, size, feedingTimes } = this.state;
+    addPetToFireStore = () => {
+        const pet_uid = this.guidGenerator();
+        const pic = "null";
+        const { species, breed, name, age, yearsOwned, sex, activity, weight,
+            classification, spayNeuter_Status, pregnancy, lactating, size, feedingTimes } = this.state;
 
-       // Check if all inputs are filled out
-       const checkForInputs = [species, breed, name, age, yearsOwned, sex, activity, weight,
-           classification, spayNeuter_Status, pregnancy, lactating, size, feedingTimes];
+        // Check if all inputs are filled out
+        const checkForInputs = [species, breed, name, age, yearsOwned, sex, activity, weight,
+            classification, spayNeuter_Status, pregnancy, lactating, size, feedingTimes];
 
-       for (let i = 0; i < checkForInputs.length; i++) {
-           if (checkForInputs[i] == null || checkForInputs[i] === undefined) {
-               alert("Fill all fields");
-               return;
-           }
-       }
+        for (let i = 0; i < checkForInputs.length; i++) {
+            if (checkForInputs[i] == null || checkForInputs[i] === undefined) {
+                alert("Fill all fields");
+                return;
+            }
+        }
 
-       // Function to generate a week's worth of feeding logs based on feedingTimes
-       const generateFeedingLogs = (feedingTimes) => {
-           const logs = [];
-           const today = new Date();
+        // Function to generate a week's worth of feeding logs based on feedingTimes
+        const generateFeedingLogs = (feedingTimes) => {
+            const logs = [];
+            const today = new Date();
 
-           // Loop through each feeding time and generate logs for the next 7 days
-           feedingTimes.forEach((feedingTimeObj) => {
-               const feedingTime = feedingTimeObj.feedingTime;
-               const quantity = feedingTimeObj.quantity;
-               alert(`One day added: Feeding Time: ${feedingTime}, Quantity: ${quantity}`);
+            // Loop through each feeding time and generate logs for the next 7 days
+            feedingTimes.forEach((feedingTimeObj) => {
+                const feedingTime = feedingTimeObj.feedingTime;
+                const quantity = feedingTimeObj.quantity;
+                alert(`One day added: Feeding Time: ${feedingTime}, Quantity: ${quantity}`);
 
-               // Create a log for each day
-               for (let j = 0; j < 7; j++) {
-                   const date = new Date(today);
-                   date.setDate(today.getDate() + j); // Increment the date by j days
+                // Create a log for each day
+                for (let j = 0; j < 7; j++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() + j); // Increment the date by j days
 
-                   const log = {
-                       feedingTime: feedingTime,
-                       quantity: quantity,
-                       ate: Math.random() > 0.5, // You can make this dynamic based on some logic
-                       date: date.toISOString().split('T')[0], // Format as YYYY-MM-DD
-                   };
+                    const log = {
+                        feedingTime: feedingTime,
+                        quantity: quantity,
+                        ate: Math.random() > 0.5, // You can make this dynamic based on some logic
+                        date: date.toISOString().split('T')[0], // Format as YYYY-MM-DD
+                    };
 
-                   logs.push(log);
-                   //alert("one day added");
-               }
-           });
-           return logs;
-       };
+                    logs.push(log);
+                    //alert("one day added");
+                }
+            });
+            return logs;
+        };
 
-       // Ensure feedingLogs is an array and contains valid data
-       const feedingLogs = generateFeedingLogs(feedingTimes);
-       alert(`One day added: Feeding Time: ${feedingLogs}`);
+        // Ensure feedingLogs is an array and contains valid data
+        const feedingLogs = generateFeedingLogs(feedingTimes);
+        alert(`One day added: Feeding Time: ${feedingLogs}`);
 
-       // Add pet to Firestore with feedingLogs array
-       Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
-           species, feedingTimes, breed, name, age, yearsOwned, sex, activity, weight,
-           classification, spayNeuter_Status, pregnancy, lactating, size, pic, uid, feedingLogs
-       })
-       .then(() => {
-           console.log("Pet added to Firestore, pet_uid:", pet_uid);
+        // Add pet to Firestore with feedingLogs array
+        Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
+            species, feedingTimes, breed, name, age, yearsOwned, sex, activity, weight,
+            classification, spayNeuter_Status, pregnancy, lactating, size, pic, uid, feedingLogs
+        })
+            .then(() => {
+                console.log("Pet added to Firestore, pet_uid:", pet_uid);
 
-           // Navigate back
-           navigation.state.params.onGoBack();
-           navigation.goBack();
-       })
-       .catch((error) => {
-           console.error("Error writing document: ", error);
-       });
-   };
+                // Navigate back
+                navigation.state.params.onGoBack();
+                navigation.goBack();
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+    };
 
 
 
@@ -361,14 +361,14 @@ export default class AddPets extends React.Component {
                     {/* Other form fields... */}
 
                     <Text>Feeding Times:</Text>
-                                {this.state.feedingTimes.map((item, index) => (
-                                    <View key={index} style={styles.feedingTimeContainer}>
-                                        <Text>{`Quantity: ${item.quantity} GR, Time: ${item.feedingTime}`}</Text>
-                                        <TouchableOpacity onPress={() => this.handleRemoveFeedingTime(index)}>
-                                            <FontAwesome5 name="trash" size={20} color={Theme.palette.danger} />
-                                        </TouchableOpacity>
-                                    </View>
-                                ))}
+                    {this.state.feedingTimes.map((item, index) => (
+                        <View key={index} style={styles.feedingTimeContainer}>
+                            <Text>{`Quantity: ${item.quantity} GR, Time: ${item.feedingTime}`}</Text>
+                            <TouchableOpacity onPress={() => this.handleRemoveFeedingTime(index)}>
+                                <FontAwesome5 name="trash" size={20} color={Theme.palette.danger} />
+                            </TouchableOpacity>
+                        </View>
+                    ))}
 
                     {/* Quantity Input */}
                     <View style={styles.textContainer}>
@@ -396,12 +396,12 @@ export default class AddPets extends React.Component {
                     </View>
 
                     {/* Add Feeding Time Button */}
-                     <TouchableOpacity
-                                    onPress={this.handleAddFeedingTime}
-                                    style={styles.addButton}
-                                >
-                                    <Text>Add Feeding Time</Text>
-                                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.handleAddFeedingTime}
+                        style={styles.addButton}
+                    >
+                        <Text>Add Feeding Time</Text>
+                    </TouchableOpacity>
 
                     <Text>Living Space:</Text>
                     <View style={styles.inputContainer}>

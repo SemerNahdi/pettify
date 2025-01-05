@@ -270,37 +270,37 @@ export default class EditScreen extends React.Component {
   }
 
   handleAddFeedingTime = () => {
-      const { quantity, feedingTime } = this.state;
+    const { quantity, feedingTime } = this.state;
 
-      // Basic validation to check if both fields are filled
-      if (quantity && feedingTime) {
-        // Check if the feeding time format is correct (HH:mm)
-        const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        if (!timeRegex.test(feedingTime)) {
-          alert("Please enter the time in HH:mm format.");
-          return;
-        }
-
-        // Add the feeding time to the state as an object with quantity and feedingTime
-        this.setState(prevState => ({
-          feedingTimes: [
-            ...prevState.feedingTimes,
-            { quantity, feedingTime } // Store both quantity and feedingTime
-          ],
-          feedingTime: '',  // Clear the feeding time input field
-          quantity: '',     // Clear the quantity input field
-        }));
-      } else {
-        alert('Please enter both Quantity and Feeding Time');
+    // Basic validation to check if both fields are filled
+    if (quantity && feedingTime) {
+      // Check if the feeding time format is correct (HH:mm)
+      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+      if (!timeRegex.test(feedingTime)) {
+        alert("Please enter the time in HH:mm format.");
+        return;
       }
+
+      // Add the feeding time to the state as an object with quantity and feedingTime
+      this.setState(prevState => ({
+        feedingTimes: [
+          ...prevState.feedingTimes,
+          { quantity, feedingTime } // Store both quantity and feedingTime
+        ],
+        feedingTime: '',  // Clear the feeding time input field
+        quantity: '',     // Clear the quantity input field
+      }));
+    } else {
+      alert('Please enter both Quantity and Feeding Time');
+    }
   };
 
   handleRemoveFeedingTime = (index) => {
-      this.setState(prevState => {
-          const feedingTimes = [...prevState.feedingTimes]; // Make a copy of the feedingTimes array
-          feedingTimes.splice(index, 1); // Remove the item at the specified index
-          return { feedingTimes };
-      });
+    this.setState(prevState => {
+      const feedingTimes = [...prevState.feedingTimes]; // Make a copy of the feedingTimes array
+      feedingTimes.splice(index, 1); // Remove the item at the specified index
+      return { feedingTimes };
+    });
   };
 
 

@@ -12,7 +12,7 @@ import {
   View,
   Dimensions,
 } from 'react-native'
-import {Button, RefreshIndicator, Text, Theme} from "../../components";
+import { Button, RefreshIndicator, Text, Theme } from "../../components";
 
 import Email from './Email'
 import Separator from './Separator'
@@ -21,8 +21,7 @@ import Tel from './Tel'
 var height = Dimensions.get('window').height; //full height
 
 export default class PetDetailView extends Component {
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
 
     this.tels = [
@@ -50,14 +49,14 @@ export default class PetDetailView extends Component {
       spayNeuter_Status: null,
       pregnancy: null,
       lactating: null,
-      feedingTimes:[],
-      feedingLogs:[],
-      petBiology: {"species": "Miami", "breed": "Florida"},
+      feedingTimes: [],
+      feedingLogs: [],
+      petBiology: { "species": "Miami", "breed": "Florida" },
     };
 
     navigation = this.props.navigation;
     uid = navigation.state.params.uid;
-    pet_uid  = navigation.state.params.pet_uid;
+    pet_uid = navigation.state.params.pet_uid;
     onGoBack = navigation.state.params.onGoBack;
 
     this.retrieveFireStorePetDetails();
@@ -66,12 +65,12 @@ export default class PetDetailView extends Component {
   @autobind
   retrieveFireStorePetDetails() {
     Firebase.firestore
-    .collection("users")
-    .doc(uid)
-    .collection("pets")
-    .doc(pet_uid)
-    .get()
-    .then(doc => {
+      .collection("users")
+      .doc(uid)
+      .collection("pets")
+      .doc(pet_uid)
+      .get()
+      .then(doc => {
         this.setState({
           avatar: doc.data().pic,
           avatarBackground: doc.data().pic,
@@ -89,96 +88,95 @@ export default class PetDetailView extends Component {
           pregnancy: doc.data().pregnancy,
           lactating: doc.data().lactating,
           feedingTimes: doc.data().feedingTimes || [],
-          feedingLogs : doc.data().feedingLogs ,
+          feedingLogs: doc.data().feedingLogs,
         });
 
-        if(doc.data().pic == "null")
-        {
+        if (doc.data().pic == "null") {
           switch (this.state.species) {
-              case "Cat":
-                this.setState({
-                  avatar: Theme.links.defaultCat,
-                  avatarBackground: Theme.links.defaultCat
-                })
-                break;
-              case "Dog":
-                this.setState({
-                  avatar: Theme.links.defaultDog,
-                  avatarBackground: Theme.links.defaultDog
-                })
-                break;
-              case "Bird":
-                this.setState({
-                  avatar: Theme.links.defaultBird,
-                  avatarBackground: Theme.links.defaultBird
-                })
-                break;
-              default:
-                this.setState({
-                  avatar: Theme.links.defaultPet,
-                  avatarBackground: Theme.links.defaultImage
-                })
-                break;
-            }
+            case "Cat":
+              this.setState({
+                avatar: Theme.links.defaultCat,
+                avatarBackground: Theme.links.defaultCat
+              })
+              break;
+            case "Dog":
+              this.setState({
+                avatar: Theme.links.defaultDog,
+                avatarBackground: Theme.links.defaultDog
+              })
+              break;
+            case "Bird":
+              this.setState({
+                avatar: Theme.links.defaultBird,
+                avatarBackground: Theme.links.defaultBird
+              })
+              break;
+            default:
+              this.setState({
+                avatar: Theme.links.defaultPet,
+                avatarBackground: Theme.links.defaultImage
+              })
+              break;
           }
-          this.setState({loading: false})
+        }
+        this.setState({ loading: false })
 
-    })
+      })
   }
 
   handleLoading = (bool) => {
-    this.setState({loading: bool})
+    this.setState({ loading: bool })
   }
   renderFeedingTimes() {
-      const { feedingTimes } = this.state;
+    const { feedingTimes } = this.state;
 
-      // If no feeding times are available
-      if (!feedingTimes || feedingTimes.length === 0) {
-        return <Text>No feeding times available</Text>;
-      }
-        return feedingTimes.map((feedingTime, index) => (
-          <View key={index} style={styles.feedingTimeContainer}>
-            <View style={styles.feedingTimeCard}>
-
-              <View style={styles.feedingTimeDetails}>
-                <Text style={styles.feedingTimeLabel}>Feeding Time {index + 1}</Text>
-                <Text style={styles.feedingTimeText}>
-                  <Text style={styles.feedingTimeSubText}>Time:</Text> {feedingTime.feedingTime}
-                </Text>
-                <Text style={styles.feedingTimeText}>
-                  <Text style={styles.feedingTimeSubText}>Quantity:</Text> {feedingTime.quantity}
-                </Text>
-              </View>
-            </View>
-          </View>
-        ));
+    // If no feeding times are available
+    if (!feedingTimes || feedingTimes.length === 0) {
+      return <Text>No feeding times available</Text>;
     }
-renderFeedingLogs() {
+    return feedingTimes.map((feedingTime, index) => (
+      <View key={index} style={styles.feedingTimeContainer}>
+        <View style={styles.feedingTimeCard}>
+
+          <View style={styles.feedingTimeDetails}>
+            <Text style={styles.feedingTimeLabel}>Feeding Time {index + 1}</Text>
+            <Text style={styles.feedingTimeText}>
+              <Text style={styles.feedingTimeSubText}>Time:</Text> {feedingTime.feedingTime}
+            </Text>
+            <Text style={styles.feedingTimeText}>
+              <Text style={styles.feedingTimeSubText}>Quantity:</Text> {feedingTime.quantity}
+            </Text>
+          </View>
+        </View>
+      </View>
+    ));
+  }
+  renderFeedingLogs() {
     const { feedingLogs } = this.state;
 
     // If no feeding logs are available
     if (!feedingLogs || feedingLogs.length === 0) {
-        return <Text>No feeding logs available</Text>;
+      return <Text>No feeding logs available</Text>;
     }
 
     // Map over the feeding logs and render them
     return feedingLogs.map((log, index) => (
-        <View key={index} style={styles.feedingLogContainer}>
-            <View style={styles.feedingLogCard}>
-                <Text style={styles.feedingLogDate}>Date: {log.date}</Text>
-                <Text style={styles.feedingLogDetails}>
-                    <Text style={styles.feedingLogLabel}>Time:</Text> {log.feedingTime}
-                </Text>
-                <Text style={styles.feedingLogDetails}>
-                    <Text style={styles.feedingLogLabel}>Quantity:</Text> {log.quantity}
-                </Text>
-                <Text style={styles.feedingLogDetails}>
-                    <Text style={styles.feedingLogLabel}>Ate:</Text> {log.ate ? 'Yes' : 'No'}
-                </Text>
-            </View>
+      <View key={index} style={styles.feedingLogContainer}>
+        <View style={styles.feedingLogCard}>
+          <Text style={styles.feedingLogDate}>Date: {log.date}</Text>
+          <Text style={styles.feedingLogDetails}>
+            <Text style={styles.feedingLogLabel}>Time:</Text> {log.feedingTime}
+          </Text>
+          <Text style={styles.feedingLogDetails}>
+            <Text style={styles.feedingLogLabel}>Quantity:</Text> {log.quantity}
+          </Text>
+          <Text style={styles.feedingLogDetails}>
+            <Text style={styles.feedingLogLabel}>Ate:</Text> {log.ate ? 'Yes' : 'No'}
+          </Text>
         </View>
+      </View>
     ));
-}
+  }
 
   @autobind
   goBackToPets() {
@@ -187,13 +185,13 @@ renderFeedingLogs() {
 
   @autobind
   goToEditScreen() {
-    navigation.navigate("EditScreen", { pet_uid, uid, onGoBack, onEdit:() => this.retrieveFireStorePetDetails(), setLoading:(bool) => this.handleLoading(bool) });
+    navigation.navigate("EditScreen", { pet_uid, uid, onGoBack, onEdit: () => this.retrieveFireStorePetDetails(), setLoading: (bool) => this.handleLoading(bool) });
   }
 
   @autobind
   goToTrainingScreen() {
     const { breed, species } = this.state;
-    navigation.navigate("TrainingScreen", {breed, species});
+    navigation.navigate("TrainingScreen", { breed, species });
   }
 
   @autobind
@@ -244,28 +242,28 @@ renderFeedingLogs() {
         <ImageBackground
           style={styles.headerBackgroundImage}
           blurRadius={10}
-          source={{uri: avatarBackground}}
+          source={{ uri: avatarBackground }}
         >
           <View style={styles.navContent}>
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goBackToPets}>
-                  <View>
-                      <Icon name="chevron-left" size={40} color={Theme.palette.black} />
-                  </View>
+                <View>
+                  <Icon name="chevron-left" size={40} color={Theme.palette.black} />
+                </View>
               </TouchableOpacity>
             </View>
             <View style={styles.side}>
               <TouchableOpacity onPress={this.goToEditScreen}>
-                  <View>
-                      <Icon type="font-awesome-5" name="edit" size={20} color={Theme.palette.black} />
-                  </View>
+                <View>
+                  <Icon type="font-awesome-5" name="edit" size={20} color={Theme.palette.black} />
+                </View>
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.headerColumn}>
             <Image
               style={styles.petImage}
-              source={{uri: avatar}}
+              source={{ uri: avatar }}
             />
             <Text style={styles.petNameText}>{name}</Text>
             <View style={styles.petSpeciesRow}>
@@ -288,16 +286,16 @@ renderFeedingLogs() {
 
   renderTel() {
     index = 0
-    return(
+    return (
       <View style={styles.telContainer}>
         {this.tels.map(tel => (
           <Tel
-          key={tel.id}
-          index={index++}
-          name={tel.name}
-          number={tel.number}
-          onPressSms={this.onPressSms}
-          onPressTel={this.onPressTel}
+            key={tel.id}
+            index={index++}
+            name={tel.name}
+            number={tel.number}
+            onPressSms={this.onPressSms}
+            onPressTel={this.onPressTel}
           />
         ))}
       </View>
@@ -310,25 +308,24 @@ renderFeedingLogs() {
       <View style={styles.emailContainer}>
         {this.emails.map(email => (
           <Email
-          key={email.id}
-          index={index++}
-          name={email.name}
-          email={email.email}
-          onPressEmail={this.onPressEmail}
-        />
+            key={email.id}
+            index={index++}
+            name={email.name}
+            email={email.email}
+            onPressEmail={this.onPressEmail}
+          />
         ))}
       </View>
     )
   }
 
-  render():React.Node {
-    if(this.state.loading)
-    {
-      return(
+  render(): React.Node {
+    if (this.state.loading) {
+      return (
         <ScrollView>
           <View style={{
-            paddingTop: height/2,
-            justifyContent:"center",
+            paddingTop: height / 2,
+            justifyContent: "center",
           }}>
             <RefreshIndicator refreshing />
           </View>
@@ -336,82 +333,82 @@ renderFeedingLogs() {
       )
     }
     else {
-    return (
-      <ScrollView persistentScrollbar={false} >
+      return (
+        <ScrollView persistentScrollbar={false} >
 
-        {this.renderHeader()}
+          {this.renderHeader()}
 
-        <View style={styles.infoContainer}>
+          <View style={styles.infoContainer}>
 
-          <View style={{paddingBottom: 10}}>
-            <Text type="header3" style={styles.petText}> Pet Information </Text>
-            <Text> Age Group: {this.state.age}</Text>
+            <View style={{ paddingBottom: 10 }}>
+              <Text type="header3" style={styles.petText}> Pet Information </Text>
+              <Text> Age Group: {this.state.age}</Text>
 
-            <Text> Size: {this.state.size}</Text>
-            <Text> Weight (kg): {this.state.weight}</Text>
-            <Text> Level of Activty: {this.state.activity}</Text>
-            <Text> Years Owned: {this.state.yearsOwned}</Text>
-            <Text> Living Space: {this.state.classification}</Text>
-            <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
-            {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
-            <>
-              <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
-              <Text> Duration of Lactation: {this.state.lactating}</Text>
-            </>
-            }
+              <Text> Size: {this.state.size}</Text>
+              <Text> Weight (kg): {this.state.weight}</Text>
+              <Text> Level of Activty: {this.state.activity}</Text>
+              <Text> Years Owned: {this.state.yearsOwned}</Text>
+              <Text> Living Space: {this.state.classification}</Text>
+              <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
+              {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
+                <>
+                  <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
+                  <Text> Duration of Lactation: {this.state.lactating}</Text>
+                </>
+              }
+            </View>
+            <Text type="header3" style={styles.petText}>Feeding Times</Text>
+            {this.renderFeedingTimes()}
+
+            {Separator()}
+
+            <Text type="header3" style={styles.petText}>Feeding Logs</Text>
+            {this.renderFeedingLogs()}
+            {Separator()}
+
+
+            <Text type="header3" style={styles.petText}> Veterinary Contact Information </Text>
+            {this.renderTel()}
+
+            {Separator()}
+
+            {this.renderEmail()}
+
+            {Separator()}
+
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonContainer}>
+                <Button label={"View Training Videos on " + this.state.breed + "'s"}
+                  style="secondary" onPress={this.goToTrainingScreen} />
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button label={"View Lab Documents for " + this.state.name}
+                  style="secondary" onPress={this.goToLabResults} />
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button label={"View Prescriptions for " + this.state.name}
+                  style="secondary" onPress={this.goToPrescription} />
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button label={"View Recommended Diet for " + this.state.name}
+                  style="secondary" onPress={this.goToDiet} />
+              </View>
+            </View>
+
           </View>
-          <Text type="header3" style={styles.petText}>Feeding Times</Text>
-                        {this.renderFeedingTimes()}
 
-{Separator()}
-
-<Text type="header3" style={styles.petText}>Feeding Logs</Text>
-{this.renderFeedingLogs()}
-          {Separator()}
-
-
-          <Text type="header3" style={styles.petText}> Veterinary Contact Information </Text>
-          {this.renderTel()}
-
-          {Separator()}
-
-          {this.renderEmail()}
-
-          {Separator()}
-
-          <View style={styles.buttonContent}>
-            <View style={styles.buttonContainer}>
-              <Button label={"View Training Videos on " + this.state.breed + "'s"}
-                      style="secondary" onPress={this.goToTrainingScreen}/>
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <Button label={"View Lab Documents for " + this.state.name}
-                      style="secondary" onPress={this.goToLabResults}/>
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <Button label={"View Prescriptions for " + this.state.name}
-                      style="secondary" onPress={this.goToPrescription}/>
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <Button label={"View Recommended Diet for " + this.state.name}
-                      style="secondary" onPress={this.goToDiet}/>
-            </View>
-          </View>
-
-        </View>
-
-      </ScrollView>
-    )
+        </ScrollView>
+      )
     }
   }
 }
 
 const styles = StyleSheet.create({
   side: {
-      width: 80,
+    width: 80,
   },
   infoContainer: {
     backgroundColor: Theme.palette.white,
@@ -419,8 +416,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonContainer: {
-    flexDirection:"row",
-    justifyContent:"center",
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: 15
   },
   buttonContent: {
@@ -449,7 +446,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-},
+  },
   pawIcon: {
     color: Theme.palette.white,
     fontSize: 26,
@@ -485,67 +482,67 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   feedingTimeContainer: {
-      marginBottom: 15, // Adds spacing between each feeding time entry
-    },
-    feedingTimeCard: {
-      flexDirection: 'row', // Aligning icon and details horizontally
-      backgroundColor: '#fff', // White background
-      borderWidth: 1, // Black border
-      borderColor: '#000', // Black border color
-      borderRadius: 10, // Rounded corners
-      padding: 10, // Padding inside the card
-      shadowColor: '#000', // Shadow for depth
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      elevation: 3, // Elevation for Android
-      alignItems: 'center', // Center items vertically
-    },
-    feedingTimeIcon: {
-      marginRight: 15, // Space between icon and text
-      color: '#000', // Black icon color
-    },
-    feedingTimeDetails: {
-      flex: 1, // Take up the remaining space
-    },
-    feedingTimeLabel: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: '#000', // Black text
-      marginBottom: 5,
-    },
-    feedingTimeText: {
-      fontSize: 14,
-      color: '#000', // Black text
-    },
-    feedingTimeSubText: {
-      fontWeight: 'bold', // Make "Time" and "Quantity" bold
-      color: '#000', // Black text
-    },feedingLogContainer: {
-          marginVertical: 10,
-          padding: 10,
-          borderRadius: 10,
-          backgroundColor: '#f9f9f9',
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 5,
-          shadowOffset: { width: 0, height: 2 },
-          elevation: 2,
-      },
-      feedingLogCard: {
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-      },
-      feedingLogDate: {
-          fontWeight: 'bold',
-          fontSize: 16,
-          marginBottom: 5,
-      },
-      feedingLogDetails: {
-          fontSize: 14,
-          marginBottom: 2,
-      },
-      feedingLogLabel: {
-          fontWeight: 'bold',
-      },
+    marginBottom: 15, // Adds spacing between each feeding time entry
+  },
+  feedingTimeCard: {
+    flexDirection: 'row', // Aligning icon and details horizontally
+    backgroundColor: '#fff', // White background
+    borderWidth: 1, // Black border
+    borderColor: '#000', // Black border color
+    borderRadius: 10, // Rounded corners
+    padding: 10, // Padding inside the card
+    shadowColor: '#000', // Shadow for depth
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3, // Elevation for Android
+    alignItems: 'center', // Center items vertically
+  },
+  feedingTimeIcon: {
+    marginRight: 15, // Space between icon and text
+    color: '#000', // Black icon color
+  },
+  feedingTimeDetails: {
+    flex: 1, // Take up the remaining space
+  },
+  feedingTimeLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000', // Black text
+    marginBottom: 5,
+  },
+  feedingTimeText: {
+    fontSize: 14,
+    color: '#000', // Black text
+  },
+  feedingTimeSubText: {
+    fontWeight: 'bold', // Make "Time" and "Quantity" bold
+    color: '#000', // Black text
+  }, feedingLogContainer: {
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#f9f9f9',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  feedingLogCard: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
+  feedingLogDate: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  feedingLogDetails: {
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  feedingLogLabel: {
+    fontWeight: 'bold',
+  },
 
 })
