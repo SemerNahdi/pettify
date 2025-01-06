@@ -1,6 +1,7 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
 import React, { Component } from 'react'
+
 import { Icon } from 'react-native-elements'
 import {
   Image,
@@ -123,6 +124,27 @@ export default class PetDetailView extends Component {
 
       })
   }
+
+@autobind
+retrieveWaterLevel() {
+  Firebase.database
+    .ref('waterLevel') // Correct the key to match your database structure
+    .once('value')
+    .then(snapshot => {
+      const waterLevel = snapshot.val();
+      if (waterLevel != null) {
+        this.setState({ waterLevel: waterLevel }); // Store in state
+        alert(`Current water level: ${waterLevel}`); // Display water level
+      } else {
+        alert('Error: No water level data available'); // Data not found
+      }
+    })
+    .catch(error => {
+      console.error("Error retrieving water level:", error);
+      this.setState({ waterLevel: null });
+      alert('Error: Failed to retrieve water level'); // Failed to retrieve
+    });
+}
 
   handleLoading = (bool) => {
     this.setState({ loading: bool })
@@ -373,6 +395,12 @@ export default class PetDetailView extends Component {
             {Separator()}
 
             {this.renderEmail()}
+            <Button
+              label="Get Water Level"
+              style="secondary"
+              onPress={this.retrieveWaterLevel} // Uncommented to trigger the function
+            />
+
 
             {Separator()}
 

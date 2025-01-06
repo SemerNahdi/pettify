@@ -1,13 +1,15 @@
 // @flow
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/storage";
+import "firebase/database";
 import { Theme } from "./Theme";
 
 const config = {
     apiKey: "AIzaSyBFDl3OfOqj8lU9vN4ygmDYBD7XJG_xO1I",
     authDomain: "pettify-af8a3.firebaseapp.com",
     projectId: "pettify-af8a3",
+    databaseURL: "https://pettify-af8a3-default-rtdb.firebaseio.com",
     storageBucket: "pettify-af8a3.firebasestorage.app",
     messagingSenderId: "656499741407",
     appId: "1:656499741407:android:2fe5ec4c5f65f25dcdcf6a",
@@ -16,18 +18,26 @@ const config = {
 
 
 export default class Firebase {
-    
-    static config: config;
-    static firestore: firebase.firestore.Firestore;
-    static auth: firebase.auth.Auth;
-    static storage: firebase.storage.Storage;
+
+     static config;
+        static firestore;
+        static auth;
+        static storage;
+        static database; // Declare the database property
 
     static async init() {
-        firebase.initializeApp(config);
-        Firebase.auth = firebase.auth();
-        Firebase.firestore = firebase.firestore();
-        Firebase.storage = firebase.storage();
-        Firebase.config = config;
+           // Initialize Firebase if it hasn't been initialized yet
+                   if (!firebase.apps.length) {
+                       firebase.initializeApp(config);
+                   } else {
+                       firebase.app();  // Use the default app
+                   }
+                   // Initialize services
+                   Firebase.auth = firebase.auth();
+                   Firebase.firestore = firebase.firestore();
+                   Firebase.storage = firebase.storage();
+                   Firebase.database = firebase.database();  // Initialize Realtime Database
+                   Firebase.config = config;
  /*
         //Start of default admin creation
         try{

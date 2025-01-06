@@ -1,4 +1,4 @@
-# PetCare App v3.0.0 🐾
+# PetCare App  🐾
 
 Welcome to **PetCare App**—a mobile app built with love for pet owners! Whether you're a new pet parent or just looking to streamline your pet care routine, PetCare has got your back. From feeding schedules to health tracking and locating veterinarians, we've thought of everything you need to keep your furry friend happy and healthy. 🐶🐱
 
@@ -22,7 +22,7 @@ Welcome to **PetCare App**—a mobile app built with love for pet owners! Whethe
 - **Admin Panel**: Admins can create and manage veterinarian accounts to help others care for their pets. 🐕‍⚕️
 - **User Authentication**: Safe and secure login and password recovery features. 🔑
 - **Firebase Integration**: Real-time sync for your pet care needs, so everything stays up-to-date. 🛠️
-- **Push Notifications**: Get reminders for feeding times and pet care alerts. 🔔
+<!-- - **Push Notifications**: Get reminders for feeding times and pet care alerts. 🔔 -->
 
 ---
 
@@ -33,7 +33,7 @@ Ready to get started? Here's how to set up your PetCare App locally! 🌱
 1. **Clone the Repository**: Copy this repository to your local machine.
 
    ```bash
-   git clone https://github.com/your-username/pet-care-v3.git
+   git clone https://github.com/SemerNahdi/pettify.git
    ```
 
 2. **Navigate to Your Project Folder**:
@@ -94,8 +94,8 @@ Here’s the tech that powers PetCare:
 - **React Native**: For building the app and delivering a smooth, responsive experience across platforms.
 - **Expo**: To streamline development and provide extra tooling for building mobile apps.
 - **Firebase**: For real-time data storage and user authentication—keeping your data safe and synced.
-- **react-native-push-notification**: For managing local push notifications, reminding pet parents of feeding times and more. 🔔
-- **rn-pdf-reader-js**: For viewing PDFs related to pet care (like feeding guides and health records). 📑
+<!-- - **react-native-push-notification**: For managing local push notifications, reminding pet parents of feeding times and more. 🔔
+- **rn-pdf-reader-js**: For viewing PDFs related to pet care (like feeding guides and health records). 📑 -->
 
 ---
 
