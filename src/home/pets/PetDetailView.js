@@ -125,64 +125,75 @@ export default class PetDetailView extends Component {
       })
   }
 
-@autobind
-retrieveWaterLevel() {
-  Firebase.database
-    .ref('waterLevel') // Correct the key to match your database structure
-    .once('value')
-    .then(snapshot => {
-      const waterLevel = snapshot.val();
-      if (waterLevel != null) {
-        this.setState({ waterLevel: waterLevel }); // Store in state
-        alert(`Current water level: ${waterLevel}`); // Display water level
-      } else {
-        alert('Error: No water level data available'); // Data not found
-      }
-    })
-    .catch(error => {
-      console.error("Error retrieving water level:", error);
-      this.setState({ waterLevel: null });
-      alert('Error: Failed to retrieve water level'); // Failed to retrieve
-    });
-}
-
-@autobind
-sendFoodRequest() {
-  // Generate a random number between 50 and 120
-  const requestedFoodQuantity = Math.floor(Math.random() * (120 - 50 + 1)) + 50;
-
-  // Send the random food request to Firebase
-  Firebase.database
-    .ref('feedingRequests/requestedFood') // Use your appropriate path
-    .set(requestedFoodQuantity) // Set the requested quantity to the random value
-    .then(() => {
-      console.log('Food request sent:', requestedFoodQuantity);
-      alert(`${requestedFoodQuantity}g of food has been requested!`);
-    })
-    .catch((error) => {
-      console.error('Error sending food request:', error);
-      alert('Error: Could not send food request');
-    });
-}
-
-
-   // Listen for response from hardware (ESP32)
-    @autobind
-    listenForHardwareResponse() {
-      // Listen for changes in the 'feedingResponses/response' node
-      Firebase.database
-        .ref('feedingResponses/response') // Path where ESP32 sends the response
-        .on('value', (snapshot) => {
-          const response = snapshot.val();
-          if (response) {
-            this.setState({ responseMessage: response }); // Store response in state
-            alert(`Hardware Response: ${response}`); // Show alert with the response
-          }
-        });
-    }
- componentDidMount() {
-    this.listenForHardwareResponse(); // Start listening for the response from hardware
+  @autobind
+  retrieveWaterLevel() {
+    Firebase.database
+      .ref('waterLevel') // Correct the key to match your database structure
+      .once('value')
+      .then(snapshot => {
+        const waterLevel = snapshot.val();
+        if (waterLevel != null) {
+          this.setState({ waterLevel: waterLevel }); // Store in state
+          alert(`Current water level: ${waterLevel}`); // Display water level
+        } else {
+          alert('Error: No water level data available'); // Data not found
+        }
+      })
+      .catch(error => {
+        console.error("Error retrieving water level:", error);
+        this.setState({ waterLevel: null });
+        alert('Error: Failed to retrieve water level'); // Failed to retrieve
+      });
   }
+
+  @autobind
+  sendFoodRequest() {
+    // Generate a random number between 50 and 120
+    const requestedFoodQuantity = Math.floor(Math.random() * (120 - 50 + 1)) + 50;
+
+    // Send the random food request to Firebase
+    Firebase.database
+      .ref('feedingRequests/requestedFood') // Use your appropriate path
+      .set(requestedFoodQuantity) // Set the requested quantity to the random value
+      .then(() => {
+        console.log('Food request sent:', requestedFoodQuantity);
+        alert(`${requestedFoodQuantity}g of food has been requested!`);
+
+        // Now listen for the action message to be updated in Firebase
+        this.listenForActionMessage();
+      })
+      .catch((error) => {
+        console.error('Error sending food request:', error);
+        alert('Error: Could not send food request');
+      });
+  }
+
+
+  @autobind
+  listenForActionMessage() {
+    Firebase.database
+      .ref('feedingStatus/actionMessage')  // Path where the action message is stored
+      .on('value', snapshot => {
+        const actionMessage = snapshot.val();
+
+        if (actionMessage && actionMessage !== "") {
+          // Show the message in an alert
+          alert(actionMessage);
+          console.log("Received action message: ", actionMessage);
+
+          // Clear the action message in Firebase after displaying it
+          Firebase.database.ref('feedingStatus/actionMessage').set(""); // Set to an empty string
+
+          console.log('Action message cleared in Firebase.');
+        }
+      });
+  }
+
+
+  componentDidMount() {
+    this.listenForActionMessage();  // Start listening for action message on mount
+  }
+
 
   handleLoading = (bool) => {
     this.setState({ loading: bool })
@@ -411,13 +422,13 @@ sendFoodRequest() {
               <Text> Living Space: {this.state.classification}</Text>
               <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
 
-                            <View style={styles.buttonContainer}>
-                              <Button
-                                label="dispense a treat"
-                                style="primary" // Customize the button style
-                                onPress={this.sendFoodRequest} // Send 100g to Firebase on press
-                              />
-                            </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  label="dispense a treat"
+                  style="primary" // Customize the button style
+                  onPress={this.sendFoodRequest} // Send 100g to Firebase on press
+                />
+              </View>
               {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
                 <>
                   <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
