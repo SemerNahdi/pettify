@@ -146,6 +146,44 @@ retrieveWaterLevel() {
     });
 }
 
+@autobind
+sendFoodRequest() {
+  // Generate a random number between 50 and 120
+  const requestedFoodQuantity = Math.floor(Math.random() * (120 - 50 + 1)) + 50;
+
+  // Send the random food request to Firebase
+  Firebase.database
+    .ref('feedingRequests/requestedFood') // Use your appropriate path
+    .set(requestedFoodQuantity) // Set the requested quantity to the random value
+    .then(() => {
+      console.log('Food request sent:', requestedFoodQuantity);
+      alert(`${requestedFoodQuantity}g of food has been requested!`);
+    })
+    .catch((error) => {
+      console.error('Error sending food request:', error);
+      alert('Error: Could not send food request');
+    });
+}
+
+
+   // Listen for response from hardware (ESP32)
+    @autobind
+    listenForHardwareResponse() {
+      // Listen for changes in the 'feedingResponses/response' node
+      Firebase.database
+        .ref('feedingResponses/response') // Path where ESP32 sends the response
+        .on('value', (snapshot) => {
+          const response = snapshot.val();
+          if (response) {
+            this.setState({ responseMessage: response }); // Store response in state
+            alert(`Hardware Response: ${response}`); // Show alert with the response
+          }
+        });
+    }
+ componentDidMount() {
+    this.listenForHardwareResponse(); // Start listening for the response from hardware
+  }
+
   handleLoading = (bool) => {
     this.setState({ loading: bool })
   }
@@ -372,6 +410,14 @@ retrieveWaterLevel() {
               <Text> Years Owned: {this.state.yearsOwned}</Text>
               <Text> Living Space: {this.state.classification}</Text>
               <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
+
+                            <View style={styles.buttonContainer}>
+                              <Button
+                                label="dispense a treat"
+                                style="primary" // Customize the button style
+                                onPress={this.sendFoodRequest} // Send 100g to Firebase on press
+                              />
+                            </View>
               {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
                 <>
                   <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
