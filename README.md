@@ -1,4 +1,4 @@
-# PetCare App  🐾
+# PetCare App 🐾
 
 Welcome to **PetCare App**—a mobile app built with love for pet owners! Whether you're a new pet parent or just looking to streamline your pet care routine, PetCare has got your back. From feeding schedules to health tracking and locating veterinarians, we've thought of everything you need to keep your furry friend happy and healthy. 🐶🐱
 
@@ -53,7 +53,6 @@ Ready to get started? Here's how to set up your PetCare App locally! 🌱
    - Go to [Firebase Console](https://console.firebase.google.com/) and create a new Firebase project.
    - Add Firebase SDK configuration to your app (in `firebase-config.js` or a similar file).
 
-
 ---
 
 ## Setup 🔧
@@ -62,23 +61,30 @@ Ready to get started? Here's how to set up your PetCare App locally! 🌱
 
    - Make sure your Firebase project is ready, and add your Firebase credentials into the app's Firebase setup file.
 
-3. **Expo Setup**:
-   - If you don't have Expo CLI installed yet, get it here: [Expo CLI](https://expo.dev/).
-   - Run the app in the simulator or on your physical device by using the following:
-     ```bash
-     npm start
-     ```
+2. **First Time Setup**:
 
----
+   - The first time you run the app on a Firebase project, **comment out the data injection code** located in `src/components/Firebase.js`. This code initializes the disease information data for the pet diagnosis feature and creates an admin account in Firebase with the following credentials:
 
-## Usage 💡
+     - **Username**: ad@min.com
+     - **Password**: temp123
 
-Once everything is up and running, here’s how you can make the most out of the app:
+   - **Important**: It is highly recommended that the password be changed before deploying the app publicly for security reasons.
 
-- **Feeding Schedule**: Log your pet's feeding time, quantities, and status, ensuring they're always well-fed. 🥗
-- **Health Management**: Keep track of feeding logs and monitor your pet’s health progress. 📈
-- **Veterinarian Locator**: Use the app to find nearby vets who can take care of your pet's health needs. 🏥
-- **Admin Panel**: Admins can create and manage accounts for veterinarians to help users access reliable pet care. 👩‍⚕️
+   - **Note**: Be sure to comment out this code after running the app for the first time to avoid any issues with Firebase in the future.
+
+3. **Admin Account**:
+
+   - The admin account created with the default credentials is the only account that can create vet accounts. Although more admin accounts can be created through Firebase, it's advised to **keep the number of admins to a minimum** to ensure security and proper management.
+
+4. **Creating Test Data**:
+
+   If you'd like to populate your Firebase with some test data (for users, pets, and an admin account), the app includes a function called `createTestData()`. This function will:
+
+   - Create a test user (`testuser@example.com`) with some test pet data (Dog, Cat, Bird).
+   - Create a test veterinarian (`vetuser@example.com`) with a role of "vet".
+   - Create an admin account (`ad@min.com`) with default credentials to manage the app.
+
+   **Important**: This function should be executed **only once** when setting up Firebase for the first time, and the relevant data injection code should be commented out after use to avoid issues with future app runs.
 
 ---
 
@@ -92,32 +98,6 @@ Here’s the tech that powers PetCare:
 <!-- - **react-native-push-notification**: For managing local push notifications, reminding pet parents of feeding times and more. 🔔
 - **rn-pdf-reader-js**: For viewing PDFs related to pet care (like feeding guides and health records). 📑 -->
 
-<!-- ---
-
-## Contributing 💖
-
-Contributions are always welcome! We believe in the power of community and collaboration to make PetCare better for everyone.
-
-1. **Fork the Repository**: Start by creating your own fork of the repository.
-2. **Create a New Branch**:
-   ```bash
-   git checkout -b feature-your-feature
-   ```
-3. **Make Your Changes**: Add that awesome feature or fix the bug you’ve been thinking about. ✨
-4. **Commit Your Changes**:
-   ```bash
-   git commit -m "Add feature or fix bug"
-   ```
-5. **Push to Your Fork**:
-   ```bash
-   git push origin feature-your-feature
-   ```
-6. **Create a Pull Request**: Let’s collaborate and review your changes! 😊
-
---- -->
-
 ## License 📜
 
 This project is licensed under the MIT License—see the [LICENSE.md](LICENSE.md) file for more details.
-
----

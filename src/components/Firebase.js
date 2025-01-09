@@ -65,6 +65,145 @@ export default class Firebase {
         }
         //End of default admin creation
 
+        //start of test users creation
+        static async createTestData() {
+            try {
+                // Create a test user
+                const testUser = await Firebase.auth.createUserWithEmailAndPassword("testuser@example.com", "testpassword");
+                const userUid = testUser.user.uid;
+
+                // Create test user document in Firestore
+                await Firebase.firestore.collection("users").doc(userUid).set({
+                    name: "Test User",
+                    email: "testuser@example.com",
+                    role: "user",
+                    pic: Theme.links.defaultProfile,
+                });
+
+                // Create test pets for this user (Dog, Cat, Bird)
+                const pet1 = {
+                    species: "Dog",
+                    breed: "Golden Retriever",
+                    name: "Buddy",
+                    age: "3 years",
+                    yearsOwned: "2 years",
+                    sex: "Male",
+                    activity: "High",
+                    weight: "30 kg",
+                    classification: "Indoors",
+                    spayNeuter_Status: "Spayed/Neutered",
+                    pregnancy: "Not Pregnant",
+                    lactating: "Non Lactating",
+                    size: "Large",
+                    feedingTimes: [
+                        { quantity: "250", feedingTime: "08:00" },
+                        { quantity: "250", feedingTime: "18:00" },
+                    ],
+                    feedingLogs: [
+                        { date: "2025-01-09", quantity: "250g", feedingTime: "08:00" },
+                        { date: "2025-01-09", quantity: "250g", feedingTime: "18:00" },
+                    ],
+                };
+
+                const pet2 = {
+                    species: "Cat",
+                    breed: "Siamese",
+                    name: "Luna",
+                    age: "2 years",
+                    yearsOwned: "2 years",
+                    sex: "Female",
+                    activity: "Mild",
+                    weight: "5 kg",
+                    classification: "Indoors",
+                    spayNeuter_Status: "Spayed/Neutered",
+                    pregnancy: "Not Pregnant",
+                    lactating: "Non Lactating",
+                    size: "Small",
+                    feedingTimes: [
+                        { quantity: "100", feedingTime: "09:00" },
+                        { quantity: "100", feedingTime: "19:00" },
+                    ],
+                    feedingLogs: [
+                        { date: "2025-01-09", quantity: "100g", feedingTime: "09:00" },
+                        { date: "2025-01-09", quantity: "100g", feedingTime: "19:00" },
+                    ],
+                };
+
+                const pet3 = {
+                    species: "Bird",
+                    breed: "Parrot",
+                    name: "Tweety",
+                    age: "1 year",
+                    yearsOwned: "1 year",
+                    sex: "Female",
+                    activity: "Moderate",
+                    weight: "0.5 kg",
+                    classification: "Indoors",
+                    spayNeuter_Status: "N/A",
+                    pregnancy: "Not Pregnant",
+                    lactating: "Non Lactating",
+                    size: "Small",
+                    feedingTimes: [
+                        { quantity: "20", feedingTime: "08:00" },
+                        { quantity: "20", feedingTime: "18:00" },
+                    ],
+                    feedingLogs: [
+                        { date: "2025-01-09", quantity: "20g", feedingTime: "08:00" },
+                        { date: "2025-01-09", quantity: "20g", feedingTime: "18:00" },
+                    ],
+                };
+
+                // Add pets to Firestore under the test user's pets collection
+                await Firebase.firestore.collection("users").doc(userUid).collection("pets").doc("pet1").set(pet1);
+                await Firebase.firestore.collection("users").doc(userUid).collection("pets").doc("pet2").set(pet2);
+                await Firebase.firestore.collection("users").doc(userUid).collection("pets").doc("pet3").set(pet3);
+
+                // Create a test vet user (vet is just a user with role 'v')
+                const vetUser = await Firebase.auth.createUserWithEmailAndPassword("vetuser@example.com", "vetpassword");
+                const vetUid = vetUser.user.uid;
+
+                // Create test vet document in Firestore
+                await Firebase.firestore.collection("users").doc(vetUid).set({
+                    name: "Dr. Smith",
+                    email: "vetuser@example.com",
+                    role: "v",  // Role 'v' for vet
+                    pic: Theme.links.defaultProfile,
+                });
+
+                // Admin creation logic
+                try {
+                    var adminCreation = firebase.initializeApp(config, "ADMIN");
+                    var adminUid;
+
+                    await adminCreation.auth().createUserWithEmailAndPassword("ad@min.com", "temp123").then(
+                        (admin) => { adminUid = admin.user.uid; }
+                    );
+
+                    await adminCreation.firestore().collection("users").doc(adminUid).set({
+                        name: "admin",
+                        email: "ad@min.com",
+                        role: "a", // Role 'a' for admin
+                        pic: Theme.links.defaultProfile
+                    });
+
+                    await adminCreation.auth().signOut();
+                    await adminCreation.delete();
+
+                } catch (e) {
+                    setTimeout(function() {
+                        alert("This warning is coming from src/components/Firbase.js and needs to be commented out, first time data injection is already complete");
+                    }, 1000);
+                }
+
+                console.log("Test user, pets, feeding logs, vet, and admin data created successfully!");
+            } catch (error) {
+                console.error("Error creating test data: ", error);
+            }
+        }
+
+        //End
+
+
         //Start of diseases data injection
         Firebase.firestore.collection("diseases").doc("Air sac mites").set({
             symptoms: [
