@@ -9,8 +9,8 @@ Welcome to **PetCare App**—a mobile app built with love for pet owners! Whethe
 - [Setup](#setup)
 - [Usage](#usage)
 - [Technologies](#technologies)
-- [Contributing](#contributing)
 - [License](#license)
+<!-- - [Contributing](#contributing) -->
 
 ---
 
@@ -53,7 +53,6 @@ Ready to get started? Here's how to set up your PetCare App locally! 🌱
    - Go to [Firebase Console](https://console.firebase.google.com/) and create a new Firebase project.
    - Add Firebase SDK configuration to your app (in `firebase-config.js` or a similar file).
 
-5. **Push Notification Setup**: Follow the instructions on the [React Native Push Notification documentation](https://github.com/zo0r/react-native-push-notification) to enable notifications for your app.
 
 ---
 
@@ -62,10 +61,6 @@ Ready to get started? Here's how to set up your PetCare App locally! 🌱
 1. **Firebase Configuration**:
 
    - Make sure your Firebase project is ready, and add your Firebase credentials into the app's Firebase setup file.
-
-2. **Push Notifications**:
-
-   - Set up `react-native-push-notification` to allow your app to send reminders about feeding times and health checks.
 
 3. **Expo Setup**:
    - If you don't have Expo CLI installed yet, get it here: [Expo CLI](https://expo.dev/).
@@ -97,7 +92,7 @@ Here’s the tech that powers PetCare:
 <!-- - **react-native-push-notification**: For managing local push notifications, reminding pet parents of feeding times and more. 🔔
 - **rn-pdf-reader-js**: For viewing PDFs related to pet care (like feeding guides and health records). 📑 -->
 
----
+<!-- ---
 
 ## Contributing 💖
 
@@ -119,7 +114,7 @@ Contributions are always welcome! We believe in the power of community and colla
    ```
 6. **Create a Pull Request**: Let’s collaborate and review your changes! 😊
 
----
+--- -->
 
 ## License 📜
 

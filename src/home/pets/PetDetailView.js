@@ -1,7 +1,7 @@
 import autobind from "autobind-decorator";
 import Firebase from "../../components/Firebase";
 import React, { Component } from 'react'
-
+import {TextInput} from 'react-native'
 import { Icon } from 'react-native-elements'
 import {
   Image,
@@ -146,28 +146,43 @@ export default class PetDetailView extends Component {
       });
   }
 
-  @autobind
-  sendFoodRequest() {
-    // Generate a random number between 50 and 120
-    const requestedFoodQuantity = Math.floor(Math.random() * (120 - 50 + 1)) + 50;
+@autobind
+sendFoodRequest() {
+  // Check if there's an input value, if not generate a random one
+  const requestedFoodQuantity = this.state.requestedFood && this.state.requestedFood.trim() !== ""
+    ? parseInt(this.state.requestedFood)  // Parse the input value if it exists
+    : Math.floor(Math.random() * (120 - 50 + 1)) + 50;  // Generate a random number between 50 and 120
 
-    // Send the random food request to Firebase
-    Firebase.database
-      .ref('feedingRequests/requestedFood') // Use your appropriate path
-      .set(requestedFoodQuantity) // Set the requested quantity to the random value
-      .then(() => {
-        console.log('Food request sent:', requestedFoodQuantity);
-        alert(`${requestedFoodQuantity}g of food has been requested!`);
-
-        // Now listen for the action message to be updated in Firebase
-        this.listenForActionMessage();
-      })
-      .catch((error) => {
-        console.error('Error sending food request:', error);
-        alert('Error: Could not send food request');
-      });
+  // Ensure that the requested food quantity is valid (a number and greater than zero)
+  if (isNaN(requestedFoodQuantity) || requestedFoodQuantity <= 0) {
+    alert("Please enter a valid quantity or use the random food quantity.");
+    return;
   }
 
+  // Send the food request to Firebase
+  Firebase.database
+    .ref('feedingRequests/requestedFood') // Use your appropriate path
+    .set(requestedFoodQuantity) // Set the requested quantity
+    .then(() => {
+      if (!this.state.requestedFood || this.state.requestedFood.trim() === "") {
+        // Playful message when no input is given
+        alert(`Oops! Looks like you didn't enter anything, so we've sent a surprise treat of ${requestedFoodQuantity}g! 🎉 Enjoy the fun!`);
+      } else {
+        alert(`Got it! ${requestedFoodQuantity}g of food has been requested. 🐶🍽 Time to chow down!`);
+      }
+      console.log('Food request sent:', requestedFoodQuantity);
+
+      // Clear the input field by resetting the state
+      this.setState({ requestedFood: "" });
+
+      // Now listen for the action message to be updated in Firebase
+      this.listenForActionMessage();
+    })
+    .catch((error) => {
+      console.error('Error sending food request:', error);
+      alert('Error: Could not send food request');
+    });
+}
 
   @autobind
   listenForActionMessage() {
@@ -394,19 +409,14 @@ export default class PetDetailView extends Component {
     if (this.state.loading) {
       return (
         <ScrollView>
-          <View style={{
-            paddingTop: height / 2,
-            justifyContent: "center",
-          }}>
+          <View style={{ paddingTop: height / 2, justifyContent: "center" }}>
             <RefreshIndicator refreshing />
           </View>
         </ScrollView>
-      )
-    }
-    else {
+      );
+    } else {
       return (
-        <ScrollView persistentScrollbar={false} >
-
+        <ScrollView persistentScrollbar={false}>
           {this.renderHeader()}
 
           <View style={styles.infoContainer}>
@@ -414,21 +424,13 @@ export default class PetDetailView extends Component {
             <View style={{ paddingBottom: 10 }}>
               <Text type="header3" style={styles.petText}> Pet Information </Text>
               <Text> Age Group: {this.state.age}</Text>
-
               <Text> Size: {this.state.size}</Text>
               <Text> Weight (kg): {this.state.weight}</Text>
-              <Text> Level of Activty: {this.state.activity}</Text>
+              <Text> Level of Activity: {this.state.activity}</Text>
               <Text> Years Owned: {this.state.yearsOwned}</Text>
               <Text> Living Space: {this.state.classification}</Text>
               <Text> Spayed/Neutered Status: {this.state.spayNeuter_Status}</Text>
 
-              <View style={styles.buttonContainer}>
-                <Button
-                  label="dispense a treat"
-                  style="primary" // Customize the button style
-                  onPress={this.sendFoodRequest} // Send 100g to Firebase on press
-                />
-              </View>
               {this.state.sex === "Female" && this.state.spayNeuter_Status === "Intact" &&
                 <>
                   <Text> Duration of Pregnancy: {this.state.pregnancy}</Text>
@@ -436,6 +438,7 @@ export default class PetDetailView extends Component {
                 </>
               }
             </View>
+
             <Text type="header3" style={styles.petText}>Feeding Times</Text>
             {this.renderFeedingTimes()}
 
@@ -445,19 +448,42 @@ export default class PetDetailView extends Component {
             {this.renderFeedingLogs()}
             {Separator()}
 
-
             <Text type="header3" style={styles.petText}> Veterinary Contact Information </Text>
             {this.renderTel()}
 
             {Separator()}
 
             {this.renderEmail()}
-            <Button
-              label="Get Water Level"
-              style="secondary"
-              onPress={this.retrieveWaterLevel} // Uncommented to trigger the function
-            />
 
+            {/* Button for water level and food request */}
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonContainer}>
+                <Button
+                  label="                   Get Water Level                    "
+                  style="primary"
+                  onPress={this.retrieveWaterLevel} // Trigger the water retrieval function
+                />
+              </View>
+
+              {/* Food button and input field */}
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholderTextColor={Theme.palette.black}
+                  style={styles.input}
+                  placeholder="Enter amount"
+                  keyboardType="numeric"
+                  value={this.state.requestedFood} // Bind the input value to state
+                    onChangeText={(value) => this.setState({ requestedFood: value })} // Update state on text change
+                />
+                <View style={styles.buttonContainer2}>
+                  <Button
+                    label="Dispense a Treat"
+                    style="secondary"
+                    onPress={this.sendFoodRequest} // Send food request on press
+                  />
+                </View>
+              </View>
+            </View>
 
             {Separator()}
 
@@ -486,9 +512,11 @@ export default class PetDetailView extends Component {
           </View>
 
         </ScrollView>
-      )
+      );
     }
   }
+
+
 }
 
 const styles = StyleSheet.create({
@@ -629,5 +657,28 @@ const styles = StyleSheet.create({
   feedingLogLabel: {
     fontWeight: 'bold',
   },
+   inputContainer: {
+      flexDirection: 'row', // Align input and button horizontally
+      alignItems: 'center', // Center them vertically
+      justifyContent: 'space-between', // Space them evenly
+      marginVertical: 10, // Adjust vertical spacing around the container
+    },
+    input: {
+      flex: 1, // Take up available space
+      borderWidth: 1,
+      borderColor: '#ccc', // Grey border for input field
+      paddingVertical: 10, // Padding inside the input field
+      paddingHorizontal: 15, // Padding inside the input field
+      marginRight: 10, // Space between input and button
+      borderRadius: 5, // Optional: rounded corners for input field
+      height: 40, // Same height for input field to align with button
+    },
+    buttonContainer2: {
+      justifyContent: 'center', // Align button vertically in the container
+      height: 40, // Ensure the button has the same height as the input field
+    },
+   buttonContent: {
+     marginVertical: 10,
+   },
 
 })
