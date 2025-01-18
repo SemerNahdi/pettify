@@ -205,9 +205,8 @@ sendFoodRequest() {
   }
 
 
-  componentDidMount() {
-    this.listenForActionMessage();  // Start listening for action message on mount
-  }
+  //componentDidMount() {
+    //this.listenForActionMessage();  // Start listening for action message on mount }
 
 
   handleLoading = (bool) => {

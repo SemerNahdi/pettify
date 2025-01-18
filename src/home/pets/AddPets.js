@@ -176,7 +176,7 @@ export default class AddPets extends React.Component {
             feedingTimes.forEach((feedingTimeObj) => {
                 const feedingTime = feedingTimeObj.feedingTime;
                 const quantity = feedingTimeObj.quantity;
-                alert(`One day added: Feeding Time: ${feedingTime}, Quantity: ${quantity}`);
+                //alert(`One day added: Feeding Time: ${feedingTime}, Quantity: ${quantity}`);
 
                 // Create a log for each day
                 for (let j = 0; j < 7; j++) {
@@ -199,7 +199,7 @@ export default class AddPets extends React.Component {
 
         // Ensure feedingLogs is an array and contains valid data
         const feedingLogs = generateFeedingLogs(feedingTimes);
-        alert(`One day added: Feeding Time: ${feedingLogs}`);
+       // alert(`One day added: Feeding Time: ${feedingLogs}`);
 
         // Add pet to Firestore with feedingLogs array
         Firebase.firestore.collection("users").doc(uid).collection("pets").doc(pet_uid).set({
